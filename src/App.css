@@ -364,7 +364,7 @@ main {
 .button-green {
   min-height: 40px;
   background: var(--brand-green);
-  color: #002a2a;
+  color: #fff;
   font-weight: 500;
 }
 

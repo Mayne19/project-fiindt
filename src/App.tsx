@@ -523,7 +523,7 @@ function NewHomeHero() {
       background:'var(--cream)', fontFamily:"'Inter', sans-serif"
     }}>
       <p style={{
-        fontSize:'clamp(72px,9vw,112px)', fontWeight:700,
+        fontSize:'clamp(48px,6vw,80px)', fontWeight:700,
         lineHeight:.93, letterSpacing:'-.046em',
         color:'var(--text-dark)', marginBottom:8,
         fontFamily:"'Inter', sans-serif"
@@ -539,8 +539,8 @@ function NewHomeHero() {
         {slots.map((v,i) => (
           <span key={i} style={{
             display:'inline-flex', alignItems:'center', gap:7,
-            borderRadius:999, padding:'12px 24px',
-            fontSize:20, fontWeight:600, letterSpacing:'-.02em',
+            borderRadius:999, padding:'14px 28px',
+            fontSize:21, fontWeight:600, letterSpacing:'-.02em',
             background:v.bg, color:v.tx,
             opacity: animating[i] ? 0 : 1,
             transform: animating[i] ? 'translateY(8px)' : 'translateY(0)',
@@ -548,14 +548,14 @@ function NewHomeHero() {
             fontFamily:"'Inter', sans-serif"
           }}>
             <span style={{
-              width:9, height:9, borderRadius:'50%',
+              width:12, height:12, borderRadius:'50%',
               background:v.dot, flexShrink:0, display:'inline-block'
             }}/>
             {v.n}
           </span>
         ))}
         <span style={{
-          fontSize:'clamp(72px,9vw,112px)', fontWeight:700,
+          fontSize:'clamp(48px,6vw,80px)', fontWeight:700,
           lineHeight:.93, letterSpacing:'-.046em',
           color:'var(--text-dark)', fontFamily:"'Inter', sans-serif"
         }}>
@@ -564,9 +564,9 @@ function NewHomeHero() {
       </div>
 
       <p style={{
-        fontSize:'clamp(72px,9vw,112px)', fontWeight:700,
+        fontSize:'clamp(48px,6vw,80px)', fontWeight:700,
         lineHeight:.93, letterSpacing:'-.046em',
-        color:'rgba(67,38,29,.20)', marginBottom:15,
+        color:'rgba(67,38,29,.20)', marginBottom:28,
         fontFamily:"'Inter', sans-serif"
       }}>
         never gave you.
@@ -574,7 +574,7 @@ function NewHomeHero() {
 
       <p style={{
         fontSize:18, color:'rgba(67,38,29,.50)',
-        lineHeight:1.52, maxWidth:460, marginBottom:22,
+        lineHeight:1.52, maxWidth:460, marginBottom:32,
         letterSpacing:'-.01em', fontFamily:"'Inter', sans-serif"
       }}>
         We investigate the questions Internet never answered clearly —

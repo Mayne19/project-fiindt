@@ -1,0 +1,20 @@
+export const legalIdentity = {
+  siteName: "Fiindt",
+  tradeName: "Fiindt",
+  domain: "fiindt.com",
+  country: "Germany",
+  legalOperatorName: "",
+  legalOperatorAddress: "",
+  legalEmail: "",
+  privacyEmail: "",
+  editorialResponsible: "",
+  hostingProviders: [
+    { name: "Vercel", purpose: "Website hosting and deployment" },
+    { name: "Hostinger", purpose: "Domain registrar and domain services" },
+    { name: "GitHub", purpose: "Source code hosting and deployment workflow" },
+  ],
+  analyticsProviders: [{ name: "Google Analytics", status: "planned" }],
+  cmsName: "IDEAS Studio",
+  databaseProvider: "Supabase",
+  aiTools: ["ChatGPT", "Claude", "Gemini", "Big Pickle"],
+}

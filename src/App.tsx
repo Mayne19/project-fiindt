@@ -9,7 +9,7 @@ import {
   useParams,
 } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
-import { MayneFadeIn, MayneGlowBackground, cx } from '@mayne/ui-kit'
+import { MayneFadeIn, cx } from '@mayne/ui-kit'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
   AiLaptopIcon,
@@ -463,60 +463,161 @@ function HomePage() {
 }
 
 function NewHomeHero() {
-  return (
-    <section className="new-hero">
-      <MayneGlowBackground>
-        <div className="new-hero-glow" aria-hidden="true" />
-        <div className="new-hero-fade" aria-hidden="true" />
+  const heroVerticals = [
+    {n:'Tech',          dot:'#3B5BDB',bg:'#E8EEFF',tx:'#2840B0'},
+    {n:'Nature',        dot:'#47c971',bg:'#DFFFDC',tx:'#1E7A3A'},
+    {n:'Health',        dot:'#F04828',bg:'#FFE0D8',tx:'#B82000'},
+    {n:'Science',       dot:'#00A890',bg:'#D8FFF5',tx:'#007060'},
+    {n:'Education',     dot:'#D97706',bg:'#FFF3D0',tx:'#92500E'},
+    {n:'Entertainment', dot:'#E03870',bg:'#FFE0EE',tx:'#A01040'},
+    {n:'Lifestyle',     dot:'#F07020',bg:'#FFECD8',tx:'#B84000'},
+    {n:'Finance',       dot:'#5BAF1A',bg:'#EAFFD0',tx:'#347808'},
+    {n:'Society',       dot:'#9B55D0',bg:'#F5E8FF',tx:'#6E35A8'},
+    {n:'Sports',        dot:'#E04030',bg:'#FFE2D8',tx:'#A81808'},
+    {n:'Travel',        dot:'#C8980A',bg:'#FFF5CC',tx:'#8A6000'},
+    {n:'Business',      dot:'#CC5830',bg:'#FFE8D8',tx:'#963010'},
+  ]
+  const SNAPS = [[0,1,2],[3,4,5],[6,7,8],[9,10,11]]
 
-        <div className="new-hero-inner">
-          <div className="new-hero-grid">
-            <MayneFadeIn>
-              <div className="new-hero-main">
-                <span>Fiindt Knowledge Platform</span>
-                <h1>Reliable knowledge, organized for practical decisions.</h1>
-                <p>
-                  Fiindt structures trusted guides, tools and comparisons into
-                  clear verticals so readers can move from broad questions to
-                  useful answers without noise.
-                </p>
-                <form className="new-hero-search" role="search">
-                  <HugeiconsIcon icon={Search01Icon} size={18} strokeWidth={2} />
-                  <input
-                    aria-label="Search topics, categories or articles"
-                    placeholder="Search topics, categories or articles..."
-                  />
-                  <Link to="/tech/ai">Search</Link>
-                </form>
-                <div className="new-hero-actions">
-                  <Link className="new-hero-primary" to="/tech/ai">
-                    Explore
-                    <HugeiconsIcon icon={ArrowUpRight01Icon} size={16} strokeWidth={2} />
-                  </Link>
-                  <Link className="new-hero-outline" to="/contact">
-                    Contact
-                  </Link>
-                </div>
-              </div>
-            </MayneFadeIn>
-            <div className="new-hero-showcase" aria-hidden="true">
-              <div className="showcase-card showcase-card-main">
-                <span>Knowledge map</span>
-                <strong>Vertical → Niche → Category → Article</strong>
-                <i />
-              </div>
-              <div className="showcase-card showcase-card-top">
-                <span>Signal score</span>
-                <strong>92%</strong>
-              </div>
-              <div className="showcase-card showcase-card-bottom">
-                <span>Reader path</span>
-                <strong>Question to resource</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-      </MayneGlowBackground>
+  const [, setCurSnap] = useState(0)
+  const [slots, setSlots] = useState([
+    heroVerticals[0], heroVerticals[1], heroVerticals[2]
+  ])
+  const [animating, setAnimating] = useState([false,false,false])
+
+  useEffect(() => {
+    const init = setTimeout(() => {
+      const interval = setInterval(() => {
+        setCurSnap(prev => {
+          const next = (prev + 1) % 4
+          const nextGroup = SNAPS[next];
+          [0,1,2].forEach(i => {
+            setTimeout(() => {
+              setAnimating(a => { const n=[...a]; n[i]=true; return n })
+              setTimeout(() => {
+                setSlots(s => {
+                  const ns=[...s]
+                  ns[i] = heroVerticals[nextGroup[i]]
+                  return ns
+                })
+                setAnimating(a => { const n=[...a]; n[i]=false; return n })
+              }, 220)
+            }, i * 900)
+          })
+          return next
+        })
+      }, 5000)
+      return () => clearInterval(interval)
+    }, 2500)
+    return () => clearTimeout(init)
+  }, [])
+
+  return (
+    <section style={{
+      minHeight:'calc(100svh - 52px)',
+      display:'flex', flexDirection:'column',
+      alignItems:'center', justifyContent:'center',
+      textAlign:'center',
+      paddingTop:'32px', paddingBottom:'32px',
+      paddingLeft:'40px', paddingRight:'40px',
+      background:'var(--cream)', fontFamily:"'Inter', sans-serif"
+    }}>
+      <p style={{
+        fontSize:'clamp(72px,9vw,112px)', fontWeight:700,
+        lineHeight:.93, letterSpacing:'-.046em',
+        color:'var(--text-dark)', marginBottom:8,
+        fontFamily:"'Inter', sans-serif"
+      }}>
+        The answers
+      </p>
+
+      <div style={{
+        display:'flex', alignItems:'center',
+        justifyContent:'center', flexWrap:'wrap',
+        gap:10, marginBottom:8, minHeight:56
+      }}>
+        {slots.map((v,i) => (
+          <span key={i} style={{
+            display:'inline-flex', alignItems:'center', gap:7,
+            borderRadius:999, padding:'12px 24px',
+            fontSize:20, fontWeight:600, letterSpacing:'-.02em',
+            background:v.bg, color:v.tx,
+            opacity: animating[i] ? 0 : 1,
+            transform: animating[i] ? 'translateY(8px)' : 'translateY(0)',
+            transition:'opacity .22s ease, transform .22s ease',
+            fontFamily:"'Inter', sans-serif"
+          }}>
+            <span style={{
+              width:9, height:9, borderRadius:'50%',
+              background:v.dot, flexShrink:0, display:'inline-block'
+            }}/>
+            {v.n}
+          </span>
+        ))}
+        <span style={{
+          fontSize:'clamp(72px,9vw,112px)', fontWeight:700,
+          lineHeight:.93, letterSpacing:'-.046em',
+          color:'var(--text-dark)', fontFamily:"'Inter', sans-serif"
+        }}>
+          &amp; more
+        </span>
+      </div>
+
+      <p style={{
+        fontSize:'clamp(72px,9vw,112px)', fontWeight:700,
+        lineHeight:.93, letterSpacing:'-.046em',
+        color:'rgba(67,38,29,.20)', marginBottom:15,
+        fontFamily:"'Inter', sans-serif"
+      }}>
+        never gave you.
+      </p>
+
+      <p style={{
+        fontSize:18, color:'rgba(67,38,29,.50)',
+        lineHeight:1.52, maxWidth:460, marginBottom:22,
+        letterSpacing:'-.01em', fontFamily:"'Inter', sans-serif"
+      }}>
+        We investigate the questions Internet never answered clearly —
+        with data, sources, surveys and original analysis across every
+        domain that matters.
+      </p>
+
+      <form style={{
+        display:'flex', alignItems:'center', gap:9,
+        background:'rgba(255,255,255,.72)',
+        border:'0.5px solid rgba(67,38,29,.11)',
+        borderRadius:999, padding:'9px 9px 9px 18px',
+        width:'100%', maxWidth:520, marginBottom:13,
+        boxShadow:'0 2px 14px rgba(67,38,29,.05)'
+      }}>
+        <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={2}
+          style={{color:'rgba(67,38,29,.32)',flexShrink:0}} />
+        <input
+          aria-label="Search a question, topic or domain"
+          placeholder="Search a question, topic or domain..."
+          style={{
+            flex:1, border:0, outline:0, background:'transparent',
+            fontSize:14, color:'var(--text)',
+            fontFamily:"'Inter', sans-serif", letterSpacing:'-.01em'
+          }}
+        />
+        <button type="submit" style={{
+          background:'#47c971', color:'#fff', border:'none',
+          borderRadius:999, padding:'8px 20px', fontSize:13,
+          fontWeight:600, cursor:'pointer', letterSpacing:'-.01em',
+          fontFamily:"'Inter', sans-serif"
+        }}>
+          Search
+        </button>
+      </form>
+
+      <p style={{
+        fontSize:10, color:'rgba(67,38,29,.28)',
+        letterSpacing:'.06em', textTransform:'uppercase',
+        fontFamily:"'Inter', sans-serif"
+      }}>
+        12 domains · 50+ sub-niches · original research only
+      </p>
     </section>
   )
 }
@@ -566,7 +667,6 @@ function TrainerTasks() {
   return (
     <section className="latest-insights wrap">
       <div className="latest-insights-heading">
-        <span>Latest insights</span>
         <h2>Latest from Fiindt</h2>
         <p>Recent resources from the Fiindt editorial system.</p>
       </div>
@@ -605,7 +705,6 @@ function PromoCarousel() {
   return (
     <section className="promo-carousel" aria-label="Featured promotions">
       <div className="promo-carousel-heading wrap">
-        <span>Promotion rail</span>
         <h2>Targeted placements for verticals, partners and products.</h2>
       </div>
       <div className="promo-rail">
@@ -625,7 +724,6 @@ function Process() {
   return (
     <section className="process wrap">
       <div className="process-heading">
-        <span>Platform overview</span>
         <h2>A modular knowledge platform</h2>
         <p>
           Fiindt is a modular knowledge platform designed to help readers discover
@@ -748,7 +846,7 @@ function HowPage() {
     <>
       <MediaHero
         image={assets.howHero}
-        eyebrow="Curious?"
+
         title="Here’s how it works"
         subtitle="From selecting an opportunity to completing your first tasks."
         tone="light"
@@ -929,7 +1027,7 @@ function WhyWeExist() {
   return (
     <section className="why-exist wrap">
       <div className="why-copy">
-        <p className="why-eyebrow">WHY WE EXIST</p>
+
         <h2>The internet has information. Not always answers.</h2>
         <div>
           <p>
@@ -1026,7 +1124,7 @@ function VerticalPage() {
         />
         <div className="wrap">
           <div className="vertical-hero-copy">
-            <p className="vertical-eyebrow">{currentVertical.label} vertical</p>
+
             <h1>{currentVertical.label}</h1>
             <p>{currentVertical.description}</p>
             <form className="vertical-search">
@@ -1054,7 +1152,7 @@ function VerticalPage() {
 
       <section className="pinned-map wrap">
         <div className="vertical-section-heading">
-          <p className="vertical-eyebrow">Sub-niches</p>
+
           <h2>Open a focused {currentVertical.label} file</h2>
           <p>
             Each sub-niche narrows the vertical into a practical area with its
@@ -1083,7 +1181,7 @@ function VerticalPage() {
 
       <section className="vertical-featured wrap">
         <div className="vertical-section-heading centered">
-          <p className="vertical-eyebrow">Featured in {currentVertical.label}</p>
+
           <h2>Featured guide</h2>
           <p>A selected resource from the {currentVertical.label} archive.</p>
         </div>
@@ -1117,7 +1215,6 @@ function VerticalPage() {
 
       <section id="latest-vertical-articles" className="latest-vertical wrap">
         <div className="vertical-section-heading">
-          <p className="vertical-eyebrow">Latest articles</p>
           <h2>Latest {currentVertical.label} articles</h2>
         </div>
         <div className="article-grid">
@@ -1268,7 +1365,7 @@ function VerticalSubNichePage() {
       </section>
       <section className="niche-catalog wrap">
         <div className="vertical-section-heading">
-          <p className="vertical-eyebrow">Category catalog</p>
+
           <h2>{currentSubNiche.label} articles by category</h2>
         </div>
         <div className="niche-catalog-list">
@@ -1291,7 +1388,6 @@ function VerticalSubNichePage() {
       </section>
       <section className="latest-vertical wrap">
         <div className="vertical-section-heading">
-          <p className="vertical-eyebrow">Latest articles</p>
           <h2>Latest in {currentSubNiche.label}</h2>
         </div>
         <div className="article-grid">
@@ -1309,7 +1405,7 @@ function VerticalNewsletter({ vertical }: { vertical: string }) {
   return (
     <section className="vertical-newsletter wrap">
       <div>
-        <p className="vertical-eyebrow">Newsletter</p>
+
         <h2>Follow {vertical} updates</h2>
         <p>
           Get new {vertical.toLowerCase()} guides, resources and practical
@@ -1513,14 +1609,12 @@ function BlogList({ limit }: { limit?: number }) {
 
 function MediaHero({
   image,
-  eyebrow,
   title,
   subtitle,
   cta,
   tone = 'dark',
 }: {
   image: string
-  eyebrow?: string
   title: string
   subtitle: string
   cta?: string
@@ -1530,7 +1624,7 @@ function MediaHero({
     <section className={cx('media-hero', tone === 'light' && 'media-hero-light')}>
       <img src={image} alt="" />
       <div className="wrap">
-        {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+
         <h1>{title}</h1>
         <p>{subtitle}</p>
         {cta ? (
@@ -1561,7 +1655,7 @@ function FAQPage() {
   return (
     <>
       <PageHero
-        eyebrow="FAQ"
+
         title="Frequently asked questions"
         subtitle="Everything a contributor needs before applying, qualifying, and working on projects."
       />
@@ -1583,7 +1677,7 @@ function LegalPage({ title }: { title: string }) {
   return (
     <>
       <PageHero
-        eyebrow="Legal"
+
         title={title}
         subtitle="Reference page for platform policies and contributor information."
       />
@@ -1627,7 +1721,7 @@ function LegalHubPage() {
   return (
     <>
       <PageHero
-        eyebrow="Legal"
+
         title="Legal Center"
         subtitle="Legal information, policies, disclaimers and terms copied from the Fiindt source project."
       />
@@ -1655,7 +1749,7 @@ function LegalHubPage() {
 function FiindtLegalPage({ page }: { page: LegalPageRecord }) {
   return (
     <>
-      <PageHero eyebrow={page.eyebrow} title={page.title} subtitle={page.subtitle} />
+      <PageHero title={page.title} subtitle={page.subtitle} />
       <section className="fiindt-legal wrap">
         <aside>
           <span>{page.lastUpdatedLabel}</span>
@@ -1705,7 +1799,7 @@ function ContactPage() {
   return (
     <>
       <PageHero
-        eyebrow="Contact Fiindt"
+
         title="Tell us what needs to be clearer."
         subtitle="Questions, corrections, partnerships, topic suggestions, and editorial feedback all start here."
       />
@@ -1734,7 +1828,7 @@ function ContactPage() {
       </section>
       <section className="response-quality wrap">
         <div>
-          <p className="eyebrow">Response quality</p>
+
           <h2>Clear context gets better replies.</h2>
         </div>
         <div>
@@ -1757,7 +1851,7 @@ function LoginRedirect() {
   return (
     <>
       <PageHero
-        eyebrow="Log in"
+
         title="Contributor portal"
         subtitle="This route mirrors the original login redirect target."
       />
@@ -1773,11 +1867,9 @@ function LoginRedirect() {
 }
 
 function PageHero({
-  eyebrow,
   title,
   subtitle,
 }: {
-  eyebrow: string
   title: string
   subtitle: string
 }) {
@@ -1785,7 +1877,7 @@ function PageHero({
     <MayneFadeIn>
       <section className="page-hero wrap">
         <div>
-          <p className="eyebrow">{eyebrow}</p>
+
           <h1>{title}</h1>
           <p>{subtitle}</p>
         </div>

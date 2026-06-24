@@ -15,6 +15,7 @@
 }
 
 :root {
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --cream: #fbf4eb;
   --cream-2: #fdf9f5;
   --mint-panel: #e0f0eb;
@@ -39,7 +40,7 @@
 html {
   background: var(--cream);
   color: var(--text);
-  font-family: 'Suisse Mindrift', Inter, system-ui, sans-serif;
+  font-family: var(--font);
   font-size: 16px;
   letter-spacing: 0;
   scroll-behavior: smooth;
@@ -362,7 +363,7 @@ main {
 
 .button-green {
   min-height: 40px;
-  background: var(--green);
+  background: var(--brand-green);
   color: #002a2a;
   font-weight: 500;
 }
@@ -846,7 +847,7 @@ p {
 .vertical-project-description {
   min-height: 0;
   color: rgba(67, 38, 29, 0.72);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   line-height: 1.2;
 }
@@ -1080,7 +1081,7 @@ p {
   max-width: 680px;
   margin-top: 12px;
   color: rgba(67, 38, 29, 0.7);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   line-height: 1.32;
 }
@@ -1121,7 +1122,7 @@ p {
 .step-card p {
   max-width: 360px;
   color: rgba(67, 38, 29, 0.68);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.28;
 }
 
@@ -1215,7 +1216,7 @@ p {
 .faq-answer p {
   padding: 0 0 24px 42px;
   color: rgba(67, 38, 29, 0.7);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   line-height: 1.45;
 }
@@ -1336,7 +1337,7 @@ p {
 
 .media-hero-light p:not(.eyebrow) {
   color: var(--text);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.15;
 }
 
@@ -1360,11 +1361,6 @@ p {
   line-height: 1.18;
 }
 
-.eyebrow {
-  color: var(--text);
-  font-size: 16px;
-  font-weight: 500;
-}
 
 .see-how {
   margin-top: 112px;
@@ -1389,7 +1385,7 @@ p {
 
 .see-how p {
   color: rgba(67, 38, 29, 0.76);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.35;
 }
 
@@ -1448,12 +1444,6 @@ p {
   color: var(--text);
 }
 
-.why-eyebrow {
-  color: rgba(67, 38, 29, 0.62);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-}
 
 .why-copy h2 {
   max-width: 570px;
@@ -1684,7 +1674,7 @@ p {
 
 .mini-card p {
   color: rgba(67, 38, 29, 0.72);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.35;
 }
 
@@ -1852,14 +1842,6 @@ p {
   width: min(650px, 100%);
 }
 
-.vertical-eyebrow {
-  color: var(--vertical-color);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  line-height: 1;
-  text-transform: uppercase;
-}
 
 .vertical-media-hero h1,
 .vertical-sub-hero h1 {
@@ -1991,7 +1973,7 @@ p {
 .vertical-newsletter p:not(.vertical-eyebrow) {
   margin-top: 14px;
   color: rgba(67, 38, 29, 0.66);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.35;
 }
 
@@ -2040,7 +2022,7 @@ p {
 
 .pinned-card p {
   color: rgba(67, 38, 29, 0.62);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.35;
 }
 
@@ -2223,7 +2205,6 @@ p {
   background: var(--brown);
 }
 
-.vertical-newsletter .vertical-eyebrow,
 .vertical-newsletter h2 {
   color: #fff;
 }
@@ -2251,7 +2232,7 @@ p {
   min-width: 122px;
   border: 0;
   border-radius: 999px;
-  background: var(--green);
+  background: var(--brand-green);
   color: #001d18;
   font: inherit;
   font-weight: 500;
@@ -2292,7 +2273,7 @@ p {
 .sub-category-grid p {
   margin-top: 18px;
   color: rgba(67, 38, 29, 0.64);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.35;
 }
 
@@ -2715,7 +2696,7 @@ p {
 .contact-cards p {
   margin-top: 12px;
   color: rgba(67, 38, 29, 0.68);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   line-height: 1.44;
 }
@@ -2736,7 +2717,7 @@ p {
   margin: 14px 0 0;
   padding-left: 20px;
   color: rgba(67, 38, 29, 0.68);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.4;
 }
 
@@ -2984,7 +2965,7 @@ p {
 
   .new-hero-main > p {
     max-width: 350px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.32;
   }
 
@@ -3178,7 +3159,7 @@ p {
   }
 
   .latest-insights-heading p {
-    font-size: 15px;
+    font-size: 17px;
   }
 
   .latest-article-card {
@@ -3192,7 +3173,7 @@ p {
   }
 
   .latest-article-card > p:not(.latest-article-path) {
-    font-size: 15px;
+    font-size: 17px;
   }
 
   .vertical-media-hero {
@@ -3304,7 +3285,7 @@ p {
   }
 
   .article-page section p {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .promo-image-card {

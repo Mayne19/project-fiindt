@@ -104,23 +104,23 @@ const assets = {
 
 const processSteps = [
   {
-    value: '7',
+    value: '12',
     title: 'Active verticals',
-    copy: 'All official areas live',
+    copy: 'Expert domains actively publishing',
     icon: Compass01Icon,
     tone: 'blue',
   },
   {
-    value: '42',
+    value: '50+',
     title: 'Sub-niches',
-    copy: 'Focused business units',
+    copy: 'Specialised knowledge areas',
     icon: FolderLibraryIcon,
     tone: 'yellow',
   },
   {
-    value: '500+',
-    title: 'Resources roadmap',
-    copy: 'Planned guides & resources',
+    value: '600+',
+    title: 'Guides & resources',
+    copy: 'Practical, structured knowledge',
     icon: BookOpen01Icon,
     tone: 'green',
   },
@@ -724,15 +724,15 @@ function Process() {
   return (
     <section className="process wrap">
       <div className="process-heading">
-        <h2>A modular knowledge platform</h2>
+        <h2>12 verticals, 50+ niches, 600+ resources</h2>
         <p>
-          Fiindt is a modular knowledge platform designed to help readers discover
-          reliable, structured and practical information across focused knowledge
-          areas.
+          Fiindt structures knowledge into focused verticals — from Tech and
+          Health to Nature and Finance — each with dedicated sub-niches,
+          categories and practical guides.
         </p>
         <p>
-          Instead of mixing everything into a single feed, Fiindt organizes content
-          into verticals, sub-niches, categories and articles.
+          Every resource is researched, written and maintained to provide clear
+          answers the internet never gave you.
         </p>
       </div>
       <div className="step-grid">
@@ -752,9 +752,6 @@ function Process() {
             <h3>Content layers</h3>
             <p>Vertical → Sub-niche → Category → Article</p>
           </div>
-          <Link className="button button-green" to={primaryExplorePath}>
-            Explore
-          </Link>
         </article>
       </div>
     </section>

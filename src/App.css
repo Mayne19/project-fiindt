@@ -1973,11 +1973,17 @@ p {
 }
 
 .vertical-media-hero::after {
-  content: none;
+  content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    rgba(10, 6, 2, 0.72) 0%,
+    rgba(10, 6, 2, 0.48) 45%,
+    rgba(10, 6, 2, 0.15) 100%
+  );
 }
 
 .vertical-media-hero img {

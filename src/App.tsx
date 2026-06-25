@@ -22,8 +22,8 @@ import {
   BookOpenTextIcon,
   BrainIcon,
   BriefcaseBusinessIcon,
-  Compass01Icon,
   Coffee01Icon,
+  Compass01Icon,
   Film01Icon,
   FolderLibraryIcon,
   FootballIcon,
@@ -102,28 +102,11 @@ const assets = {
   ],
 }
 
+
 const processSteps = [
-  {
-    value: '12',
-    title: 'Active verticals',
-    copy: 'Expert domains actively publishing',
-    icon: Compass01Icon,
-    tone: 'blue',
-  },
-  {
-    value: '50+',
-    title: 'Sub-niches',
-    copy: 'Specialised knowledge areas',
-    icon: FolderLibraryIcon,
-    tone: 'yellow',
-  },
-  {
-    value: '600+',
-    title: 'Guides & resources',
-    copy: 'Practical, structured knowledge',
-    icon: BookOpen01Icon,
-    tone: 'green',
-  },
+  { value: '12',   title: 'Active verticals',    copy: 'Expert domains actively publishing',  icon: Compass01Icon,    tone: 'blue'   },
+  { value: '50+',  title: 'Sub-niches',          copy: 'Specialised knowledge areas',         icon: FolderLibraryIcon, tone: 'yellow' },
+  { value: '600+', title: 'Guides & resources',  copy: 'Practical, structured knowledge',     icon: BookOpen01Icon,   tone: 'green'  },
 ]
 
 const homeFaqs = [
@@ -239,40 +222,6 @@ const verticalHeroPositions: Record<string, string> = {
   entertainment: '66% center',
 }
 
-const promoCards = [
-  {
-    src: '/promo/card1.webp',
-    alt: 'Premium partner campaign card',
-  },
-  {
-    src: '/promo/card2.webp',
-    alt: 'Product promotion card',
-  },
-  {
-    src: '/promo/card3.webp',
-    alt: 'Vertical content campaign card',
-  },
-  {
-    src: '/promo/card4.webp',
-    alt: 'Client offer card',
-  },
-  {
-    src: '/promo/card5.webp',
-    alt: 'Creative advertising card',
-  },
-  {
-    src: '/promo/card6.webp',
-    alt: 'Editorial promotion card',
-  },
-  {
-    src: '/promo/card7.webp',
-    alt: 'Partner feature card',
-  },
-  {
-    src: '/promo/card8.webp',
-    alt: 'Resource campaign card',
-  },
-]
 
 const comparison = [
   {
@@ -448,16 +397,167 @@ function Logo() {
   )
 }
 
+function FiindtStats() {
+  return (
+    <section className="process wrap" style={{ paddingTop: 64, paddingBottom: 64, marginTop: 0 }}>
+      <div className="process-heading">
+        <h2>
+          Why Fiindt exists
+          <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 16, whiteSpace: 'nowrap', fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+            Fiindt is built around clarity, structure and practical usefulness.
+          </span>
+        </h2>
+        <p>Fiindt organizes original, research-based guides across focused knowledge verticals to give clear answers on topics the internet does not explain well.</p>
+      </div>
+      <div className="step-grid">
+        {processSteps.map((step) => (
+          <article className="step-card" data-tone={step.tone} key={step.title}>
+            <div>
+              <strong>{step.value}</strong>
+              <h3>{step.title}</h3>
+              <p>{step.copy}</p>
+            </div>
+            <HugeiconsIcon icon={step.icon} size={58} strokeWidth={1.4} />
+          </article>
+        ))}
+        <article className="step-card step-cta">
+          <div>
+            <strong>4</strong>
+            <h3>Content layers</h3>
+            <p>Vertical → Sub-niche → Category → Article</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  )
+}
+
+
+function LatestArticles() {
+  const articles = [...fiindtArticles]
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    .slice(0, 6)
+
+  return (
+    <section style={{ paddingTop: 64, paddingBottom: 64, paddingLeft: 40, paddingRight: 40, marginTop: 0, background: 'var(--cream-2)', fontFamily: "'Inter', sans-serif" }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 40 }}>
+          Latest from Fiindt
+          <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+            Recent resources from the Fiindt editorial system.
+          </span>
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 20 }}>
+          {articles.map((article) => {
+            const vertical = getVerticalBySlug(toSlug(article.vertical))
+            const accentColor = vertical?.color ?? 'var(--brand-green)'
+            return (
+              <article
+                key={article.id}
+                className="card-hover"
+                style={{ '--card-accent': accentColor, borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column' } as CSSProperties}
+              >
+                <p style={{ fontSize: 12, color: 'rgba(67,38,29,.40)', marginBottom: 8, fontWeight: 500 }}>
+                  {article.vertical} › {article.subNiche}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+                  <span style={{ display: 'inline-block', borderRadius: 999, padding: '3px 10px', fontSize: 11, fontWeight: 600, background: accentColor, color: '#fff' }}>
+                    {article.category}
+                  </span>
+                  <span style={{ fontSize: 12, color: 'rgba(67,38,29,.40)' }}>{article.readingTime} min read</span>
+                </div>
+                <Link to={getFiindtArticlePath(article)}>
+                  <h3 className="card-heading card-title">{article.title}</h3>
+                </Link>
+                <p className="line-clamp-2" style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', flex: 1 }}>
+                  {article.excerpt}
+                </p>
+                <div style={{ marginTop: 'auto', paddingTop: 20, fontSize: 12, color: 'rgba(67,38,29,.40)' }}>
+                  <time>{formatArticleDate(article.publishedAt)}</time>
+                </div>
+              </article>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function HowItWorks() {
+  const steps = [
+    'Ask a question',
+    'We investigate',
+    'Get a clear answer',
+  ]
+  return (
+    <section className="journey wrap journey-3step" style={{ marginTop: 0, paddingTop: 64, paddingBottom: 64 }}>
+      <JourneySection
+        title="How Fiindt works"
+        subtitle="Fiindt structures every topic like a clear knowledge tree, from broad domains to precise resources."
+        steps={steps}
+        detail={(_, i) => [
+          'Search any topic or browse a vertical domain',
+          'Our team analyzes sources, data and real cases',
+          'A structured, sourced guide — not a vague summary',
+        ][i]}
+      />
+    </section>
+  )
+}
+
+function NewsletterCTA() {
+  return (
+    <section className="wrap" style={{ marginTop: 0, paddingTop: 40, paddingBottom: 40, fontFamily: "'Inter', sans-serif" }}>
+      <div style={{
+        background: '#26221e', padding: '32px 40px', minHeight: 132,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32,
+      }}>
+        <div>
+          <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#fbf4eb', lineHeight: 1.1 }}>
+            Get answers before everyone else.
+            <span style={{ display: 'block', color: 'rgba(251,244,235,.35)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+              New investigations published every week across 12 domains.
+            </span>
+          </h2>
+        </div>
+        <form style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          background: 'rgba(255,255,255,.08)', borderRadius: 999,
+          padding: '6px 6px 6px 18px', flexShrink: 0,
+        }}>
+          <input
+            type="email"
+            placeholder="Your email address"
+            style={{
+              width: 220, border: 0, outline: 0, background: 'transparent',
+              fontSize: 14, color: '#fbf4eb', fontFamily: "'Inter', sans-serif",
+            }}
+          />
+          <button type="submit" style={{
+            background: '#47c971', color: '#fff', border: 0,
+            borderRadius: 999, padding: '9px 18px',
+            fontSize: 13, fontWeight: 600, cursor: 'pointer',
+            fontFamily: "'Inter', sans-serif", whiteSpace: 'nowrap',
+          }}>
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </section>
+  )
+}
+
 function HomePage() {
   return (
     <>
       <NewHomeHero />
-      <Process />
+      <FiindtStats />
       <Projects />
-      <PromoCarousel />
-      <TrainerTasks />
+      <LatestArticles />
+      <HowItWorks />
       <HomeFAQ />
-      <CTA />
+      <NewsletterCTA />
     </>
   )
 }
@@ -566,7 +666,7 @@ function NewHomeHero() {
       <p style={{
         fontSize:'clamp(48px,6vw,80px)', fontWeight:700,
         lineHeight:.93, letterSpacing:'-.046em',
-        color:'rgba(67,38,29,.20)', marginBottom:28,
+        color:'rgba(67,38,29,.32)', marginBottom:28,
         fontFamily:"'Inter', sans-serif"
       }}>
         never gave you.
@@ -624,10 +724,14 @@ function NewHomeHero() {
 
 function Projects() {
   return (
-    <section className="projects wrap">
+    <section className="projects wrap" style={{ paddingTop: 64, paddingBottom: 64, marginTop: 0 }}>
       <div className="section-heading centered">
-        <h2>Explore verticals that match your needs</h2>
-        <p>Open a focused domain and browse its guides, categories and resources.</p>
+        <h2>
+          Explore verticals that match your needs
+          <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+            Open a focused domain and browse its guides, categories and resources.
+          </span>
+        </h2>
       </div>
       <div className="project-grid">
         {verticals.map((vertical) => {
@@ -659,109 +763,16 @@ function Projects() {
   )
 }
 
-function TrainerTasks() {
-  const latestArticles = [...fiindtArticles]
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .slice(0, 6)
-
-  return (
-    <section className="latest-insights wrap">
-      <div className="latest-insights-heading">
-        <h2>Latest from Fiindt</h2>
-        <p>Recent resources from the Fiindt editorial system.</p>
-      </div>
-      <div className="latest-article-grid">
-        {latestArticles.map((article) => {
-          const vertical = getVerticalBySlug(toSlug(article.vertical))
-
-          return (
-            <Link
-              className="latest-article-card"
-              style={{ '--article-color': vertical?.color ?? '#2563eb' } as CSSProperties}
-              to={getFiindtArticlePath(article)}
-              key={article.id}
-            >
-              <p className="latest-article-path">
-                {vertical?.label ?? article.vertical} › {article.subNiche}
-              </p>
-              <div className="latest-article-meta">
-                <span>{article.category}</span>
-                <small>{article.readingTime} min read</small>
-              </div>
-              <h3>{article.title}</h3>
-              <p>{article.excerpt}</p>
-              <time>{formatArticleDate(article.publishedAt)}</time>
-            </Link>
-          )
-        })}
-      </div>
-    </section>
-  )
-}
-
-function PromoCarousel() {
-  const cards = [...promoCards, ...promoCards]
-
-  return (
-    <section className="promo-carousel" aria-label="Featured promotions">
-      <div className="promo-carousel-heading wrap">
-        <h2>Targeted placements for verticals, partners and products.</h2>
-      </div>
-      <div className="promo-rail">
-        <div className="promo-track">
-          {cards.map((card, index) => (
-            <figure className="promo-image-card" key={`${card.src}-${index}`}>
-              <img src={card.src} alt={card.alt} loading="eager" />
-            </figure>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Process() {
-  return (
-    <section className="process wrap">
-      <div className="process-heading">
-        <h2>12 verticals, 50+ niches, 600+ resources</h2>
-        <p>
-          Fiindt structures knowledge into focused verticals — from Tech and
-          Health to Nature and Finance — each with dedicated sub-niches,
-          categories and practical guides.
-        </p>
-        <p>
-          Every resource is researched, written and maintained to provide clear
-          answers the internet never gave you.
-        </p>
-      </div>
-      <div className="step-grid">
-        {processSteps.map((step) => (
-          <article className="step-card" data-tone={step.tone} key={step.title}>
-            <div>
-              <strong>{step.value}</strong>
-              <h3>{step.title}</h3>
-              <p>{step.copy}</p>
-            </div>
-            <HugeiconsIcon icon={step.icon} size={58} strokeWidth={1.4} />
-          </article>
-        ))}
-        <article className="step-card step-cta">
-          <div>
-            <strong>4</strong>
-            <h3>Content layers</h3>
-            <p>Vertical → Sub-niche → Category → Article</p>
-          </div>
-        </article>
-      </div>
-    </section>
-  )
-}
 
 function HomeFAQ() {
   return (
-    <section className="faq wrap">
-      <h2>Frequently asked questions</h2>
+    <section className="faq wrap" style={{ paddingTop: 64, paddingBottom: 64, marginTop: 0 }}>
+      <h2>
+        Frequently asked questions
+        <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+          Everything you need to know about how Fiindt works.
+        </span>
+      </h2>
       <FAQList items={homeFaqs} />
     </section>
   )
@@ -891,17 +902,24 @@ function HowPage() {
 
 function JourneySection({
   title,
+  subtitle,
   steps,
   detail,
 }: {
   title: string
+  subtitle?: string
   steps: string[]
   detail: (step: string, index: number) => string
 }) {
   return (
     <>
       <div className="section-heading">
-        <h2>{title}</h2>
+        <h2>
+          {title}
+          {subtitle && (
+            <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>{subtitle}</span>
+          )}
+        </h2>
       </div>
       <div className="journey-track">
         {steps.map((step, index) => (

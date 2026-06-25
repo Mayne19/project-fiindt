@@ -2908,8 +2908,9 @@ p {
   transition: border-color 0.15s, background 0.15s, transform 0.15s;
 }
 .contact-btn-outline:hover {
-  border-color: rgba(67,38,29,.40);
-  background: rgba(67,38,29,.04);
+  background: #26221e;
+  border-color: #26221e;
+  color: var(--cream);
   transform: translateY(-1px);
 }
 

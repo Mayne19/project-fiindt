@@ -51,12 +51,12 @@ export default function PinnedCardsMap({
   columns = 'three',
 }: PinnedCardsMapProps) {
   const gridColumns = columns === 'four' ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)'
-  const maxW = columns === 'four' ? 1100 : 900
+  const maxW = columns === 'four' ? 1100 : 1060
 
   return (
-    <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream)' }}>
+    <section style={{ paddingTop: 80, paddingBottom: 80, background: 'var(--cream)' }}>
       <div style={{ maxWidth: maxW, margin: '0 auto', padding: '0 60px' }}>
-        <div style={{ maxWidth: columns === 'four' ? 860 : 680, margin: '0 auto 56px', textAlign: 'center' }}>
+        <div style={{ maxWidth: columns === 'four' ? 860 : 680, margin: '0 auto 64px', textAlign: 'center' }}>
           <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 0 }}>
             {title}
             <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
@@ -65,7 +65,7 @@ export default function PinnedCardsMap({
           </h2>
         </div>
 
-        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: gridColumns, gap: '32px 24px', paddingTop: 24 }}>
+        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: gridColumns, gap: '64px 32px', paddingTop: 28 }}>
           <svg
             style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: '100%', opacity: 0.20, zIndex: 0, pointerEvents: 'none' }}
             viewBox="0 0 1000 220"
@@ -84,10 +84,10 @@ export default function PinnedCardsMap({
                 key={item.title}
                 style={{
                   position: 'relative',
-                  minHeight: 220,
-                  borderRadius: 16,
+                  minHeight: 260,
+                  borderRadius: 18,
                   border: '1px solid rgba(255,255,255,0.18)',
-                  padding: 24,
+                  padding: 28,
                   background: `linear-gradient(135deg, ${color}, color-mix(in srgb, ${color} 78%, black))`,
                   boxShadow: `0 18px 42px color-mix(in srgb, ${color} 22%, transparent)`,
                   transition: 'transform 0.3s, box-shadow 0.3s',

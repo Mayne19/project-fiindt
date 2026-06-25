@@ -323,22 +323,6 @@ const verticalHeroPositions: Record<string, string> = {
   entertainment: '66% center',
 }
 
-const verticalHeaderInk: Record<string, 'light' | 'dark'> = {
-  tech: 'light',
-  finance: 'light',
-  entertainment: 'light',
-  lifestyle: 'dark',
-  nature: 'dark',
-  education: 'dark',
-  health: 'dark',
-  travel: 'light',
-  society: 'dark',
-  science: 'dark',
-  business: 'dark',
-  sports: 'dark',
-}
-
-
 const mindriftLegalPages: Record<string, string> = {
   '/legal/privacy': 'Privacy Notice',
   '/legal/terms': 'Toloka Platforms Terms of Use',
@@ -408,7 +392,7 @@ function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
   const isOverlay = isHeaderOverlayRoute(pathname)
   const overlayVertical = verticals.find((vertical) => pathname === `/${vertical.slug}`)
-  const verticalInk = overlayVertical ? verticalHeaderInk[overlayVertical.slug] ?? 'dark' : null
+  const verticalInk = overlayVertical ? 'light' : null
   const isProjectActive =
     explorerMenuItems.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
   const nav = [
@@ -429,7 +413,6 @@ function SiteHeader() {
         'site-header',
         isOverlay && !isScrolled && 'site-header-overlay',
         verticalInk === 'light' && !isScrolled && 'site-header-ink-light',
-        verticalInk === 'dark' && !isScrolled && 'site-header-ink-dark',
       )}
     >
       <Logo />
@@ -469,8 +452,8 @@ function SiteHeader() {
         ))}
       </nav>
       <div className="header-actions">
-        <NavLink className="button button-green" to={primaryExplorePath}>
-          Apply now
+        <NavLink className="button button-green" to="/contact">
+          Contact
         </NavLink>
       </div>
       <button className="menu-button" type="button" aria-label="Open menu">

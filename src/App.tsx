@@ -39,6 +39,8 @@ import {
   UserGroupIcon,
   Dumbbell01Icon,
   WorkoutStretchingIcon,
+  AlarmClockIcon,
+  Calendar01Icon,
 } from '@hugeicons/core-free-icons'
 import {
   getArticlesByNiche,
@@ -945,40 +947,90 @@ function VerticalPage() {
 
       <section className="vertical-featured wrap">
         <div className="vertical-section-heading centered">
-
           <h2>Featured guide</h2>
           <p>A selected resource from the {currentVertical.label} archive.</p>
         </div>
         <div className="vertical-featured-grid">
           <Link
-            className="featured-guide"
             to={`/${currentVertical.slug}/${featuredArticle.subNicheSlug}`}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              background: '#fff',
+              border: '1px solid rgba(67,38,29,.07)',
+              borderRadius: 16,
+              padding: '28px 32px',
+              boxShadow: '0 4px 24px rgba(67,38,29,.06)',
+              textDecoration: 'none',
+              minHeight: 320,
+            }}
           >
-            <span>
+            <p style={{ fontSize: 13, fontWeight: 600, color: 'rgba(67,38,29,.50)', lineHeight: 1.4 }}>
               {currentVertical.label} › {featuredArticle.subNiche}
-            </span>
-            <div>
-              <b>{featuredArticle.category}</b>
-              <small>{featuredArticle.readingTime} min read</small>
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 14 }}>
+              <span style={{
+                padding: '5px 12px',
+                borderRadius: 999,
+                background: currentVertical.color,
+                color: '#fff',
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: '-0.01em',
+              }}>
+                {featuredArticle.category}
+              </span>
+              <span style={{ fontSize: 13, color: 'rgba(67,38,29,.45)' }}>{featuredArticle.readingTime} min read</span>
             </div>
-            <h3>{featuredArticle.title}</h3>
-            <p>{featuredArticle.excerpt}</p>
-            <time>{formatArticleDate(featuredArticle.publishedAt)}</time>
+            <h3 style={{ marginTop: 20, fontSize: 'clamp(18px,1.8vw,24px)', fontWeight: 700, color: '#26221e', letterSpacing: '-0.03em', lineHeight: 1.2 }}>
+              {featuredArticle.title}
+            </h3>
+            <p style={{ marginTop: 12, fontSize: 16, lineHeight: 1.55, color: 'rgba(67,38,29,.60)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
+              {featuredArticle.excerpt}
+            </p>
+            <time style={{ marginTop: 'auto', paddingTop: 28, fontSize: 14, color: 'rgba(67,38,29,.40)' }}>
+              {formatArticleDate(featuredArticle.publishedAt)}
+            </time>
           </Link>
-          <aside className="most-read">
-            <h3>Most Read</h3>
-            {mostReadArticles.map((article, index) => (
-              <Link to={`/${currentVertical.slug}/${article.subNicheSlug}`} key={article.id}>
-                <small>{index + 1}</small>
-                <span>
-                  <b style={{ display: 'block', fontSize: 15, fontWeight: 600, lineHeight: 1.3, color: 'var(--text)', marginBottom: 6 }}>{article.title}</b>
-                  <span style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 14px', fontSize: 12, color: 'rgba(67,38,29,.45)' }}>
-                    <span>{article.readingTime} min read</span>
-                    <span>{formatArticleDate(article.publishedAt)}</span>
+          <aside style={{ paddingTop: 4 }}>
+            <h3 style={{ fontSize: 18, fontWeight: 700, color: '#26221e', letterSpacing: '-0.02em', marginBottom: 20 }}>
+              Most Read Articles
+            </h3>
+            <div>
+              {mostReadArticles.map((article, index) => (
+                <Link
+                  to={`/${currentVertical.slug}/${article.subNicheSlug}`}
+                  key={article.id}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '2.5rem 1fr',
+                    gap: 12,
+                    padding: '14px 0',
+                    borderTop: index === 0 ? 'none' : '1px solid rgba(67,38,29,.08)',
+                    textDecoration: 'none',
+                  }}
+                >
+                  <span style={{ fontSize: 28, fontWeight: 900, lineHeight: 1, color: `color-mix(in srgb, ${currentVertical.color} 28%, transparent)`, paddingTop: 2 }}>
+                    {index + 1}
                   </span>
-                </span>
-              </Link>
-            ))}
+                  <span>
+                    <b style={{ display: 'block', fontSize: 14, fontWeight: 700, lineHeight: 1.35, color: '#26221e' }}>
+                      {article.title}
+                    </b>
+                    <span style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '4px 12px', fontSize: 12, color: 'rgba(67,38,29,.42)', marginTop: 6 }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        <HugeiconsIcon icon={AlarmClockIcon} size={13} strokeWidth={2} />
+                        {article.readingTime} min
+                      </span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        <HugeiconsIcon icon={Calendar01Icon} size={13} strokeWidth={2} />
+                        {formatArticleDate(article.publishedAt)}
+                      </span>
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
           </aside>
         </div>
       </section>

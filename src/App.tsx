@@ -679,7 +679,9 @@ function LatestArticles() {
                 <p className="line-clamp-2" style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', flex: 1 }}>
                   {article.excerpt}
                 </p>
-                <div style={{ marginTop: 'auto', paddingTop: 20, fontSize: 12, color: 'rgba(67,38,29,.40)' }}>
+                <div className="article-card-byline">
+                  <span>{article.author.name}</span>
+                  <span>·</span>
                   <time>{formatArticleDate(article.publishedAt)}</time>
                 </div>
               </Link>
@@ -777,10 +779,12 @@ function SearchBar({
   ariaLabel,
   placeholder,
   className,
+  accentColor,
 }: {
   ariaLabel: string
   placeholder: string
   className?: string
+  accentColor?: string
 }) {
   return (
     <form
@@ -789,7 +793,7 @@ function SearchBar({
     >
       <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={2} />
       <input aria-label={ariaLabel} placeholder={placeholder} />
-      <button type="submit">Search</button>
+      <button type="submit" style={accentColor ? { background: accentColor } : undefined}>Search</button>
     </form>
   )
 }
@@ -1165,6 +1169,7 @@ function VerticalPage() {
               className="site-search-vertical"
               ariaLabel={`Search ${currentVertical.label}`}
               placeholder={`Search ${currentVertical.label} guides, tools or workflows...`}
+              accentColor={currentVertical.color}
             />
             <div className="vertical-actions">
               <a
@@ -1249,9 +1254,11 @@ function VerticalPage() {
             <p style={{ marginTop: 12, fontSize: 16, lineHeight: 1.55, color: 'rgba(67,38,29,.60)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
               {featuredArticle.excerpt}
             </p>
-            <time style={{ marginTop: 'auto', paddingTop: 28, fontSize: 14, color: 'rgba(67,38,29,.40)' }}>
-              {formatArticleDate(featuredArticle.publishedAt)}
-            </time>
+            <div className="article-card-byline" style={{ paddingTop: 28, fontSize: 14 }}>
+              <span>Fiindt</span>
+              <span>·</span>
+              <time>{formatArticleDate(featuredArticle.publishedAt)}</time>
+            </div>
           </Link>
           <aside style={{ paddingTop: 4 }}>
             <h3 style={{ fontSize: 18, fontWeight: 700, color: '#26221e', letterSpacing: '-0.02em', marginBottom: 20 }}>
@@ -1338,7 +1345,11 @@ function FiindtArticleCard({ article }: { article: FiindtArticle }) {
       </div>
       <h3 className="card-heading card-title">{article.title}</h3>
       <p className="line-clamp-2" style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', flex: 1 }}>{article.excerpt}</p>
-      <time>{formatArticleDate(article.publishedAt)}</time>
+      <div className="article-card-byline">
+        <span>{article.author.name}</span>
+        <span>·</span>
+        <time>{formatArticleDate(article.publishedAt)}</time>
+      </div>
     </Link>
   )
 }
@@ -1405,7 +1416,11 @@ function VerticalArticleCard({ article }: { article: VerticalArticle }) {
       </div>
       <h3 className="card-heading card-title">{article.title}</h3>
       <p className="line-clamp-2" style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', flex: 1 }}>{article.excerpt}</p>
-      <time>{formatArticleDate(article.publishedAt)}</time>
+      <div className="article-card-byline">
+        <span>Fiindt</span>
+        <span>·</span>
+        <time>{formatArticleDate(article.publishedAt)}</time>
+      </div>
     </Link>
   )
 }

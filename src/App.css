@@ -31,6 +31,19 @@
   --blue: #48a2ff;
   --purple: #935efd;
   --max: 1220px;
+
+  /* Warm Ink mappings for imported About components */
+  --accent: #47c971;
+  --accent-subtle: rgba(71, 201, 113, 0.12);
+  --bg-surface: #fdf9f5;
+  --bg-page: #fbf4eb;
+  --fiindt-bg: #fbf4eb;
+  --fiindt-black: #26221e;
+  --border-default: rgba(67, 38, 29, 0.10);
+  --text-primary: #26221e;
+  --text-secondary: rgba(67, 38, 29, 0.55);
+  --text-dim: rgba(67, 38, 29, 0.40);
+  --text-muted: rgba(67, 38, 29, 0.40);
 }
 
 * {
@@ -70,12 +83,29 @@ button {
 
 main {
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: clip;
   padding-bottom: 48px;
 }
 
 .page-frame {
   padding-top: 74px;
+}
+
+.btn-outline {
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.btn-outline:hover {
+  background: #26221e !important;
+  border-color: #26221e !important;
+  color: #fbf4eb !important;
+}
+.btn-outline-dark {
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.btn-outline-dark:hover {
+  background: #fbf4eb !important;
+  border-color: #fbf4eb !important;
+  color: #26221e !important;
 }
 
 .page-frame-overlay {
@@ -97,7 +127,7 @@ main {
   margin: 0;
   padding-inline: max(60px, calc((100vw - var(--max)) / 2));
   display: grid;
-  grid-template-columns: 180px 1fr auto;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 24px;
   background: transparent;
@@ -195,8 +225,7 @@ main {
 }
 
 .desktop-nav {
-  justify-content: flex-start;
-  padding-left: 86px;
+  justify-content: center;
 }
 
 .nav-dropdown {
@@ -1127,15 +1156,18 @@ p {
   flex: 0 0 auto;
 }
 
-.step-card[data-tone='blue'] svg {
+.step-card[data-tone='blue'] svg,
+.step-card[data-tone='blue'] strong {
   color: #48a2ff;
 }
 
-.step-card[data-tone='yellow'] svg {
+.step-card[data-tone='yellow'] svg,
+.step-card[data-tone='yellow'] strong {
   color: var(--yellow);
 }
 
-.step-card[data-tone='green'] svg {
+.step-card[data-tone='green'] svg,
+.step-card[data-tone='green'] strong {
   color: var(--brand-green);
 }
 
@@ -1166,6 +1198,10 @@ p {
 
 .faq-item {
   border-top: 1px solid rgba(52, 52, 51, 0.1);
+}
+
+.faq-item:first-child {
+  border-top: 0;
 }
 
 .faq-item:last-child {
@@ -1796,6 +1832,50 @@ p {
 
 .journey-3step .section-heading {
   max-width: 900px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* === Journey 5-step === */
+.journey-5step .journey-track {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+.journey-5step .journey-track article {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.journey-5step .journey-track article:not(:last-child)::after {
+  top: 22px;
+  left: calc(50% + 45px);
+  right: calc(-50% + 27px);
+}
+
+.journey-5step .journey-track span {
+  margin-left: 0;
+  width: 74px;
+  height: 44px;
+  font-size: 28px;
+}
+
+.journey-5step .journey-track p {
+  max-width: none;
+  white-space: nowrap;
+  margin-top: 16px;
+  font-size: 18px;
+}
+
+.journey-5step .timeline-list {
+  display: none;
+}
+
+.journey-5step .section-heading {
+  max-width: 1100px;
   margin-inline: auto;
   text-align: center;
 }
@@ -2951,6 +3031,17 @@ p {
   color: rgba(67, 38, 29, 0.72);
   font-size: 18px;
   line-height: 1.62;
+}
+
+.comparison-group:hover .comparison-card:first-child {
+  transition: all .3s ease;
+  transform: translateY(-2px);
+}
+
+.comparison-group:hover .comparison-card:last-child {
+  transition: all .3s ease;
+  transform: scale(1.16) translateY(-16px);
+  box-shadow: 0 34px 86px rgba(37,99,255,0.36);
 }
 
 .footer {

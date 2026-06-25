@@ -34,7 +34,6 @@ import {
   Moon02Icon,
   PlaneIcon,
   Search01Icon,
-  Shield01Icon,
   StarIcon,
   Tree03Icon,
   UserGroupIcon,
@@ -52,12 +51,11 @@ import {
 import { legalPages as fiindtLegalPages, type LegalPageRecord } from './data/fiindtLegalPages'
 import { mockArticles as fiindtArticles } from './data/fiindtMockArticles'
 import type { Article as FiindtArticle } from './types/content'
+import AboutPage from './pages/AboutPage'
 import './App.css'
 
 const routes = {
   home: '/',
-  how: '/how',
-  blog: '/blog',
   about: '/about',
   faq: '/faq',
   stem: '/project/stem',
@@ -142,25 +140,6 @@ const homeFaqs = [
   },
 ]
 
-const blogPosts = [
-  [
-    'How to become an AI code reviewer: Skills, process, and earnings guide',
-    'Remote Opportunities',
-    'June 12, 2026',
-  ],
-  ['Coding side hustles for software engineers', 'Remote Opportunities', 'June 11, 2026'],
-  ['AI code review jobs: a developer guide', 'Remote Opportunities', 'June 9, 2026'],
-  ['Python AI training jobs', 'Remote Opportunities', 'June 4, 2026'],
-  ['How real-life humans are using the AI you shape', 'GenAI Insights', 'June 1, 2026'],
-  ['Is AI training a good career in 2026?', 'Remote Opportunities', 'May 11, 2026'],
-  ['AI training tasks explained', 'AI Training', 'April 20, 2026'],
-  ['How to become an AI trainer with no experience', 'AI Training', 'April 8, 2026'],
-  ['What is AI training?', 'AI Training', 'March 24, 2026'],
-  ['A guide to mental well-being for AI trainers', 'AI Training', 'March 12, 2026'],
-  ['How projects at Mindrift go from idea to launch', 'Inside Mindrift', 'February 26, 2026'],
-  ['The biggest AI trends for 2026', 'GenAI Insights', 'December 18, 2025'],
-]
-
 const subNicheIcons = {
   wellness: HeartPulseIcon,
   nutrition: Apple01Icon,
@@ -223,27 +202,6 @@ const verticalHeroPositions: Record<string, string> = {
 }
 
 
-const comparison = [
-  {
-    title: 'Most content',
-    items: [
-      'repeats existing information',
-      'stays vague',
-      'becomes outdated',
-      'ignores missing questions',
-    ],
-  },
-  {
-    title: 'Fiindt',
-    items: [
-      'investigates unclear questions',
-      'compares sources',
-      'updates old information',
-      'produces clearer answers',
-    ],
-  },
-]
-
 const mindriftLegalPages: Record<string, string> = {
   '/legal/privacy': 'Privacy Notice',
   '/legal/terms': 'Toloka Platforms Terms of Use',
@@ -253,7 +211,7 @@ const mindriftLegalPages: Record<string, string> = {
   '/legal/cookie-notice/': 'Cookie Notice',
 }
 
-const overlayHeaderRoutes = [routes.how, routes.stem, routes.code]
+const overlayHeaderRoutes = [routes.stem, routes.code]
 
 const isHeaderOverlayRoute = (pathname: string) =>
   overlayHeaderRoutes.includes(pathname) ||
@@ -276,10 +234,8 @@ function PageFrame() {
       <SiteHeader />
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path="how" element={<HowPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="faq" element={<FAQPage />} />
-        <Route path="blog" element={<BlogPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="legal" element={<LegalHubPage />} />
         <Route path="privacy" element={<FiindtLegalPage page={fiindtLegalPages.find((page) => page.route === '/privacy-policy')!} />} />
@@ -299,7 +255,7 @@ function PageFrame() {
             element={<LegalPage title={title} />}
           />
         ))}
-        <Route path="redirect-to-login-page" element={<LoginRedirect />} />
+
         <Route path=":vertical/:subNiche/:slug" element={<ArticlePage />} />
         <Route path=":vertical" element={<VerticalPage />} />
         <Route path=":vertical/:subNiche" element={<VerticalSubNichePage />} />
@@ -318,9 +274,8 @@ function SiteHeader() {
   const isProjectActive =
     explorerMenuItems.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
   const nav = [
-    ['How it works', routes.how],
-    ['Blog', routes.blog],
     ['About Us', routes.about],
+    ['Contact', '/contact'],
   ] as const
 
   useEffect(() => {
@@ -370,9 +325,6 @@ function SiteHeader() {
         ))}
       </nav>
       <div className="header-actions">
-        <NavLink className="nav-link login-link" to="/redirect-to-login-page">
-          Log in
-        </NavLink>
         <NavLink className="button button-green" to={primaryExplorePath}>
           Apply now
         </NavLink>
@@ -450,7 +402,7 @@ function LatestArticles() {
     .slice(0, 6)
 
   return (
-    <section style={{ paddingTop: 64, paddingBottom: 64, paddingLeft: 40, paddingRight: 40, marginTop: 0, background: 'var(--cream-2)', fontFamily: "'Inter', sans-serif" }}>
+    <section style={{ paddingTop: 80, paddingBottom: 64, paddingLeft: 40, paddingRight: 40, marginTop: 0, background: 'var(--cream-2)', fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 40 }}>
           Latest from Fiindt
@@ -502,7 +454,7 @@ function HowItWorks() {
     'Get a clear answer',
   ]
   return (
-    <section className="journey wrap journey-3step" style={{ marginTop: 0, paddingTop: 64, paddingBottom: 64 }}>
+    <section className="journey wrap journey-3step" style={{ marginTop: 0, paddingTop: 80, paddingBottom: 80 }}>
       <JourneySection
         title="How Fiindt works"
         subtitle="Fiindt structures every topic like a clear knowledge tree, from broad domains to precise resources."
@@ -519,7 +471,7 @@ function HowItWorks() {
 
 function NewsletterCTA() {
   return (
-    <section className="wrap" style={{ marginTop: 0, paddingTop: 40, paddingBottom: 40, fontFamily: "'Inter', sans-serif" }}>
+    <section className="wrap" style={{ marginTop: 0, paddingTop: 64, paddingBottom: 64, fontFamily: "'Inter', sans-serif" }}>
       <div style={{
         background: '#26221e', padding: '32px 40px', minHeight: 132,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32,
@@ -735,7 +687,7 @@ function NewHomeHero() {
 
 function Projects() {
   return (
-    <section className="projects wrap" style={{ paddingTop: 64, paddingBottom: 64, marginTop: 0 }}>
+    <section className="projects wrap" style={{ paddingTop: 64, paddingBottom: 100, marginTop: 0 }}>
       <div className="section-heading centered">
         <h2>
           Explore verticals that match your needs
@@ -777,7 +729,7 @@ function Projects() {
 
 function HomeFAQ() {
   return (
-    <section className="faq wrap" style={{ paddingTop: 64, paddingBottom: 64, marginTop: 0 }}>
+    <section className="faq wrap" style={{ paddingTop: 80, paddingBottom: 64, marginTop: 0 }}>
       <h2>
         Frequently asked questions
         <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
@@ -830,87 +782,6 @@ function FAQList({ items }: { items: typeof homeFaqs }) {
   )
 }
 
-function CTA({
-  title = 'Your expertise trains AI used by millions.',
-  subtitle = 'Start your application',
-  cta = 'Apply now',
-}: {
-  title?: string
-  subtitle?: string
-  cta?: string
-}) {
-  return (
-    <section className="cta wrap">
-      <h2>
-        {title}
-        <span>{subtitle}</span>
-      </h2>
-      <Link className="button button-green" to={primaryExplorePath}>
-        {cta}
-      </Link>
-    </section>
-  )
-}
-
-function HowPage() {
-  const journey = [
-    'Submit CV',
-    'Complete assessments',
-    'Verify identity',
-    'Join a project or talent pool',
-    'Access onboarding',
-    'Complete tasks and get paid',
-  ]
-  return (
-    <>
-      <MediaHero
-        image={assets.howHero}
-
-        title="Here’s how it works"
-        subtitle="From selecting an opportunity to completing your first tasks."
-        tone="light"
-      />
-      <section className="split-section wrap">
-        <h2>What you’ll do</h2>
-        <div className="mini-grid">
-          {[
-            ['Creating', 'Write examples or prompts the AI can learn from.'],
-            ['Evaluating', 'Assess how well AI responds and suggest improvements.'],
-            ['Refining', 'Edit content using your subject knowledge.'],
-          ].map(([title, copy], index) => (
-            <article className="mini-card" key={title}>
-              <img src={assets.howCards[index]} alt="" />
-              <h3>{title}</h3>
-              <p>{copy}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="see-how wrap">
-        <h2>See how it works</h2>
-        <img src={assets.howHero} alt="" />
-        <p>
-          Skilled experts contribute to AI training projects remotely, complete
-          tasks on a flexible schedule, and get paid for their knowledge.
-        </p>
-      </section>
-      <section className="journey wrap">
-        <JourneySection
-          title="Your journey in 6 steps"
-          steps={journey}
-          detail={(step, index) =>
-            index === 0
-              ? 'Choose an opportunity, upload an up-to-date CV, and let the team assess your background.'
-              : index === 5
-                ? 'Once accepted, complete tasks and receive payments for approved work.'
-                : `Follow the guided platform process for ${step.toLowerCase()} and move into the right project when a match is available.`
-          }
-        />
-      </section>
-    </>
-  )
-}
-
 function JourneySection({
   title,
   subtitle,
@@ -953,150 +824,6 @@ function JourneySection({
   )
 }
 
-function AboutPage() {
-  const aboutJourney = [
-    'Discover gaps',
-    'Research sources',
-    'Verify signals',
-    'Structure knowledge',
-    'Publish resources',
-    'Update over time',
-  ]
-
-  return (
-    <>
-      <section className="about-editorial wrap narrow">
-        <h1>What is Mindrift</h1>
-        <p>
-          Mindrift is an AI training platform owned by Toloka that connects
-          domain experts with leading AI companies to improve generative AI
-          models.
-        </p>
-        <p>
-          Professionals from more than 90 knowledge domains contribute to making
-          AI systems safer, more accurate, and more helpful.
-        </p>
-        <video src={assets.aboutVideo} autoPlay muted loop playsInline />
-        <small>↑ We embrace new technology. Here is an AI-generated video about what we do.</small>
-      </section>
-      <WhyWeExist />
-      <section className="journey wrap">
-        <JourneySection
-          title="Our working process in 6 steps"
-          steps={aboutJourney}
-          detail={(step, index) =>
-            index === 0
-              ? 'We identify questions, missing answers and unclear information across real reader needs.'
-              : index === 5
-                ? 'We keep useful pages alive by improving them when facts, tools or habits change.'
-                : `We ${step.toLowerCase()} so every resource stays clear, useful and easy to navigate.`
-          }
-        />
-      </section>
-      <section className="about-editorial wrap narrow">
-        <h2>Olga Megorskaya. CEO and Founder of Mindrift</h2>
-        <p>
-          Olga Megorskaya is the CEO and founder of Mindrift and Toloka, its
-          parent company. She led Toloka’s evolution into a provider of
-          high-quality training data for modern AI systems.
-        </p>
-        <p>
-          Mindrift grew from the need for professional domain expertise across
-          complex and specialized AI tasks.
-        </p>
-      </section>
-      <section className="about-editorial wrap narrow">
-        <h2>Who is Mindrift?</h2>
-        <div className="about-big-stats">
-          <span><b>20K+</b> AI Trainers</span>
-          <span><b>20+</b> Languages</span>
-          <span><b>90+</b> Domains</span>
-        </div>
-        <p>
-          The Mindrift community brings together experts, writers, editors, and
-          specialists on one platform.
-        </p>
-      </section>
-      <section className="split-section wrap narrow compliance-section">
-        <div>
-          <h2>Industry compliance</h2>
-          <p>
-            We are dedicated to best practices in information security to meet
-            and exceed industry standards.
-          </p>
-        </div>
-        <div className="mini-grid">
-          {['SOC 2 Type II', 'ISO 27001', 'ISO 27701'].map((item) => (
-            <article className="mini-card" key={item}>
-              <HugeiconsIcon icon={Shield01Icon} size={32} />
-              <h3>{item}</h3>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="about-editorial wrap narrow">
-        <h2>Mindrift’s connection to Toloka</h2>
-        <p>
-          Mindrift builds on Toloka’s experience in data generation and machine
-          learning to bring domain experts into the next generation of AI
-          training.
-        </p>
-        <img src={assets.aboutOffice} alt="" />
-        <small>↑ HQ in Amsterdam, Netherlands, Schiphol blvd 165</small>
-      </section>
-      <CTA title="Ready to shape the future of AI?" subtitle="Apply and start earning" />
-    </>
-  )
-}
-
-function WhyWeExist() {
-  return (
-    <section className="why-exist wrap">
-      <div className="why-copy">
-
-        <h2>The internet has information. Not always answers.</h2>
-        <div>
-          <p>
-            Many online answers are repetitive, outdated, vague or copied from
-            the same sources. Some of the questions people really ask still do
-            not have a clear answer at all.
-          </p>
-          <p>
-            Fiindt exists to close that gap: we look for missing answers,
-            refine existing knowledge and turn scattered information into
-            practical, structured resources.
-          </p>
-        </div>
-      </div>
-      <div className="comparison-grid">
-        {comparison.map((group, index) => {
-          const isFiindt = group.title === 'Fiindt'
-
-          return (
-            <article
-              className={cx('comparison-card', isFiindt && 'comparison-card-accent')}
-              key={group.title}
-            >
-              {isFiindt ? <span className="comparison-arrow">↗</span> : null}
-              <div className="comparison-head">
-                <h3>{group.title}</h3>
-                <span>{index === 0 ? 'Noise' : 'Clarity'}</span>
-              </div>
-              <ul>
-                {group.items.map((item) => (
-                  <li key={item}>
-                    <span />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          )
-        })}
-      </div>
-    </section>
-  )
-}
 
 function formatArticleDate(date: string) {
   return new Intl.DateTimeFormat('en', {
@@ -1553,85 +1280,6 @@ function EarningPotential({ isStem }: { isStem: boolean }) {
   )
 }
 
-function BlogPage() {
-  const filters = [
-    'All Posts',
-    'Community Stories',
-    'AI Training',
-    'GenAI Insights',
-    'Remote Opportunities',
-    'Inside Mindrift',
-  ]
-
-  return (
-    <section className="blog-page wrap">
-      <section className="blog-filters">
-        {filters.map((filter) => (
-          <button key={filter} type="button">
-            {filter}
-          </button>
-        ))}
-      </section>
-      <BlogList />
-    </section>
-  )
-}
-
-function BlogList({ limit }: { limit?: number }) {
-  const posts = blogPosts.slice(0, limit)
-  const [featured, ...rest] = posts
-  const featuredIndex = blogPosts.indexOf(featured)
-
-  if (!limit && featured) {
-    return (
-      <section className="blog-list">
-        <Link className="blog-featured" to={routes.blog}>
-          <img
-            src={assets.blogImages[featuredIndex % assets.blogImages.length]}
-            alt=""
-          />
-          <div>
-            <h1>{featured[0]}</h1>
-            <p>
-              <span>{featured[1]}</span>
-              <time>{featured[2]}</time>
-            </p>
-          </div>
-        </Link>
-        <div className="blog-grid">
-          {rest.map(([title, category, date], index) => (
-            <Link className="blog-card" to={routes.blog} key={title}>
-              <img
-                src={assets.blogImages[(index + 1) % assets.blogImages.length]}
-                alt=""
-              />
-              <h2>{title}</h2>
-              <p>
-                <span>{category}</span>
-                <time>{date}</time>
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
-    )
-  }
-
-  return (
-    <section className="blog-list blog-list-compact">
-      {posts.map(([title, category, date], index) => (
-        <Link className="blog-card" to={routes.blog} key={title}>
-          <img src={assets.blogImages[index % assets.blogImages.length]} alt="" />
-          <h2>{title}</h2>
-          <p>
-            <span>{category}</span>
-            <time>{date}</time>
-          </p>
-        </Link>
-      ))}
-    </section>
-  )
-}
 
 function MediaHero({
   image,
@@ -1814,79 +1462,72 @@ function FiindtLegalPage({ page }: { page: LegalPageRecord }) {
   )
 }
 
+import PinnedCardsMap, { type PinnedCardItem } from './components/PinnedCardsMap'
+
 function ContactPage() {
-  const contactPaths = [
-    ['General support', 'Questions, feedback, access issues or technical help.'],
-    ['Partnership', 'Collaborations, sponsors or editorial opportunities.'],
-    ['Editorial', 'Sources, corrections or topic suggestions.'],
+  const contactPaths: PinnedCardItem[] = [
+    { title: 'General support', description: 'Questions, feedback, access issues or technical help.', icon: <HugeiconsIcon icon={Search01Icon} size={26} strokeWidth={1.8} />, color: '#3B82F6' },
+    { title: 'Partnership', description: 'Collaborations, sponsors or editorial opportunities.', icon: <HugeiconsIcon icon={BriefcaseBusinessIcon} size={26} strokeWidth={1.8} />, color: '#47c971' },
+    { title: 'Editorial', description: 'Sources, corrections or topic suggestions.', icon: <HugeiconsIcon icon={BookOpenTextIcon} size={26} strokeWidth={1.8} />, color: '#ffc524' },
   ]
-  const responseRules = ['Add the article URL', 'Be specific', 'Share useful context', 'Include sources']
 
   return (
     <>
-      <PageHero
-
-        title="Tell us what needs to be clearer."
-        subtitle="Questions, corrections, partnerships, topic suggestions, and editorial feedback all start here."
-      />
-      <section className="contact-page wrap">
-        <div className="contact-panel">
-          <span>hello@fiindt.com</span>
-          <h2>Start with context.</h2>
-          <p>
-            Useful, specific notes are easier to route to the right team member.
-            This page copies the contact intent from the Fiindt source and adapts
-            it to the current design system.
+      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--cream)', textAlign: 'center' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 60px' }}>
+          <h1 style={{ fontSize: 'clamp(48px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.046em', color: '#26221e', lineHeight: 1.1, margin: '0 auto 20px' }}>
+            Tell us what needs to be clearer.
+          </h1>
+          <p style={{ fontSize: 17, lineHeight: 1.55, letterSpacing: '-0.01em', color: 'rgba(67,38,29,.55)', margin: '0 auto 32px', maxWidth: 540 }}>
+            Questions, corrections, partnerships, topic suggestions, and editorial feedback all start here.
           </p>
-          <a className="button button-green" href="mailto:hello@fiindt.com">
-            Email us
-          </a>
-        </div>
-        <div className="contact-cards">
-          {contactPaths.map(([title, copy]) => (
-            <article key={title}>
-              <HugeiconsIcon icon={MailIconFallback(title)} size={26} strokeWidth={1.8} />
-              <h3>{title}</h3>
-              <p>{copy}</p>
-            </article>
-          ))}
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="mailto:hello@fiindt.com" style={{ background: 'var(--brand-green)', color: '#fff', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, letterSpacing: '-0.01em', fontFamily: "'Inter', sans-serif" }}>
+              Email us
+            </a>
+            <a href="mailto:hello@fiindt.com" style={{ border: '1px solid rgba(67,38,29,.18)', color: 'var(--text)', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none', letterSpacing: '-0.01em', fontFamily: "'Inter', sans-serif" }}>
+              hello@fiindt.com
+            </a>
+          </div>
         </div>
       </section>
-      <section className="response-quality wrap">
-        <div>
 
-          <h2>Clear context gets better replies.</h2>
-        </div>
-        <div>
-          {responseRules.map((rule) => (
-            <span key={rule}>{rule}</span>
-          ))}
+      <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px' }}>
+          <div style={{ maxWidth: 600, margin: '0 auto 56px', textAlign: 'center' }}>
+            <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+              How to reach us.
+              <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+                Choose the right path for your message.
+              </span>
+            </h2>
+          </div>
+          <PinnedCardsMap
+            title=" "
+            description=""
+            items={contactPaths}
+          />
         </div>
       </section>
-    </>
-  )
-}
 
-function MailIconFallback(label: string) {
-  if (label === 'Partnership') return BriefcaseBusinessIcon
-  if (label === 'Editorial') return BookOpenTextIcon
-  return Search01Icon
-}
-
-function LoginRedirect() {
-  return (
-    <>
-      <PageHero
-
-        title="Contributor portal"
-        subtitle="This route mirrors the original login redirect target."
-      />
-      <section className="legal wrap">
-        <article>
-          <HugeiconsIcon icon={Search01Icon} size={42} />
-          <h2>Redirect placeholder</h2>
-          <p>Connect this page to the real authentication provider when ready.</p>
-        </article>
+      <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+              Clear context gets better replies.
+              <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+                Help us help you faster.
+              </span>
+            </h2>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {['Add the article URL', 'Be specific', 'Share useful context', 'Include sources'].map((rule) => (
+              <span key={rule} style={{ fontSize: 12, fontWeight: 600, padding: '5px 11px', borderRadius: 999, background: 'rgba(67,38,29,.06)', color: 'rgba(67,38,29,.45)', letterSpacing: '-0.01em' }}>
+                {rule}
+              </span>
+            ))}
+          </div>
+        </div>
       </section>
     </>
   )
@@ -1920,8 +1561,7 @@ function Footer() {
     [
       ['Home', '/'],
       ['FAQ', routes.faq],
-      ['Blog', routes.blog],
-      ['How it works', routes.how],
+      ['Contact', '/contact'],
     ],
     [
       ['Legal Notice', '/legal/notice'],

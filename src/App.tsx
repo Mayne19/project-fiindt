@@ -647,7 +647,7 @@ function LatestArticles() {
     .slice(0, 6)
 
   return (
-    <section style={{ paddingTop: 80, paddingBottom: 64, paddingLeft: 40, paddingRight: 40, marginTop: 0, background: 'var(--cream-2)', fontFamily: "'Inter', sans-serif" }}>
+    <section style={{ paddingTop: 80, paddingBottom: 64, paddingLeft: 40, paddingRight: 40, marginTop: 0, background: 'var(--cream)', fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 40 }}>
           Latest from Fiindt

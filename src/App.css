@@ -743,10 +743,21 @@ p {
 }
 
 .page-hero h1 {
-  color: var(--text-dark);
-  font-size: 29px;
-  font-weight: 500;
-  line-height: 1.1;
+  color: #26221e;
+  font-size: clamp(36px,4vw,56px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0 0 12px;
+}
+
+.page-hero p {
+  color: rgba(67,38,29,.55);
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  max-width: 560px;
+  margin: 0;
 }
 
 .projects,
@@ -762,8 +773,6 @@ p {
 .blog-list,
 .faq-page,
 .legal,
-.legal-hub,
-.fiindt-legal,
 .contact-page,
 .response-quality,
 .article-page,
@@ -857,9 +866,10 @@ p {
 
 .project-title h3 {
   color: var(--text);
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 1;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
 }
 
 .project-icon {
@@ -1221,7 +1231,7 @@ p {
 }
 
 .faq-directory-section {
-  padding-block: 48px;
+  padding-block: 24px;
   border-top: 1px solid rgba(67, 38, 29, 0.1);
   scroll-margin-top: 110px;
 }
@@ -1241,16 +1251,16 @@ p {
   width: min(820px, 100%);
 }
 
-.faq-page-hero h1 {
+.page-hero.faq-page-hero h1 {
   margin: 0;
   color: var(--text-dark);
   font-size: clamp(48px, 6vw, 80px);
   font-weight: 700;
   letter-spacing: -0.046em;
-  line-height: 1.05;
+  line-height: 0.93;
 }
 
-.faq-page-hero p:last-child {
+.page-hero.faq-page-hero p:last-child {
   width: min(620px, 100%);
   margin-top: 20px;
   color: rgba(67, 38, 29, 0.55);
@@ -1349,11 +1359,11 @@ p {
 
 .page-hero {
   position: relative;
-  min-height: 420px;
-  padding: 40px 24px;
+  min-height: 320px;
+  padding: 80px 24px 56px;
   display: flex;
   align-items: flex-end;
-  background: var(--mint-panel);
+  background: var(--cream);
   overflow: visible;
 }
 
@@ -2863,122 +2873,262 @@ p {
   margin-bottom: 30px;
 }
 
+/* ── Legal Hub ─────────────────────────────────────────── */
 .legal-hub {
-  display: grid;
-  gap: 10px;
-}
-
-.legal-hub article,
-.contact-panel,
-.contact-cards article,
-.response-quality,
-.fiindt-legal article {
-  border: 1px solid rgba(67, 38, 29, 0.08);
-  background: rgba(253, 249, 245, 0.58);
+  padding-top: 56px;
+  padding-bottom: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .legal-hub article {
-  min-height: 172px;
-  padding: 26px;
+  padding: 32px 0;
+  border-bottom: 1px solid rgba(67,38,29,.09);
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  align-items: start;
 }
 
-.legal-hub h2,
-.contact-panel h2,
-.response-quality h2,
-.fiindt-legal h2 {
-  color: var(--text);
-  font-size: 33px;
-  font-weight: 500;
-  line-height: 1;
+.legal-hub h2 {
+  color: rgba(67,38,29,.40);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0;
+  padding-top: 2px;
 }
 
 .legal-hub article > div {
-  margin-top: 22px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.legal-hub a,
+.legal-hub a {
+  display: block;
+  padding: 10px 0;
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid rgba(67,38,29,.07);
+  transition: color 0.15s;
+}
+
+.legal-hub a:last-child {
+  border-bottom: none;
+}
+
+.legal-hub a:hover {
+  color: var(--brand-green);
+}
+
+/* ── Fiindt Legal Page ─────────────────────────────────── */
+.fiindt-legal-page {
+  padding-top: 130px;
+  padding-bottom: 96px;
+}
+
+.fiindt-legal-header {
+  max-width: 620px;
+  margin-bottom: 96px;
+}
+
+.fiindt-legal-icon {
+  display: none;
+}
+
+.legal-section-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--brand-green);
+  margin-bottom: 16px;
+}
+
+.fiindt-legal-header h1 {
+  font-size: clamp(48px,6vw,80px);
+  font-weight: 700;
+  letter-spacing: -0.046em;
+  color: #26221e;
+  line-height: 1.05;
+  margin: 0 0 16px;
+}
+
+.fiindt-legal-header p {
+  font-size: 17px;
+  color: rgba(67,38,29,.55);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+}
+
+.fiindt-legal-header small {
+  font-size: 12px;
+  color: rgba(67,38,29,.35);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.fiindt-legal-body {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.fiindt-legal-body aside {
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.fiindt-legal-body aside a {
+  display: block;
+  padding: 7px 0 7px 12px;
+  color: rgba(67,38,29,.45);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  border-left: 2px solid rgba(67,38,29,.08);
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.fiindt-legal-body aside a:hover,
+.fiindt-legal-body aside a[data-active="true"] {
+  color: var(--text);
+  border-left-color: var(--brand-green);
+  font-weight: 600;
+}
+
+.fiindt-legal-body > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.fiindt-legal-body article {
+  padding: 24px 28px;
+  background: #fff;
+  border-radius: 0;
+  margin-bottom: 10px;
+  scroll-margin-top: 130px;
+}
+
+.fiindt-legal-body article:last-child {
+  margin-bottom: 0;
+}
+
+.fiindt-legal-body h2 {
+  color: #26221e;
+  font-size: clamp(28px,2.8vw,38px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 20px;
+}
+
+.section-intro {
+  margin: 0 0 20px;
+  color: rgba(67,38,29,.55);
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+
+.fiindt-legal-body section {
+  padding: 16px 0;
+}
+
+.fiindt-legal-body h3 {
+  color: var(--text);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+
+.fiindt-legal-body article > p,
+.fiindt-legal-body section p {
+  margin: 0 0 10px;
+  color: rgba(67,38,29,.76);
+  font-size: 17px;
+  font-weight: 450;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+
+.fiindt-legal-body ul {
+  margin: 8px 0 0;
+  padding-left: 22px;
+  color: rgba(67,38,29,.76);
+  font-size: 17px;
+  font-weight: 450;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  list-style-type: disc;
+  display: block;
+}
+
+.fiindt-legal-body li {
+  margin-bottom: 5px;
+}
+
+.fiindt-legal-body li::marker {
+  color: var(--brand-green);
+}
+
+/* shared card border */
+.contact-panel,
+.contact-cards article,
+.response-quality {
+  border: 0.5px solid rgba(67,38,29,.10);
+  background: var(--cream-2);
+}
+
+.contact-panel p,
+.contact-cards p {
+  margin-top: 12px;
+  color: rgba(67,38,29,.65);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.contact-panel h2,
+.response-quality h2 {
+  color: #26221e;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.contact-cards h3 {
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
 .response-quality span {
   min-height: 36px;
   padding: 0 14px;
   display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(67, 38, 29, 0.1);
+  border: 0.5px solid rgba(67,38,29,.14);
   border-radius: 999px;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.fiindt-legal {
-  display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 42px;
-  align-items: start;
-}
-
-.fiindt-legal aside {
-  position: sticky;
-  top: 92px;
-  display: grid;
-  gap: 12px;
-}
-
-.fiindt-legal aside span {
-  margin-bottom: 8px;
-  color: rgba(67, 38, 29, 0.48);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.35;
-}
-
-.fiindt-legal aside a {
-  color: var(--text);
+  color: rgba(67,38,29,.70);
   font-size: 13px;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.fiindt-legal > div {
-  display: grid;
-  gap: 10px;
-}
-
-.fiindt-legal article {
-  padding: 28px;
-}
-
-.fiindt-legal article > p,
-.fiindt-legal section p,
-.contact-panel p,
-.contact-cards p {
-  margin-top: 12px;
-  color: rgba(67, 38, 29, 0.68);
-  font-size: 17px;
   font-weight: 500;
-  line-height: 1.44;
-}
-
-.fiindt-legal section {
-  margin-top: 24px;
-}
-
-.fiindt-legal h3,
-.contact-cards h3 {
-  color: var(--text);
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.05;
-}
-
-.fiindt-legal ul {
-  margin: 14px 0 0;
-  padding-left: 20px;
-  color: rgba(67, 38, 29, 0.68);
-  font-size: 17px;
-  line-height: 1.4;
 }
 
 .contact-page {
@@ -3382,7 +3532,7 @@ p {
 
   .faq-directory-section {
     gap: 32px;
-    padding-block: 40px;
+    padding-block: 24px;
   }
 
   .faq-page-hero {
@@ -3390,11 +3540,12 @@ p {
     padding: 96px 14px 64px;
   }
 
-  .faq-page-hero h1 {
-    font-size: clamp(42px, 12vw, 58px);
+  .page-hero.faq-page-hero h1 {
+    font-size: clamp(48px, 6vw, 80px);
+    line-height: 0.93;
   }
 
-  .faq-page-hero p:last-child {
+  .page-hero.faq-page-hero p:last-child {
     font-size: 17px;
     line-height: 1.5;
   }

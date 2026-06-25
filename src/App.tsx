@@ -1770,45 +1770,149 @@ function LegalHubPage() {
   )
 }
 
+function legalSectionIcon(id: string): typeof LegalDocument01Icon {
+  // Legal Notice
+  if (id.includes('site-publisher')) return Home01Icon
+  if (id.includes('hosting') || id.includes('technical-provider')) return Settings01Icon
+  if (id.includes('editorial-responsibility')) return BookOpen01Icon
+  if (id.includes('intellectual-property')) return Shield01Icon
+  if (id.includes('contact-and-reporting')) return Message01Icon
+  if (id.includes('applicable-law')) return JusticeScale01Icon
+  // Privacy
+  if (id.includes('introduction')) return Idea01Icon
+  if (id.includes('data-we-may-collect')) return FolderLibraryIcon
+  if (id.includes('why-we-use-data')) return Compass01Icon
+  if (id.includes('legal-bases')) return LegalDocument01Icon
+  if (id.includes('services-and-providers')) return ComputerTerminal01Icon
+  if (id.includes('cookies-and-similar')) return Shield01Icon
+  if (id.includes('international-transfers')) return GlobeIcon
+  if (id.includes('retention-periods')) return Timer01Icon
+  if (id.includes('security')) return Shield01Icon
+  if (id.includes('your-rights')) return Certificate01Icon
+  if (id.includes('exercise-rights')) return UserGroupIcon
+  if (id.includes('policy-updates')) return Calendar01Icon
+  // Cookies
+  if (id.includes('what-cookies')) return Idea01Icon
+  if (id.includes('why-cookies')) return Compass01Icon
+  if (id.includes('cookie-categories')) return FolderLibraryIcon
+  if (id.includes('cookie-list')) return LegalDocument01Icon
+  if (id.includes('consent-management')) return Settings01Icon
+  if (id.includes('browser-controls')) return ComputerTerminal01Icon
+  if (id.includes('cookie-updates')) return Calendar01Icon
+  // Terms
+  if (id.includes('acceptance')) return Certificate01Icon
+  if (id.includes('description')) return BookOpen01Icon
+  if (id.includes('user-obligations')) return UserGroupIcon
+  if (id.includes('accounts')) return BriefcaseBusinessIcon
+  if (id.includes('content')) return News01Icon
+  if (id.includes('paid-services')) return CreditCardIcon
+  if (id.includes('-ip-')) return Shield01Icon
+  if (id.includes('liability')) return JusticeScale01Icon
+  if (id.includes('termination')) return StarIcon
+  if (id.includes('governing-law')) return LegalDocument01Icon
+  // Editorial
+  if (id.includes('mission')) return Compass01Icon
+  if (id.includes('editorial-structure')) return FolderLibraryIcon
+  if (id.includes('creation-process')) return FlaskConicalIcon
+  if (id.includes('sources')) return Search01Icon
+  if (id.includes('sensitive-topics')) return Atom01Icon
+  if (id.includes('corrections')) return Message01Icon
+  if (id.includes('independence')) return StarIcon
+  // Other pages
+  if (id.includes('affiliate') || id.includes('advertis') || id.includes('sponsor')) return Megaphone01Icon
+  if (id.includes('recommend') || id.includes('partner') || id.includes('editorial-independen')) return StarIcon
+  if (id.includes('ai') || id.includes('human') || id.includes('automat') || id.includes('transparen')) return AiChipIcon
+  if (id.includes('limitation') || id.includes('data-and-ai')) return BinocularsIcon
+  if (id.includes('paid') || id.includes('course') || id.includes('payment') || id.includes('refund')) return CreditCardIcon
+  if (id.includes('community') || id.includes('moderat') || id.includes('allowed') || id.includes('prohibited')) return UserGroupIcon
+  if (id.includes('purpose') || id.includes('scope')) return Idea01Icon
+  if (id.includes('report') || id.includes('complaint') || id.includes('contact')) return Message01Icon
+  if (id.includes('access') || id.includes('commit') || id.includes('current-meas')) return Certificate01Icon
+  if (id.includes('future') || id.includes('account-req')) return BriefcaseBusinessIcon
+  if (id.includes('known') || id.includes('external-link') || id.includes('third')) return GlobeIcon
+  if (id.includes('manage') || id.includes('preference') || id.includes('current-status')) return Settings01Icon
+  if (id.includes('data-request')) return FolderLibraryIcon
+  return LegalDocument01Icon
+}
+
 function FiindtLegalPage({ page }: { page: LegalPageRecord }) {
+  const [activeId, setActiveId] = useState(page.sections[0]?.id ?? '')
+  const clicking = useRef(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (clicking.current) return
+      const elements = page.sections.map(s => document.getElementById(s.id)).filter(Boolean) as HTMLElement[]
+      const offset = 140
+      let current = elements[0]?.id ?? ''
+      for (const el of elements) {
+        if (el.getBoundingClientRect().top <= offset) current = el.id
+      }
+      setActiveId(current)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [page.sections])
+
   return (
-    <>
-      <PageHero title={page.title} subtitle={page.subtitle} />
-      <section className="fiindt-legal wrap">
+    <div className="fiindt-legal-page wrap">
+      {/* Page header */}
+      <header className="fiindt-legal-header">
+        <h1>{page.title}</h1>
+        <p>{page.subtitle}</p>
+        {page.lastUpdatedLabel && <small>{page.lastUpdatedLabel}</small>}
+      </header>
+
+      {/* TOC + content */}
+      <div className="fiindt-legal-body">
         <aside>
-          <span>{page.lastUpdatedLabel}</span>
           {page.sections.map((section) => (
-            <a href={`#${section.id}`} key={section.id}>
-              {section.title}
-            </a>
+            <a
+              href={`#${section.id}`}
+              key={section.id}
+              data-active={section.id === activeId ? 'true' : undefined}
+              onClick={(e) => {
+                e.preventDefault()
+                setActiveId(section.id)
+                clicking.current = true
+                document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                setTimeout(() => { clicking.current = false }, 1200)
+              }}
+            >{section.title}</a>
           ))}
-          {page.relatedLink ? <Link to={page.relatedLink.href}>{page.relatedLink.label}</Link> : null}
+          {page.relatedLink && (
+            <Link to={page.relatedLink.href} style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(67,38,29,.10)', color: 'var(--brand-green)', fontSize: 13, fontWeight: 600, display: 'block', letterSpacing: '-0.01em' }}>
+              {page.relatedLink.label} →
+            </Link>
+          )}
         </aside>
         <div>
           {page.sections.map((section) => (
             <article id={section.id} key={section.id}>
+              <span className="legal-section-icon" aria-hidden="true">
+                <HugeiconsIcon icon={legalSectionIcon(section.id)} size={32} strokeWidth={1.4} />
+              </span>
               <h2>{section.title}</h2>
-              {section.intro ? <p>{section.intro}</p> : null}
-              {section.subsections.map((subsection) => (
+              {section.intro && <p className="section-intro">{section.intro}</p>}
+              {section.paragraphs?.map((p) => <p key={p}>{p}</p>)}
+              {section.items?.length ? <ul>{section.items.map(item => <li key={item}>{item}</li>)}</ul> : null}
+              {section.subsections?.map((subsection) => (
                 <section key={subsection.id}>
                   <h3>{subsection.title}</h3>
                   {subsection.paragraphs?.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                   {subsection.items?.length ? (
-                    <ul>
-                      {subsection.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
+                    <ul>{subsection.items.map((item) => <li key={item}>{item}</li>)}</ul>
                   ) : null}
                 </section>
               ))}
             </article>
           ))}
         </div>
-      </section>
-    </>
+      </div>
+    </div>
   )
 }
 
@@ -1916,11 +2020,11 @@ function Footer() {
       ['Contact', '/contact'],
     ],
     [
-      ['Legal Notice', '/legal/notice'],
-      ['Privacy Policy', '/legal/privacy'],
-      ['Cookie Policy', '/legal/cookie-notice/'],
-      ['Terms', '/legal/terms'],
-      ['Editorial Policy', '/legal/editorial'],
+      ['Legal Notice', '/legal-notice'],
+      ['Privacy Policy', '/privacy-policy'],
+      ['Cookie Policy', '/cookie-policy'],
+      ['Terms', '/terms'],
+      ['Editorial Policy', '/editorial-policy'],
       ['Legal Hub', '/legal'],
     ],
   ]

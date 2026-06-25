@@ -1720,53 +1720,79 @@ function LegalPage({ title }: { title: string }) {
   )
 }
 
-function LegalHubPage() {
-  const groups = [
-    {
-      title: 'Essential legal pages',
-      links: ['Legal Notice', 'Privacy Policy', 'Cookie Policy', 'Terms of Use', 'Editorial Policy', 'Content Disclaimer'],
-    },
-    {
-      title: 'Transparency and monetization',
-      links: ['Affiliate Disclosure', 'Advertising Policy', 'AI Policy'],
-    },
-    {
-      title: 'Rights, reports and community',
-      links: ['Copyright Policy', 'Content Reporting', 'Community Guidelines', 'Accessibility Statement'],
-    },
-    {
-      title: 'Future services',
-      links: ['Course and Paid Content Terms', 'Privacy Preferences'],
-    },
-  ]
+const legalHubGroups = [
+  {
+    label: 'Essentials',
+    pages: ['Legal Notice', 'Privacy Policy', 'Cookie Policy', 'Terms of Use', 'Editorial Policy', 'Content Disclaimer'],
+  },
+  {
+    label: 'Transparency',
+    pages: ['Affiliate Disclosure', 'Advertising Policy', 'AI Policy'],
+  },
+  {
+    label: 'Rights & community',
+    pages: ['Copyright Policy', 'Content Reporting', 'Community Guidelines', 'Accessibility Statement'],
+  },
+  {
+    label: 'Future services',
+    pages: ['Course and Paid Content Terms', 'Privacy Preferences'],
+  },
+]
 
-  const findPage = (label: string) => fiindtLegalPages.find((page) => page.title === label)
+const legalHubIcon: Record<string, typeof LegalDocument01Icon> = {
+  'Legal Notice': Home01Icon,
+  'Privacy Policy': Shield01Icon,
+  'Cookie Policy': ComputerTerminal01Icon,
+  'Terms of Use': Certificate01Icon,
+  'Editorial Policy': BookOpen01Icon,
+  'Content Disclaimer': Idea01Icon,
+  'Affiliate Disclosure': Megaphone01Icon,
+  'Advertising Policy': StarIcon,
+  'AI Policy': AiChipIcon,
+  'Copyright Policy': LegalDocument01Icon,
+  'Content Reporting': Message01Icon,
+  'Community Guidelines': UserGroupIcon,
+  'Course and Paid Content Terms': CreditCardIcon,
+  'Privacy Preferences': Settings01Icon,
+  'Accessibility Statement': Certificate01Icon,
+}
+
+function LegalHubPage() {
+  const findPage = (label: string) => fiindtLegalPages.find((p) => p.title === label)
 
   return (
-    <>
-      <PageHero
-
-        title="Legal Center"
-        subtitle="Legal information, policies, disclaimers and terms copied from the Fiindt source project."
-      />
-      <section className="legal-hub wrap">
-        {groups.map((group) => (
-          <article key={group.title}>
-            <h2>{group.title}</h2>
-            <div>
-              {group.links.map((label) => {
+    <div className="fiindt-legal-page wrap">
+      <header className="fiindt-legal-header">
+        <h1>Legal Center</h1>
+        <p>All policies, terms, disclosures and statements governing the use of Fiindt.</p>
+      </header>
+      <section className="legal-hub">
+        {legalHubGroups.map((group) => (
+          <div key={group.label} className="legal-hub-group">
+            <p className="legal-hub-group-label">{group.label}</p>
+            <div className="legal-hub-grid">
+              {group.pages.map((label) => {
                 const page = findPage(label)
-                return page ? (
-                  <Link to={page.route} key={label}>
-                    {label}
+                if (!page) return null
+                const Icon = legalHubIcon[label] ?? LegalDocument01Icon
+                return (
+                  <Link to={page.route} key={label} className="legal-hub-card">
+                    <span className="legal-hub-card-icon">
+                      <HugeiconsIcon icon={Icon} size={26} strokeWidth={1.4} />
+                    </span>
+                    <span className="legal-hub-card-body">
+                      <span className="legal-hub-card-title">{page.title}</span>
+                      <span className="legal-hub-card-desc">{page.subtitle}</span>
+                    </span>
+                    <span className="legal-hub-card-arrow">→</span>
                   </Link>
-                ) : null
+                )
               })}
             </div>
-          </article>
+          </div>
         ))}
       </section>
-    </>
+    </div>
   )
 }
 
@@ -1927,7 +1953,7 @@ function ContactPage() {
 
   return (
     <>
-      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--cream)', textAlign: 'center' }}>
+      <section style={{ minHeight: 'calc(100svh - 52px)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--cream)', textAlign: 'center' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', padding: '0 60px' }}>
           <h1 style={{ fontSize: 'clamp(48px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.046em', color: '#26221e', lineHeight: 1.1, margin: '0 auto 20px' }}>
             Tell us what needs to be clearer.
@@ -1936,33 +1962,19 @@ function ContactPage() {
             Questions, corrections, partnerships, topic suggestions, and editorial feedback all start here.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="mailto:hello@fiindt.com" style={{ background: 'var(--brand-green)', color: '#fff', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, letterSpacing: '-0.01em', fontFamily: "'Inter', sans-serif" }}>
-              Email us
-            </a>
-            <a href="mailto:hello@fiindt.com" style={{ border: '1px solid rgba(67,38,29,.18)', color: 'var(--text)', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none', letterSpacing: '-0.01em', fontFamily: "'Inter', sans-serif" }}>
-              hello@fiindt.com
-            </a>
+            <a href="mailto:hello@fiindt.com" className="contact-btn-primary">Email us</a>
+            <a href="mailto:hello@fiindt.com" className="contact-btn-outline">hello@fiindt.com</a>
           </div>
         </div>
       </section>
 
-      <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream)' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px' }}>
-          <div style={{ maxWidth: 600, margin: '0 auto 56px', textAlign: 'center' }}>
-            <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
-              How to reach us.
-              <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
-                Choose the right path for your message.
-              </span>
-            </h2>
-          </div>
-          <PinnedCardsMap
-            title=" "
-            description=""
-            items={contactPaths}
-          />
-        </div>
-      </section>
+      <div style={{ paddingBottom: 80, marginTop: -48 }}>
+        <PinnedCardsMap
+          title="How to reach us."
+          description="Choose the right path for your message."
+          items={contactPaths}
+        />
+      </div>
 
       <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'space-between' }}>
@@ -2016,6 +2028,7 @@ function Footer() {
     verticals.slice(half).map(v => [v.label, `/${v.slug}`]),
     [
       ['Home', '/'],
+      ['About', routes.about],
       ['FAQ', routes.faq],
       ['Contact', '/contact'],
     ],
@@ -2030,7 +2043,7 @@ function Footer() {
   ]
   return (
     <footer className="footer wrap">
-      <Link to="/" aria-label="Fiindt home" style={{ textDecoration: 'none', alignSelf: 'start' }}>
+      <Link to="/" aria-label="Fiindt home" style={{ textDecoration: 'none', alignSelf: 'start', marginTop: -14 }}>
         <FiindtLogo className="fiindt-logo-footer" />
       </Link>
       <div className="footer-links">

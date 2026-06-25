@@ -474,28 +474,28 @@ export default function AboutPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, alignItems: 'end' }}>
 
             {/* Left — 4-layer architecture card */}
-            <article style={{ background: 'var(--cream)', border: '0.5px solid rgba(67,38,29,.10)', borderRadius: 12, padding: 20 }}>
-              <h3 style={{ fontSize: 13, fontWeight: 600, color: 'rgba(67,38,29,.45)', letterSpacing: '-0.01em', margin: '0 0 8px' }}>{status[1].label}</h3>
-              <h3 style={{ fontSize: 28, fontWeight: 900, letterSpacing: '-0.03em', color: '#26221e', margin: '0 0 8px' }}>{status[1].value}</h3>
-              <p style={{ fontSize: 12, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', margin: '0 0 14px' }}>From broad domain to precise article — four levels of structured knowledge.</p>
-              <p style={{ fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
+            <article style={{ background: 'var(--cream)', border: '0.5px solid rgba(67,38,29,.10)', borderRadius: 12, padding: 22 }}>
+              <h3 style={{ fontSize: 14, fontWeight: 600, color: 'rgba(67,38,29,.45)', letterSpacing: '-0.01em', margin: '0 0 8px' }}>{status[1].label}</h3>
+              <h3 style={{ fontSize: 30, fontWeight: 900, letterSpacing: '-0.03em', color: '#26221e', margin: '0 0 10px' }}>{status[1].value}</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', margin: '0 0 14px' }}>From broad domain to precise article — four levels of structured knowledge.</p>
+              <p style={{ fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
                 <span style={{ color: 'rgba(67,38,29,.45)' }}>Vertical → Sub-niche → Category → </span>
                 <span style={{ color: 'var(--brand-green)' }}>Article</span>
               </p>
             </article>
 
             {/* Center — dark verticals card */}
-            <article style={{ borderRadius: 14, background: '#26221e', padding: 24, color: '#fff' }}>
-              <h3 style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,.45)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>{status[0].label}</h3>
-              <h3 style={{ fontSize: 34, fontWeight: 900, letterSpacing: '-0.04em', color: '#fff', margin: '0 0 6px' }}>{status[0].value}</h3>
-              <p style={{ fontSize: 12, lineHeight: 1.5, color: 'rgba(255,255,255,.55)', margin: '0 0 16px' }}>A structured roadmap across major knowledge areas.</p>
-              <ul style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px 12px', listStyle: 'none', padding: 0, margin: 0 }}>
+            <article style={{ borderRadius: 14, background: '#26221e', padding: 26, color: '#fff' }}>
+              <h3 style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,.45)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>{status[0].label}</h3>
+              <h3 style={{ fontSize: 36, fontWeight: 900, letterSpacing: '-0.04em', color: '#fff', margin: '0 0 6px' }}>{status[0].value}</h3>
+              <p style={{ fontSize: 14, lineHeight: 1.5, color: 'rgba(255,255,255,.55)', margin: '0 0 18px' }}>A structured roadmap across major knowledge areas.</p>
+              <ul style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 12px', listStyle: 'none', padding: 0, margin: 0 }}>
                 {(['tech','health','education','entertainment','finance','nature','sports','lifestyle','business','travel','science','society'] as const)
                   .map(slug => verticals.find(v => v.slug === slug))
                   .filter(Boolean)
                   .map((v) => (
-                    <li key={v!.slug} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,.80)' }}>
-                      <span style={{ width: 7, height: 7, borderRadius: '50%', background: v!.color, flexShrink: 0, display: 'inline-block' }} />
+                    <li key={v!.slug} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,.80)' }}>
+                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: v!.color, flexShrink: 0, display: 'inline-block' }} />
                       {v!.label}
                     </li>
                   ))}
@@ -504,16 +504,16 @@ export default function AboutPage() {
 
             {/* Right — quote + 500+ */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <article style={{ background: 'var(--cream)', border: '0.5px solid rgba(67,38,29,.10)', borderRadius: 12, padding: 18 }}>
-                <p style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.6, color: '#26221e', margin: '0 0 10px' }}>
+              <article style={{ background: 'var(--cream)', border: '0.5px solid rgba(67,38,29,.10)', borderRadius: 12, padding: 20 }}>
+                <p style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.55, color: '#26221e', margin: '0 0 12px' }}>
                   "We investigate real gaps — questions people search for but never find a clear answer to."
                 </p>
-                <h3 style={{ fontSize: 13, fontWeight: 600, color: 'rgba(67,38,29,.45)', letterSpacing: '-0.01em', margin: 0 }}>Editorial standard</h3>
+                <h3 style={{ fontSize: 14, fontWeight: 600, color: 'rgba(67,38,29,.45)', letterSpacing: '-0.01em', margin: 0 }}>Editorial standard</h3>
               </article>
-              <article style={{ borderRadius: 12, background: 'var(--brand-green)', padding: 18, color: '#fff' }}>
-                <h3 style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,.75)', letterSpacing: '-0.01em', margin: '0 0 6px' }}>{status[2].label}</h3>
-                <h3 style={{ fontSize: 28, fontWeight: 900, letterSpacing: '-0.04em', margin: '0 0 4px' }}>{status[2].value}</h3>
-                <p style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.5, color: 'rgba(255,255,255,.85)', margin: 0 }}>Guides, comparisons and answers across all verticals.</p>
+              <article style={{ borderRadius: 12, background: 'var(--brand-green)', padding: 20, color: '#fff' }}>
+                <h3 style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,.75)', letterSpacing: '-0.01em', margin: '0 0 6px' }}>{status[2].label}</h3>
+                <h3 style={{ fontSize: 30, fontWeight: 900, letterSpacing: '-0.04em', margin: '0 0 6px' }}>{status[2].value}</h3>
+                <p style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.5, color: 'rgba(255,255,255,.85)', margin: 0 }}>Guides, comparisons and answers across all verticals.</p>
               </article>
             </div>
           </div>

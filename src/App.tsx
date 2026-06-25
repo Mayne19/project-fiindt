@@ -204,7 +204,7 @@ const subNicheIcons: Record<string, typeof StarIcon> = {
   'saving': Coins01Icon,
   'investing-basics': ChartLineData01Icon,
   'fintech-tools': AiChipIcon,
-  'taxes-and-admin': LegalDocument01Icon,
+  'taxes-and-administration': LegalDocument01Icon,
   'business-finance': BriefcaseBusinessIcon,
   // Entertainment
   'movies-and-series': Film01Icon,
@@ -232,7 +232,7 @@ const subNicheIcons: Record<string, typeof StarIcon> = {
   'nutrition': Apple01Icon,
   'sleep': Moon02Icon,
   'fitness': Dumbbell01Icon,
-  'mental-health-basics': BrainIcon,
+  'mental-health': BrainIcon,
   'preventive-health': Hospital01Icon,
   'recovery': WorkoutStretchingIcon,
   // Travel
@@ -240,14 +240,14 @@ const subNicheIcons: Record<string, typeof StarIcon> = {
   'budget-travel': Coins01Icon,
   'destination-guides': GlobeIcon,
   'local-experiences': Compass01Icon,
-  'digital-nomad': AiLaptopIcon,
+  'digital-nomad-life': AiLaptopIcon,
   'travel-tools': Backpack01Icon,
   // Society
   'politics': GlobeIcon,
   'civic-life': UserGroupIcon,
   'social-trends': ChartLineData01Icon,
   'public-issues': JusticeScale01Icon,
-  'rights-and-law-basics': LegalDocument01Icon,
+  'rights-and-law': LegalDocument01Icon,
   'media-literacy': News01Icon,
   // Science
   'space': RocketIcon,
@@ -1425,6 +1425,116 @@ function VerticalArticleCard({ article }: { article: VerticalArticle }) {
   )
 }
 
+function SubNichePageTech({ vertical, currentSubNiche, articles }: {
+  vertical: ReturnType<typeof getVerticalBySlug> & object
+  currentSubNiche: { label: string; slug: string; description: string; categories: string[] }
+  articles: ReturnType<typeof getArticlesByNiche>
+}) {
+  const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [page, setPage] = useState(1)
+  const PER_PAGE = 15
+  const filtered = activeCategory ? articles.filter(a => a.category === activeCategory) : articles
+  const totalPages = Math.ceil(filtered.length / PER_PAGE)
+  const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE)
+  const otherSubNiches = vertical.subNiches.filter((s: { slug: string }) => s.slug !== currentSubNiche.slug)
+
+  return (
+    <div className="subniche-page" style={{ '--vertical-color': vertical.color } as CSSProperties}>
+
+      {/* Header éditorial compact */}
+      <header className="subniche-header wrap">
+        <nav className="subniche-breadcrumb">
+          <Link to="/">Home</Link>
+          <span>›</span>
+          <Link to={`/${vertical.slug}`}>{vertical.label}</Link>
+          <span>›</span>
+          <span>{currentSubNiche.label}</span>
+        </nav>
+        <h1 className="subniche-title">{currentSubNiche.label}</h1>
+        <p className="subniche-desc">{currentSubNiche.description}</p>
+        <div className="subniche-stats">
+          <span className="subniche-stat-item">
+            <HugeiconsIcon icon={FolderLibraryIcon} size={22} strokeWidth={1.6} color={vertical.color} />
+            <strong>{currentSubNiche.categories.length}</strong> categories
+          </span>
+          <span className="subniche-stat-item">
+            <HugeiconsIcon icon={BookOpenTextIcon} size={22} strokeWidth={1.6} color={vertical.color} />
+            {articles.length} articles
+          </span>
+          <span className="subniche-stat-item">
+            <HugeiconsIcon icon={AlarmClockIcon} size={22} strokeWidth={1.6} color={vertical.color} />
+            <strong>Updated</strong> weekly
+          </span>
+        </div>
+      </header>
+
+      {/* Filtre par catégorie */}
+      <section className="subniche-filter wrap">
+        <button
+          className={activeCategory === null ? 'subniche-pill active' : 'subniche-pill'}
+          onClick={() => { setActiveCategory(null); setPage(1) }}
+        >
+          All
+        </button>
+        {currentSubNiche.categories.map(cat => (
+          <button
+            key={cat}
+            className={activeCategory === cat ? 'subniche-pill active' : 'subniche-pill'}
+            onClick={() => { setActiveCategory(cat); setPage(1) }}
+          >
+            {cat}
+          </button>
+        ))}
+      </section>
+
+      {/* Grille d'articles */}
+      <section className="subniche-articles wrap">
+        {paginated.length > 0 ? (
+          <div className="article-grid">
+            {paginated.map(article => (
+              <VerticalArticleCard article={article} key={article.id} />
+            ))}
+          </div>
+        ) : (
+          <p className="subniche-empty">No articles in this category yet.</p>
+        )}
+        {totalPages > 1 && (
+          <div className="subniche-pagination">
+            <button className="subniche-page-btn" disabled={page === 1} onClick={() => setPage(p => p - 1)}>←</button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+              <button key={n} className={n === page ? 'subniche-page-btn active' : 'subniche-page-btn'} onClick={() => setPage(n)}>{n}</button>
+            ))}
+            <button className="subniche-page-btn" disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>→</button>
+          </div>
+        )}
+      </section>
+
+      {/* Autres sous-niches */}
+      <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
+          <div style={{ flexShrink: 0, maxWidth: 360 }}>
+            <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+              Also in {vertical.label}.
+              <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+                Explore other topics in this vertical.
+              </span>
+            </h2>
+          </div>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {otherSubNiches.map((s: { slug: string; label: string }) => (
+              <Link key={s.slug} to={`/${vertical.slug}/${s.slug}`} className="subniche-related-chip">
+                {s.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <VerticalNewsletter vertical={currentSubNiche.label} />
+    </div>
+  )
+}
+
 function VerticalSubNichePage() {
   const { vertical: verticalSlug, subNiche } = useParams()
   const vertical = getVerticalBySlug(verticalSlug)
@@ -1436,81 +1546,8 @@ function VerticalSubNichePage() {
   const currentSubNiche =
     getSubNicheBySlug(vertical.slug, subNiche) ?? vertical.subNiches[0]
   const articles = getArticlesByNiche(vertical.slug, currentSubNiche.slug)
-  const articleCatalog = currentSubNiche.categories.map((category) => ({
-    category,
-    articles: articles.filter((article) => article.category === category),
-  }))
-  const Icon = subNicheIcons[currentSubNiche.slug as keyof typeof subNicheIcons] ?? StarIcon
 
-  return (
-    <div
-      className="vertical-page"
-      style={{ '--vertical-color': vertical.color } as CSSProperties}
-    >
-      <section className="vertical-sub-hero wrap">
-        <Link to={`/${vertical.slug}`}>{vertical.label}</Link>
-        <span>
-          <HugeiconsIcon icon={Icon} size={34} strokeWidth={1.7} />
-        </span>
-        <h1>{currentSubNiche.label}</h1>
-        <p>{currentSubNiche.description}</p>
-      </section>
-      <section className="sub-category-grid wrap">
-        {currentSubNiche.categories.map((category) => (
-          <article key={category}>
-            <h2>{category}</h2>
-            <p>
-              Focused guides, checklists and practical resources for {category.toLowerCase()}.
-            </p>
-          </article>
-        ))}
-      </section>
-      <section className="niche-catalog wrap">
-        <div className="vertical-section-heading">
-
-          <h2>
-            {currentSubNiche.label} articles by category
-            <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
-              Browse all guides organized by topic within {currentSubNiche.label.toLowerCase()}.
-            </span>
-          </h2>
-        </div>
-        <div className="niche-catalog-list">
-          {articleCatalog.map(({ category, articles: categoryArticles }) => (
-            <article className="niche-category-row" key={category}>
-              <div>
-                <h3>{category}</h3>
-                <p>{categoryArticles.length} article{categoryArticles.length > 1 ? 's' : ''}</p>
-              </div>
-              <div>
-                {(categoryArticles.length ? categoryArticles : articles.slice(0, 1)).map((article) => (
-                  <Link to={`/${article.vertical}/${article.subNicheSlug}`} key={article.id}>
-                    {article.title}
-                  </Link>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="latest-vertical wrap">
-        <div className="vertical-section-heading">
-          <h2>
-            Latest in {currentSubNiche.label}
-            <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
-              Recently published guides and resources in {currentSubNiche.label.toLowerCase()}.
-            </span>
-          </h2>
-        </div>
-        <div className="article-grid">
-          {(articles.length ? articles : getArticlesByVertical(vertical.slug).slice(0, 3)).map((article) => (
-            <VerticalArticleCard article={article} key={article.id} />
-          ))}
-        </div>
-      </section>
-      <VerticalNewsletter vertical={currentSubNiche.label} />
-    </div>
-  )
+  return <SubNichePageTech vertical={vertical} currentSubNiche={currentSubNiche} articles={articles} />
 }
 
 function VerticalNewsletter({ vertical }: { vertical: string }) {
@@ -1992,18 +2029,18 @@ function ContactPage() {
       </div>
 
       <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
+          <div style={{ flexShrink: 0 }}>
             <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
-              Clear context gets better replies.
+              Clear context gets better<br />replies.
               <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
                 Help us help you faster.
               </span>
             </h2>
           </div>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {['Add the article URL', 'Be specific', 'Share useful context', 'Include sources'].map((rule) => (
-              <span key={rule} style={{ fontSize: 12, fontWeight: 600, padding: '5px 11px', borderRadius: 999, background: 'rgba(67,38,29,.06)', color: 'rgba(67,38,29,.45)', letterSpacing: '-0.01em' }}>
+              <span key={rule} style={{ fontSize: 14, fontWeight: 600, padding: '9px 18px', borderRadius: 999, background: 'rgba(67,38,29,.07)', color: 'rgba(67,38,29,.50)', letterSpacing: '-0.01em' }}>
                 {rule}
               </span>
             ))}

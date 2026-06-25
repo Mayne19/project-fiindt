@@ -2955,14 +2955,13 @@ p {
 
 .footer {
   position: relative;
-  min-height: 410px;
-  margin-top: 132px;
-  padding-top: 198px;
-  padding-bottom: 66px;
+  margin-top: 0;
+  padding-top: 56px;
+  padding-bottom: 48px;
   display: grid;
-  grid-template-columns: 78px minmax(0, 912px) auto;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
   align-items: start;
-  column-gap: 46px;
+  column-gap: 48px;
 }
 
 .footer-mark {
@@ -2974,28 +2973,31 @@ p {
 
 .footer-links {
   display: grid;
-  grid-template-columns: 250px 130px 120px;
-  gap: 84px;
+  grid-template-columns: repeat(4, auto);
+  justify-content: start;
+  gap: 48px;
 }
 
 .footer-column {
   display: grid;
   align-content: start;
-  gap: 24px;
+  gap: 16px;
 }
 
 .footer-links a,
 .footer small {
-  color: #2f120a;
-  font-size: 16px;
-  font-weight: 500;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 400;
   line-height: 1;
 }
 
 .footer small {
   display: block;
-  justify-self: end;
-  color: rgba(47, 18, 10, 0.52);
+  align-self: start;
+  color: rgba(67, 38, 29, 0.40);
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 @media (max-width: 1120px) {

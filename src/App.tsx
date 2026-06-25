@@ -111,34 +111,34 @@ const processSteps = [
 
 const homeFaqs = [
   {
-    question: 'Is this a job?',
+    question: 'What is Fiindt?',
     answer:
-      'Mindrift is a project-based platform. Contributors choose available projects and work remotely without fixed hours.',
+      'Fiindt is a structured knowledge platform that publishes original, research-based guides across focused topics like tech, health, finance, education, science, lifestyle and business.',
   },
   {
-    question: 'How much can I earn as an AI trainer?',
+    question: 'How is Fiindt different from Wikipedia or WikiHow?',
     answer:
-      'Rates vary by project and expertise. Many opportunities show hourly ranges before you apply.',
+      'Wikipedia documents established knowledge, and WikiHow explains common methods. Fiindt focuses on unclear, missing or fragmented answers that are not well explained elsewhere online.',
   },
   {
-    question: 'What qualifications do I need?',
+    question: 'What topics does Fiindt cover?',
     answer:
-      'Strong domain knowledge matters most. Some projects require assessments, language skills, or professional experience.',
+      'Fiindt organizes content into focused verticals, including Tech, Health, Finance, Education, Business, Lifestyle, Science and Culture, with dedicated sub-niches, categories and practical guides.',
   },
   {
-    question: 'How and when do I get paid?',
+    question: 'Are Fiindt articles based on research?',
     answer:
-      'Accepted tasks are paid through the platform on a recurring payment schedule.',
+      'Yes. Fiindt resources are built from research, sources, comparisons, data, analysis and editorial review to provide clear and useful answers.',
   },
   {
-    question: 'What kind of AI training tasks are available?',
+    question: 'How is Fiindt content organized?',
     answer:
-      'Tasks include writing prompts, reviewing AI output, comparing answers, correcting mistakes, and creating ideal responses.',
+      'Fiindt uses a clear structure: verticals, sub-niches, categories and articles. This helps readers find specific answers faster and explore related topics more easily.',
   },
   {
-    question: 'Do I need AI experience to get started?',
+    question: 'Why should I use Fiindt instead of regular search results?',
     answer:
-      'No. Many projects focus on professional knowledge rather than machine-learning experience.',
+      'Fiindt saves time by turning scattered information into clear, structured and research-based resources focused on questions that the internet does not answer well.',
   },
 ]
 
@@ -384,15 +384,26 @@ function SiteHeader() {
   )
 }
 
+function FiindtLogo({ height = 32, color = '#26221e' }: { height?: number; color?: string }) {
+  const s = height / 40
+  return (
+    <span style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1, gap: Math.round(3 * s) }}>
+      <span style={{ display: 'flex', alignItems: 'center', gap: Math.round(4 * s) }}>
+        <span style={{ display: 'inline-block', width: Math.round(30 * s), height: Math.round(5 * s), background: color, borderRadius: 1 }} />
+        <span style={{ display: 'inline-block', width: Math.round(8 * s), height: Math.round(8 * s), background: '#2563EB' }} />
+        <span style={{ display: 'inline-block', width: Math.round(8 * s), height: Math.round(8 * s), background: '#2563EB' }} />
+      </span>
+      <span style={{ fontSize: Math.round(28 * s), fontWeight: 800, letterSpacing: '-0.04em', color, fontFamily: "'Inter', sans-serif" }}>
+        Fiindt
+      </span>
+    </span>
+  )
+}
+
 function Logo() {
   return (
-    <Link className="logo" to="/" aria-label="Mindrift home">
-      <span className="logo-mark" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </span>
-      <span>Mindrift</span>
+    <Link className="logo" to="/" aria-label="Fiindt home" style={{ textDecoration: 'none' }}>
+      <FiindtLogo height={30} />
     </Link>
   )
 }
@@ -1902,46 +1913,40 @@ function PageHero({
 }
 
 function Footer() {
+  const half = Math.ceil(verticals.length / 2)
   const columns = [
+    verticals.slice(0, half).map(v => [v.label, `/${v.slug}`]),
+    verticals.slice(half).map(v => [v.label, `/${v.slug}`]),
     [
-      ['Privacy Notice', '/legal/privacy'],
-      ['Toloka Platforms Terms of Use', '/legal/terms'],
-      ['Data Processing Addendum', '/legal/addendum'],
-      ['Eligibility and Geographic Restrictions', '/legal/eligibility-and-geographic-restrictions'],
-    ],
-    [
+      ['Home', '/'],
       ['FAQ', routes.faq],
-      ['Code of Conduct', routes.faq],
-      ['Manage cookies', '/legal/cookie-notice/'],
-      ['Help Center', routes.faq],
+      ['Blog', routes.blog],
+      ['How it works', routes.how],
     ],
     [
-      ['Facebook ↗', routes.blog],
-      ['LinkedIn ↗', routes.blog],
-      ['Reddit ↗', routes.blog],
+      ['Legal Notice', '/legal/notice'],
+      ['Privacy Policy', '/legal/privacy'],
+      ['Cookie Policy', '/legal/cookie-notice/'],
+      ['Terms', '/legal/terms'],
+      ['Editorial Policy', '/legal/editorial'],
+      ['Legal Hub', '/legal'],
     ],
   ]
   return (
     <footer className="footer wrap">
-      <Link className="footer-mark" to="/" aria-label="Mindrift home">
-        <span className="logo-mark" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </span>
+      <Link to="/" aria-label="Fiindt home" style={{ textDecoration: 'none', alignSelf: 'start' }}>
+        <FiindtLogo height={28} />
       </Link>
       <div className="footer-links">
         {columns.map((links, index) => (
           <div className="footer-column" key={index}>
             {links.map(([label, href]) => (
-              <Link to={href} key={label}>
-                {label}
-              </Link>
+              <Link to={href} key={label}>{label}</Link>
             ))}
           </div>
         ))}
       </div>
-      <small>© 2026 Toloka AI BV</small>
+      <small>© 2026 Fiindt</small>
     </footer>
   )
 }

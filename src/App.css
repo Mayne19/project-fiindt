@@ -1173,7 +1173,7 @@ p {
 .step-cta {
   align-items: center;
   justify-content: space-between;
-  background: var(--brown);
+  background: #26221e;
 }
 
 .step-cta strong,
@@ -1257,7 +1257,7 @@ p {
   min-height: 132px;
   margin-top: 100px;
   padding: 32px 40px;
-  background: var(--brown);
+  background: #26221e;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1268,7 +1268,7 @@ p {
   flex: 0 1 780px;
   color: var(--cream-2);
   font-size: clamp(31px, 2.2vw, 42px);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1;
   text-align: left;
 }
@@ -1758,6 +1758,10 @@ p {
   transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
 }
 
+.card-hover:hover {
+  border-color: color-mix(in srgb, var(--card-accent, var(--brand-green)) 34%, rgba(67, 38, 29, 0.12));
+}
+
 
 .card-heading {
   font-size: 1rem;
@@ -2001,9 +2005,9 @@ p {
 .vertical-sub-hero h1 {
   margin-top: 16px;
   color: #ffffff;
-  font-size: clamp(40px, 3.4vw, 50px);
+  font-size: clamp(48px, 6vw, 80px);
   font-weight: 700;
-  line-height: 0.93;
+  line-height: 1;
   letter-spacing: -0.046em;
 }
 
@@ -2053,9 +2057,12 @@ p {
   font: inherit;
 }
 
-.vertical-search input::placeholder,
-.vertical-newsletter input::placeholder {
+.vertical-search input::placeholder {
   color: rgba(67, 38, 29, 0.46);
+}
+
+.vertical-newsletter input::placeholder {
+  color: rgba(251, 244, 235, 0.40);
 }
 
 .vertical-actions {
@@ -2093,9 +2100,6 @@ p {
 }
 
 .pinned-map,
-.vertical-featured,
-.latest-vertical,
-.vertical-newsletter,
 .sub-category-grid,
 .niche-catalog {
   margin-top: 80px;
@@ -2103,6 +2107,19 @@ p {
 
 .vertical-media-hero + .pinned-map {
   margin-top: 72px;
+}
+
+.vertical-featured {
+  margin-top: 64px;
+  padding-bottom: 80px;
+}
+
+.latest-vertical {
+  margin-top: 96px;
+}
+
+.vertical-newsletter {
+  margin-top: 96px;
 }
 
 .vertical-section-heading {
@@ -2118,19 +2135,20 @@ p {
 .vertical-section-heading h2,
 .vertical-newsletter h2 {
   margin-top: 12px;
-  color: #26221e;
+  color: var(--text);
   font-size: clamp(28px, 2.8vw, 38px);
   font-weight: 600;
   letter-spacing: -0.03em;
-  line-height: 0.98;
+  line-height: 1.1;
   margin-bottom: 8px;
 }
 
 .vertical-section-heading > p,
 .vertical-newsletter p {
   margin-top: 14px;
-  color: rgba(67, 38, 29, 0.52);
-  font-size: 16px;
+  color: rgba(67, 38, 29, 0.68);
+  font-size: clamp(18px, 1.2vw, 21px);
+  font-weight: 500;
   line-height: 1.55;
 }
 
@@ -2195,8 +2213,6 @@ p {
 
 .featured-guide,
 .most-read,
-.vertical-article-card,
-.vertical-newsletter,
 .sub-category-grid article {
   border: 1px solid rgba(67, 38, 29, 0.08);
   border-radius: 20px;
@@ -2214,8 +2230,7 @@ p {
 }
 
 .featured-guide > span,
-.featured-guide small,
-.vertical-article-card time {
+.featured-guide small {
   color: rgba(67, 38, 29, 0.54);
   font-size: 13px;
   font-weight: 500;
@@ -2228,14 +2243,23 @@ p {
   gap: 14px;
 }
 
-.featured-guide b,
-.vertical-article-meta span {
+.featured-guide b {
   width: max-content;
   padding: 4px 10px;
   border-radius: 999px;
   background: var(--article-color, var(--vertical-color));
   color: #fff;
   font-size: 12px;
+  font-weight: 600;
+}
+
+.vertical-article-meta span {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--article-color, var(--vertical-color));
+  color: #fff;
+  font-size: 11px;
   font-weight: 600;
 }
 
@@ -2301,114 +2325,61 @@ p {
 }
 
 .article-grid {
+  max-width: 1100px;
+  margin-inline: auto;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  gap: 20px;
 }
 
 .vertical-article-card {
   padding: 24px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 20px rgba(67, 38, 29, 0.05);
+  border: 0.5px solid rgba(67, 38, 29, 0.10);
+  background: var(--cream-2);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(67, 38, 29, 0.05);
   transition:
-    border-color 160ms ease,
-    transform 160ms ease;
+    background-color 0.3s ease-out,
+    box-shadow 0.3s ease-out,
+    border-color 0.3s ease-out;
 }
 
-.vertical-article-card:hover {
-  border-color: color-mix(in srgb, var(--article-color) 34%, rgba(67, 38, 29, 0.12));
-  transform: translateY(-2px);
-}
 
 .vertical-article-path {
-  color: rgba(67, 38, 29, 0.52);
-  font-size: 11px;
+  color: rgba(67, 38, 29, 0.40);
+  font-size: 12px;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.2;
+  margin-bottom: 8px;
 }
 
 .vertical-article-meta {
-  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
+  margin-bottom: 12px;
 }
 
 .vertical-article-meta small {
-  color: rgba(67, 38, 29, 0.45);
-  font-size: 13px;
+  color: rgba(67, 38, 29, 0.40);
+  font-size: 12px;
   font-weight: 500;
 }
 
-.vertical-article-card h3 {
-  margin-top: 14px;
-  color: var(--text);
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.3;
-}
-
-.vertical-article-card > p:not(.vertical-article-path) {
-  margin-top: 10px;
-  color: rgba(67, 38, 29, 0.58);
-  font-size: 14px;
-  line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
 
 .vertical-article-card time {
   margin-top: auto;
   padding-top: 20px;
-  font-size: 13px;
+  color: rgba(67, 38, 29, 0.40);
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .vertical-newsletter {
-  min-height: 220px;
-  padding: 34px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 420px;
-  gap: 32px;
-  align-items: center;
-  background: var(--brown);
-}
-
-.vertical-newsletter h2 {
-  color: #fff;
-}
-
-.vertical-newsletter p {
-  max-width: 620px;
-  color: rgba(255, 255, 255, 0.62);
-}
-
-.vertical-newsletter form {
-  min-height: 54px;
-  padding: 6px;
-  display: flex;
-  gap: 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.vertical-newsletter input {
-  padding-left: 16px;
-  color: #fff;
-}
-
-.vertical-newsletter button {
-  min-width: 122px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--brand-green);
-  color: #001d18;
-  font: inherit;
-  font-weight: 500;
+  padding: 0;
 }
 
 .vertical-sub-hero {

@@ -542,8 +542,9 @@ function LatestArticles() {
             const vertical = getVerticalBySlug(toSlug(article.vertical))
             const accentColor = vertical?.color ?? 'var(--brand-green)'
             return (
-              <article
+              <Link
                 key={article.id}
+                to={getFiindtArticlePath(article)}
                 className="card-hover"
                 style={{ '--card-accent': accentColor, borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column' } as CSSProperties}
               >
@@ -556,16 +557,14 @@ function LatestArticles() {
                   </span>
                   <span style={{ fontSize: 12, color: 'rgba(67,38,29,.40)' }}>{article.readingTime} min read</span>
                 </div>
-                <Link to={getFiindtArticlePath(article)}>
-                  <h3 className="card-heading card-title">{article.title}</h3>
-                </Link>
+                <h3 className="card-heading card-title">{article.title}</h3>
                 <p className="line-clamp-2" style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', flex: 1 }}>
                   {article.excerpt}
                 </p>
                 <div style={{ marginTop: 'auto', paddingTop: 20, fontSize: 12, color: 'rgba(67,38,29,.40)' }}>
                   <time>{formatArticleDate(article.publishedAt)}</time>
                 </div>
-              </article>
+              </Link>
             )
           })}
         </div>
@@ -1061,7 +1060,7 @@ function VerticalPage() {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              background: 'rgba(255,255,255,0.62)',
+              background: 'rgba(253,249,245,0.78)',
               border: '1px solid rgba(67,38,29,.08)',
               borderRadius: 16,
               padding: '28px 32px',
@@ -1141,9 +1140,12 @@ function VerticalPage() {
       </section>
 
       <section id="latest-vertical-articles" className="latest-vertical wrap">
-        <div className="vertical-section-heading">
-          <h2>Latest {currentVertical.label} articles</h2>
-        </div>
+        <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 40, maxWidth: 1100, marginInline: 'auto' }}>
+          Latest {currentVertical.label} articles
+          <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+            Recent resources from the {currentVertical.label} editorial archive.
+          </span>
+        </h2>
         <div className="article-grid">
           {(importedArticles.length ? importedArticles : latestArticles).map((article) =>
             'slug' in article ? (
@@ -1165,8 +1167,8 @@ function FiindtArticleCard({ article }: { article: FiindtArticle }) {
 
   return (
     <Link
-      className="vertical-article-card"
-      style={{ '--article-color': vertical?.color ?? '#2563eb' } as CSSProperties}
+      className="vertical-article-card card-hover"
+      style={{ '--article-color': vertical?.color ?? '#2563eb', '--card-accent': vertical?.color ?? '#2563eb' } as CSSProperties}
       to={getFiindtArticlePath(article)}
     >
       <p className="vertical-article-path">
@@ -1176,8 +1178,8 @@ function FiindtArticleCard({ article }: { article: FiindtArticle }) {
         <span>{article.category}</span>
         <small>{article.readingTime} min read</small>
       </div>
-      <h3>{article.title}</h3>
-      <p>{article.excerpt}</p>
+      <h3 className="card-heading card-title">{article.title}</h3>
+      <p className="line-clamp-2" style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', flex: 1 }}>{article.excerpt}</p>
       <time>{formatArticleDate(article.publishedAt)}</time>
     </Link>
   )
@@ -1232,8 +1234,8 @@ function VerticalArticleCard({ article }: { article: VerticalArticle }) {
 
   return (
     <Link
-      className="vertical-article-card"
-      style={{ '--article-color': vertical?.color ?? '#2563eb' } as CSSProperties}
+      className="vertical-article-card card-hover"
+      style={{ '--article-color': vertical?.color ?? '#2563eb', '--card-accent': vertical?.color ?? '#2563eb' } as CSSProperties}
       to={`/${article.vertical}/${article.subNicheSlug}`}
     >
       <p className="vertical-article-path">
@@ -1243,8 +1245,8 @@ function VerticalArticleCard({ article }: { article: VerticalArticle }) {
         <span>{article.category}</span>
         <small>{article.readingTime} min read</small>
       </div>
-      <h3>{article.title}</h3>
-      <p>{article.excerpt}</p>
+      <h3 className="card-heading card-title">{article.title}</h3>
+      <p className="line-clamp-2" style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', flex: 1 }}>{article.excerpt}</p>
       <time>{formatArticleDate(article.publishedAt)}</time>
     </Link>
   )
@@ -1331,18 +1333,26 @@ function VerticalSubNichePage() {
 function VerticalNewsletter({ vertical }: { vertical: string }) {
   return (
     <section className="vertical-newsletter wrap">
-      <div>
-
-        <h2>Follow {vertical} updates</h2>
-        <p>
-          Get new {vertical.toLowerCase()} guides, resources and practical
-          decisions from Fiindt.
-        </p>
+      <div style={{ background: '#26221e', padding: '32px 40px', minHeight: 132, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32 }}>
+        <div>
+          <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#fbf4eb', lineHeight: 1.1, margin: 0 }}>
+            Follow {vertical} updates
+            <span style={{ display: 'block', color: 'rgba(251,244,235,.35)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+              Get new {vertical.toLowerCase()} guides, resources and practical decisions from Fiindt.
+            </span>
+          </h2>
+        </div>
+        <form style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,.08)', borderRadius: 999, padding: '6px 6px 6px 18px', flexShrink: 0 }}>
+          <input
+            type="email"
+            placeholder="Your email address"
+            style={{ width: 220, border: 0, outline: 0, background: 'transparent', fontSize: 14, color: '#fbf4eb', fontFamily: 'inherit' }}
+          />
+          <button type="submit" style={{ background: '#47c971', color: '#fff', border: 0, borderRadius: 999, padding: '9px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+            Subscribe
+          </button>
+        </form>
       </div>
-      <form>
-        <input aria-label="Email address" placeholder="Email address" />
-        <button type="button">Subscribe</button>
-      </form>
     </section>
   )
 }

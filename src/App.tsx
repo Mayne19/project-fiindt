@@ -323,6 +323,21 @@ const verticalHeroPositions: Record<string, string> = {
   entertainment: '66% center',
 }
 
+const verticalHeaderInk: Record<string, 'light' | 'dark'> = {
+  tech: 'light',
+  finance: 'light',
+  entertainment: 'light',
+  lifestyle: 'dark',
+  nature: 'dark',
+  education: 'dark',
+  health: 'dark',
+  travel: 'light',
+  society: 'dark',
+  science: 'dark',
+  business: 'dark',
+  sports: 'dark',
+}
+
 
 const mindriftLegalPages: Record<string, string> = {
   '/legal/privacy': 'Privacy Notice',
@@ -392,7 +407,8 @@ function SiteHeader() {
   const { pathname } = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
   const isOverlay = isHeaderOverlayRoute(pathname)
-  const isVerticalOverlay = verticals.some((vertical) => pathname === `/${vertical.slug}`)
+  const overlayVertical = verticals.find((vertical) => pathname === `/${vertical.slug}`)
+  const verticalInk = overlayVertical ? verticalHeaderInk[overlayVertical.slug] ?? 'dark' : null
   const isProjectActive =
     explorerMenuItems.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
   const nav = [
@@ -412,7 +428,8 @@ function SiteHeader() {
       className={cx(
         'site-header',
         isOverlay && !isScrolled && 'site-header-overlay',
-        isVerticalOverlay && !isScrolled && 'site-header-light-image',
+        verticalInk === 'light' && !isScrolled && 'site-header-ink-light',
+        verticalInk === 'dark' && !isScrolled && 'site-header-ink-dark',
       )}
     >
       <Logo />
@@ -463,7 +480,7 @@ function SiteHeader() {
   )
 }
 
-function FiindtLogo({ height = 32, color = '#26221e' }: { height?: number; color?: string }) {
+function FiindtLogo({ height = 32, color = 'currentColor' }: { height?: number; color?: string }) {
   const s = height / 40
   return (
     <span style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1, gap: Math.round(3 * s) }}>

@@ -140,7 +140,21 @@ const homeFaqs = [
   },
 ]
 
-const subNicheIcons = {
+const subNicheIcons: Record<string, typeof StarIcon> = {
+  // Tech
+  ai: BrainIcon,
+  development: BookOpenTextIcon,
+  software: AiLaptopIcon,
+  'consumer-tech': AiLaptopIcon,
+  // Finance
+  'personal-finance': BankIcon,
+  investing: BankIcon,
+  banking: BankIcon,
+  // Education
+  'study-and-learning': BookOpenTextIcon,
+  // Travel
+  'travel-planning': PlaneIcon,
+  // Health
   wellness: HeartPulseIcon,
   nutrition: Apple01Icon,
   sleep: Moon02Icon,
@@ -913,34 +927,21 @@ function VerticalPage() {
         </div>
       </section>
 
-      <section className="pinned-map wrap">
-        <div className="vertical-section-heading">
-
-          <h2>Open a focused {currentVertical.label} file</h2>
-          <p>
-            Each sub-niche narrows the vertical into a practical area with its
-            own guides, categories and resources.
-          </p>
-        </div>
-        <div className="pinned-grid">
-          {currentVertical.subNiches.map((subNiche) => {
-            const Icon = subNicheIcons[subNiche.slug as keyof typeof subNicheIcons] ?? StarIcon
-            return (
-              <Link
-                className="pinned-card"
-                to={`/${currentVertical.slug}/${subNiche.slug}`}
-                key={subNiche.slug}
-              >
-                <span>
-                  <HugeiconsIcon icon={Icon} size={28} strokeWidth={1.8} />
-                </span>
-                <h3>{subNiche.label}</h3>
-                <p>{subNiche.description}</p>
-              </Link>
-            )
-          })}
-        </div>
-      </section>
+      <PinnedCardsMap
+        title={`Open a focused ${currentVertical.label} file`}
+        description="Each sub-niche narrows the vertical into a practical area with its own guides, categories and resources."
+        items={currentVertical.subNiches.map((subNiche) => {
+          const Icon = subNicheIcons[subNiche.slug] ?? StarIcon
+          return {
+            title: subNiche.label,
+            description: subNiche.description,
+            href: `/${currentVertical.slug}/${subNiche.slug}`,
+            icon: <HugeiconsIcon icon={Icon} size={26} strokeWidth={1.8} />,
+            color: currentVertical.color,
+          }
+        })}
+        accentColor={currentVertical.color}
+      />
 
       <section className="vertical-featured wrap">
         <div className="vertical-section-heading centered">
@@ -968,8 +969,14 @@ function VerticalPage() {
             <h3>Most Read</h3>
             {mostReadArticles.map((article, index) => (
               <Link to={`/${currentVertical.slug}/${article.subNicheSlug}`} key={article.id}>
-                <small>{String(index + 1).padStart(2, '0')}</small>
-                <span>{article.title}</span>
+                <small>{index + 1}</small>
+                <span>
+                  <b style={{ display: 'block', fontSize: 15, fontWeight: 600, lineHeight: 1.3, color: 'var(--text)', marginBottom: 6 }}>{article.title}</b>
+                  <span style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 14px', fontSize: 12, color: 'rgba(67,38,29,.45)' }}>
+                    <span>{article.readingTime} min read</span>
+                    <span>{formatArticleDate(article.publishedAt)}</span>
+                  </span>
+                </span>
               </Link>
             ))}
           </aside>

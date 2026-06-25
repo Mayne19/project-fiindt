@@ -44,7 +44,9 @@ const makeSubNiche = (label: string, categories: string[]): SubNiche => ({
   categories,
 })
 
+// Display order for menus and grids — change this array order to reorder all displays.
 export const verticals: Vertical[] = [
+  // 1 — Tech (blue)
   {
     label: 'Tech',
     slug: 'tech',
@@ -60,6 +62,23 @@ export const verticals: Vertical[] = [
       makeSubNiche('Consumer Tech', ['Smartphones', 'Laptops', 'Gadgets', 'Smart Home Devices', 'Tech Buying Guides', 'Device Comparisons']),
     ],
   },
+  // 2 — Lifestyle (orange)
+  {
+    label: 'Lifestyle',
+    slug: 'lifestyle',
+    color: '#F97316',
+    themeName: 'orange',
+    description: 'Home, cooking, style, relationships, organization and everyday life.',
+    subNiches: [
+      makeSubNiche('Home & Living', ['Home Organization', 'Cleaning', 'Interior Basics', 'Small Spaces', 'Smart Home', 'Practical Living']),
+      makeSubNiche('Food & Cooking', ['Cooking Basics', 'Meal Prep', 'Kitchen Tools', 'Recipes', 'Budget Cooking', 'Food Guides']),
+      makeSubNiche('Style', ['Personal Style', 'Wardrobe', 'Fashion Basics', 'Grooming', 'Shopping Guides', 'Minimal Wardrobe']),
+      makeSubNiche('Relationships', ['Communication', 'Dating', 'Friendships', 'Family', 'Boundaries', 'Conflict']),
+      makeSubNiche('Personal Organization', ['Planning', 'Time Management', 'Notion Systems', 'Digital Organization', 'Life Admin', 'Personal Systems']),
+      makeSubNiche('Shopping Guides', ['Buying Guides', 'Product Comparisons', 'Budget Shopping', 'Online Shopping', 'Practical Purchases']),
+    ],
+  },
+  // 3 — Finance (green)
   {
     label: 'Finance',
     slug: 'finance',
@@ -76,6 +95,39 @@ export const verticals: Vertical[] = [
       makeSubNiche('Business Finance', ['Business Budgeting', 'Cash Flow', 'Accounting Tools', 'Pricing', 'Business Taxes']),
     ],
   },
+  // 4 — Entertainment (pink)
+  {
+    label: 'Entertainment',
+    slug: 'entertainment',
+    color: '#EC4899',
+    themeName: 'pink',
+    description: 'Movies, series, music, games, books, creators and streaming.',
+    subNiches: [
+      makeSubNiche('Movies & Series', ['Movie Guides', 'Series Guides', 'Streaming', 'Film Analysis', 'Directors', 'Genres']),
+      makeSubNiche('Music', ['Music Discovery', 'Playlists', 'Artists', 'Music Tools', 'Music Production', 'Genres']),
+      makeSubNiche('Gaming', ['Game Guides', 'Gaming Tools', 'Platforms', 'Game Reviews', 'Esports', 'Game Design']),
+      makeSubNiche('Books', ['Book Lists', 'Reading Systems', 'Authors', 'Summaries', 'Genres', 'Literature']),
+      makeSubNiche('Creator Culture', ['Content Creation', 'YouTube', 'TikTok', 'Creator Tools', 'Monetization', 'Personal Brand']),
+      makeSubNiche('Streaming Guides', ['Streaming Platforms', 'What to Watch', 'Platform Comparisons', 'Watchlists', 'Streaming Tools']),
+    ],
+  },
+  // 5 — Nature (emerald)
+  {
+    label: 'Nature',
+    slug: 'nature',
+    color: '#16A34A',
+    themeName: 'emerald',
+    description: 'Plants, animals, gardening, environment, flowers and outdoor living.',
+    subNiches: [
+      makeSubNiche('Plants & Gardening', ['Indoor Plants', 'Gardening Basics', 'Plant Care', 'Soil', 'Watering', 'Garden Tools']),
+      makeSubNiche('Flowers', ['Flower Types', 'Flower Care', 'Seasonal Flowers', 'Bouquets', 'Garden Flowers']),
+      makeSubNiche('Animals & Pets', ['Dogs', 'Cats', 'Pet Care', 'Animal Behavior', 'Pet Products', 'Pet Health Basics']),
+      makeSubNiche('Wildlife', ['Birds', 'Forest Animals', 'Marine Life', 'Insects', 'Wildlife Guides']),
+      makeSubNiche('Environment', ['Sustainability', 'Biodiversity', 'Ecosystems', 'Recycling', 'Environmental Habits']),
+      makeSubNiche('Outdoor Living', ['Outdoor Activities', 'Camping Basics', 'Hiking Basics', 'Garden Living', 'Outdoor Tools']),
+    ],
+  },
+  // 6 — Education (violet)
   {
     label: 'Education',
     slug: 'education',
@@ -91,21 +143,7 @@ export const verticals: Vertical[] = [
       makeSubNiche('Career Learning', ['CV & Resume', 'Interviews', 'Job Search', 'Internships', 'Personal Branding', 'Career Skills']),
     ],
   },
-  {
-    label: 'Travel',
-    slug: 'travel',
-    color: '#0EA5E9',
-    themeName: 'sky',
-    description: 'Trips, destinations, budgets, planning tools and digital nomad life.',
-    subNiches: [
-      makeSubNiche('Travel Planning', ['Itineraries', 'Trip Planning', 'Travel Checklists', 'Travel Documents', 'Booking Tips']),
-      makeSubNiche('Budget Travel', ['Cheap Flights', 'Budget Hotels', 'Travel Deals', 'Saving Money', 'Low-cost Travel']),
-      makeSubNiche('Destination Guides', ['City Guides', 'Country Guides', 'Weekend Trips', 'Hidden Gems', 'Travel Seasons']),
-      makeSubNiche('Local Experiences', ['Food Experiences', 'Local Culture', 'Activities', 'Museums', 'Local Transport']),
-      makeSubNiche('Digital Nomad', ['Remote Work Travel', 'Nomad Cities', 'Workspaces', 'Visas', 'Nomad Tools']),
-      makeSubNiche('Travel Tools', ['Travel Apps', 'Packing Tools', 'Maps', 'Translation Tools', 'Travel Gear']),
-    ],
-  },
+  // 7 — Health (rose)
   {
     label: 'Health',
     slug: 'health',
@@ -122,6 +160,55 @@ export const verticals: Vertical[] = [
       makeSubNiche('Recovery', ['Rest Days', 'Stretching', 'Mobility', 'Injury Prevention', 'Recovery Tools']),
     ],
   },
+  // 8 — Travel (sky)
+  {
+    label: 'Travel',
+    slug: 'travel',
+    color: '#0EA5E9',
+    themeName: 'sky',
+    description: 'Trips, destinations, budgets, planning tools and digital nomad life.',
+    subNiches: [
+      makeSubNiche('Travel Planning', ['Itineraries', 'Trip Planning', 'Travel Checklists', 'Travel Documents', 'Booking Tips']),
+      makeSubNiche('Budget Travel', ['Cheap Flights', 'Budget Hotels', 'Travel Deals', 'Saving Money', 'Low-cost Travel']),
+      makeSubNiche('Destination Guides', ['City Guides', 'Country Guides', 'Weekend Trips', 'Hidden Gems', 'Travel Seasons']),
+      makeSubNiche('Local Experiences', ['Food Experiences', 'Local Culture', 'Activities', 'Museums', 'Local Transport']),
+      makeSubNiche('Digital Nomad', ['Remote Work Travel', 'Nomad Cities', 'Workspaces', 'Visas', 'Nomad Tools']),
+      makeSubNiche('Travel Tools', ['Travel Apps', 'Packing Tools', 'Maps', 'Translation Tools', 'Travel Gear']),
+    ],
+  },
+  // 9 — Society (slate)
+  {
+    label: 'Society',
+    slug: 'society',
+    color: '#475569',
+    themeName: 'slate',
+    description: 'Society, politics, civic life, public issues, rights and media literacy.',
+    subNiches: [
+      makeSubNiche('Politics', ['Political Systems', 'Elections', 'Public Policy', 'Political Explainers', 'Government Basics']),
+      makeSubNiche('Civic Life', ['Citizenship', 'Local Government', 'Public Services', 'Civic Participation', 'Community Life']),
+      makeSubNiche('Social Trends', ['Demographics', 'Work Trends', 'Culture Shifts', 'Digital Society', 'Social Research']),
+      makeSubNiche('Public Issues', ['Housing', 'Education Policy', 'Healthcare Systems', 'Inequality', 'Public Debates']),
+      makeSubNiche('Rights & Law Basics', ['Consumer Rights', 'Privacy Rights', 'Work Rights', 'Legal Basics', 'Everyday Law']),
+      makeSubNiche('Media Literacy', ['News Literacy', 'Fact-checking', 'Misinformation', 'Source Evaluation', 'Digital Media']),
+    ],
+  },
+  // 10 — Science (cyan)
+  {
+    label: 'Science',
+    slug: 'science',
+    color: '#0891B2',
+    themeName: 'cyan',
+    description: 'Space, climate, research, energy, discoveries and accessible science.',
+    subNiches: [
+      makeSubNiche('Space', ['Astronomy', 'Planets', 'Space Missions', 'Telescopes', 'Satellites', 'Space News']),
+      makeSubNiche('Climate', ['Climate Change', 'Weather', 'Climate Data', 'Sustainability Science', 'Carbon Footprint']),
+      makeSubNiche('Everyday Science', ['Physics Basics', 'Biology Basics', 'Chemistry Basics', 'Human Body', 'Science in Daily Life']),
+      makeSubNiche('Research Explainers', ['Scientific Method', 'Studies', 'Data', 'Evidence Basics', 'Research Summaries']),
+      makeSubNiche('Energy', ['Renewable Energy', 'Solar', 'Batteries', 'Electricity', 'Energy Systems']),
+      makeSubNiche('Future Science', ['Biotechnology', 'Robotics', 'Future Materials', 'Space Tech', 'Scientific Innovations']),
+    ],
+  },
+  // 11 — Business (teal)
   {
     label: 'Business',
     slug: 'business',
@@ -138,36 +225,7 @@ export const verticals: Vertical[] = [
       makeSubNiche('Business Tools', ['CRM', 'Accounting Tools', 'Project Management', 'Team Tools', 'Automation Tools', 'Invoicing']),
     ],
   },
-  {
-    label: 'Lifestyle',
-    slug: 'lifestyle',
-    color: '#F97316',
-    themeName: 'orange',
-    description: 'Home, cooking, style, relationships, organization and everyday life.',
-    subNiches: [
-      makeSubNiche('Home & Living', ['Home Organization', 'Cleaning', 'Interior Basics', 'Small Spaces', 'Smart Home', 'Practical Living']),
-      makeSubNiche('Food & Cooking', ['Cooking Basics', 'Meal Prep', 'Kitchen Tools', 'Recipes', 'Budget Cooking', 'Food Guides']),
-      makeSubNiche('Style', ['Personal Style', 'Wardrobe', 'Fashion Basics', 'Grooming', 'Shopping Guides', 'Minimal Wardrobe']),
-      makeSubNiche('Relationships', ['Communication', 'Dating', 'Friendships', 'Family', 'Boundaries', 'Conflict']),
-      makeSubNiche('Personal Organization', ['Planning', 'Time Management', 'Notion Systems', 'Digital Organization', 'Life Admin', 'Personal Systems']),
-      makeSubNiche('Shopping Guides', ['Buying Guides', 'Product Comparisons', 'Budget Shopping', 'Online Shopping', 'Practical Purchases']),
-    ],
-  },
-  {
-    label: 'Nature',
-    slug: 'nature',
-    color: '#16A34A',
-    themeName: 'emerald',
-    description: 'Plants, animals, gardening, environment, flowers and outdoor living.',
-    subNiches: [
-      makeSubNiche('Plants & Gardening', ['Indoor Plants', 'Gardening Basics', 'Plant Care', 'Soil', 'Watering', 'Garden Tools']),
-      makeSubNiche('Flowers', ['Flower Types', 'Flower Care', 'Seasonal Flowers', 'Bouquets', 'Garden Flowers']),
-      makeSubNiche('Animals & Pets', ['Dogs', 'Cats', 'Pet Care', 'Animal Behavior', 'Pet Products', 'Pet Health Basics']),
-      makeSubNiche('Wildlife', ['Birds', 'Forest Animals', 'Marine Life', 'Insects', 'Wildlife Guides']),
-      makeSubNiche('Environment', ['Sustainability', 'Biodiversity', 'Ecosystems', 'Recycling', 'Environmental Habits']),
-      makeSubNiche('Outdoor Living', ['Outdoor Activities', 'Camping Basics', 'Hiking Basics', 'Garden Living', 'Outdoor Tools']),
-    ],
-  },
+  // 12 — Sports (red)
   {
     label: 'Sports',
     slug: 'sports',
@@ -182,51 +240,6 @@ export const verticals: Vertical[] = [
       makeSubNiche('Recovery', ['Stretching', 'Rest', 'Injury Prevention', 'Recovery Tools', 'Mobility']),
       makeSubNiche('Sports Tech', ['Wearables', 'Fitness Apps', 'Tracking Tools', 'Smart Equipment', 'Performance Data']),
       makeSubNiche('Performance', ['Speed', 'Strength', 'Endurance', 'Nutrition for Sport', 'Mental Performance']),
-    ],
-  },
-  {
-    label: 'Society',
-    slug: 'society',
-    color: '#475569',
-    themeName: 'slate',
-    description: 'Society, politics, civic life, public issues, rights and media literacy.',
-    subNiches: [
-      makeSubNiche('Politics', ['Political Systems', 'Elections', 'Public Policy', 'Political Explainers', 'Government Basics']),
-      makeSubNiche('Civic Life', ['Citizenship', 'Local Government', 'Public Services', 'Civic Participation', 'Community Life']),
-      makeSubNiche('Social Trends', ['Demographics', 'Work Trends', 'Culture Shifts', 'Digital Society', 'Social Research']),
-      makeSubNiche('Public Issues', ['Housing', 'Education Policy', 'Healthcare Systems', 'Inequality', 'Public Debates']),
-      makeSubNiche('Rights & Law Basics', ['Consumer Rights', 'Privacy Rights', 'Work Rights', 'Legal Basics', 'Everyday Law']),
-      makeSubNiche('Media Literacy', ['News Literacy', 'Fact-checking', 'Misinformation', 'Source Evaluation', 'Digital Media']),
-    ],
-  },
-  {
-    label: 'Science',
-    slug: 'science',
-    color: '#0891B2',
-    themeName: 'cyan',
-    description: 'Space, climate, research, energy, discoveries and accessible science.',
-    subNiches: [
-      makeSubNiche('Space', ['Astronomy', 'Planets', 'Space Missions', 'Telescopes', 'Satellites', 'Space News']),
-      makeSubNiche('Climate', ['Climate Change', 'Weather', 'Climate Data', 'Sustainability Science', 'Carbon Footprint']),
-      makeSubNiche('Everyday Science', ['Physics Basics', 'Biology Basics', 'Chemistry Basics', 'Human Body', 'Science in Daily Life']),
-      makeSubNiche('Research Explainers', ['Scientific Method', 'Studies', 'Data', 'Evidence Basics', 'Research Summaries']),
-      makeSubNiche('Energy', ['Renewable Energy', 'Solar', 'Batteries', 'Electricity', 'Energy Systems']),
-      makeSubNiche('Future Science', ['Biotechnology', 'Robotics', 'Future Materials', 'Space Tech', 'Scientific Innovations']),
-    ],
-  },
-  {
-    label: 'Entertainment',
-    slug: 'entertainment',
-    color: '#EC4899',
-    themeName: 'pink',
-    description: 'Movies, series, music, games, books, creators and streaming.',
-    subNiches: [
-      makeSubNiche('Movies & Series', ['Movie Guides', 'Series Guides', 'Streaming', 'Film Analysis', 'Directors', 'Genres']),
-      makeSubNiche('Music', ['Music Discovery', 'Playlists', 'Artists', 'Music Tools', 'Music Production', 'Genres']),
-      makeSubNiche('Gaming', ['Game Guides', 'Gaming Tools', 'Platforms', 'Game Reviews', 'Esports', 'Game Design']),
-      makeSubNiche('Books', ['Book Lists', 'Reading Systems', 'Authors', 'Summaries', 'Genres', 'Literature']),
-      makeSubNiche('Creator Culture', ['Content Creation', 'YouTube', 'TikTok', 'Creator Tools', 'Monetization', 'Personal Brand']),
-      makeSubNiche('Streaming Guides', ['Streaming Platforms', 'What to Watch', 'Platform Comparisons', 'Watchlists', 'Streaming Tools']),
     ],
   },
 ]

@@ -229,33 +229,24 @@ main {
 }
 
 .nav-dropdown {
-  position: relative;
   display: inline-flex;
   align-items: center;
   padding-block: 22px;
 }
 
-.nav-dropdown::after {
-  content: '';
-  position: absolute;
-  left: -20px;
-  right: -20px;
-  top: 100%;
-  height: 16px;
-}
-
 .project-menu {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: -18px;
-  width: 720px;
-  padding: 10px;
+  position: fixed;
+  top: 74px;
+  left: max(60px, calc((100vw - var(--max)) / 2));
+  right: max(60px, calc((100vw - var(--max)) / 2));
+  margin-top: 8px;
+  padding: 24px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
   border: 1px solid rgba(67, 38, 29, 0.08);
   border-radius: 18px;
-  background: rgba(251, 244, 235, 0.82);
+  background: rgba(251, 244, 235, 0.94);
   box-shadow: 0 24px 80px rgba(67, 38, 29, 0.12);
   opacity: 0;
   pointer-events: none;
@@ -265,6 +256,16 @@ main {
     transform 160ms ease;
   -webkit-backdrop-filter: blur(24px) saturate(1.18);
   backdrop-filter: blur(24px) saturate(1.18);
+  z-index: 49;
+}
+
+.project-menu::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  right: -20px;
+  bottom: 100%;
+  height: 20px;
 }
 
 .nav-dropdown:hover .project-menu,
@@ -290,38 +291,36 @@ main {
 }
 
 .project-menu-item {
-  min-height: 82px;
-  padding: 14px;
-  display: grid;
-  grid-template-columns: 12px 1fr;
-  gap: 4px 12px;
-  align-items: center;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   border-radius: 12px;
   color: var(--text);
 }
 
 .project-menu-item:hover {
-  background: rgba(255, 255, 255, 0.46);
+  background: rgba(255, 255, 255, 0.5);
 }
 
-.project-menu-item > span {
-  width: 10px;
-  height: 10px;
-  grid-row: 1 / span 2;
-  border-radius: 50%;
+.project-menu-item .project-menu-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
 }
 
 .project-menu-item strong {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .project-menu-item small {
-  color: rgba(67, 38, 29, 0.58);
-  font-size: 13px;
+  color: rgba(67, 38, 29, 0.55);
+  font-size: 12px;
   font-weight: 500;
-  line-height: 1.22;
+  line-height: 1.35;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;

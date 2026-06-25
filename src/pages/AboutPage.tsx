@@ -338,13 +338,13 @@ export default function AboutPage() {
       </section>
 
       {/* Why we exist */}
-      <section style={{ ...sec, background: 'var(--cream-2)' }}>
-        <div style={{ width: 'min(calc(100% - 80px), 1340px)', margin: '0 auto', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 40 }}>
-          <div style={{ maxWidth: 420, flexShrink: 0 }}>
-            <h2 style={h2Style}>
-              The internet has information.
-              <span style={ghost}>Not always answers.</span>
-            </h2>
+        <section style={{ ...sec, background: 'var(--cream-2)' }}>
+          <div style={{ ...wrap, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 40 }}>
+            <div style={{ maxWidth: 480, flexShrink: 0 }}>
+              <h2 style={h2Style}>
+                The internet has information.
+                <span style={ghost}>Not always answers.</span>
+              </h2>
             <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 14 }}>
               <p style={para}>Many online answers are repetitive, outdated, vague or copied from the same sources. Some of the questions people really ask still do not have a clear answer at all.</p>
               <p style={para}>Fiindt exists to close that gap: we look for missing answers, refine existing knowledge and turn scattered information into practical, structured resources.</p>

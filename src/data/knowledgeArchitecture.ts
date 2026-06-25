@@ -92,6 +92,21 @@ export const verticals: Vertical[] = [
     ],
   },
   {
+    label: 'Travel',
+    slug: 'travel',
+    color: '#0EA5E9',
+    themeName: 'sky',
+    description: 'Trips, destinations, budgets, planning tools and digital nomad life.',
+    subNiches: [
+      makeSubNiche('Travel Planning', ['Itineraries', 'Trip Planning', 'Travel Checklists', 'Travel Documents', 'Booking Tips']),
+      makeSubNiche('Budget Travel', ['Cheap Flights', 'Budget Hotels', 'Travel Deals', 'Saving Money', 'Low-cost Travel']),
+      makeSubNiche('Destination Guides', ['City Guides', 'Country Guides', 'Weekend Trips', 'Hidden Gems', 'Travel Seasons']),
+      makeSubNiche('Local Experiences', ['Food Experiences', 'Local Culture', 'Activities', 'Museums', 'Local Transport']),
+      makeSubNiche('Digital Nomad', ['Remote Work Travel', 'Nomad Cities', 'Workspaces', 'Visas', 'Nomad Tools']),
+      makeSubNiche('Travel Tools', ['Travel Apps', 'Packing Tools', 'Maps', 'Translation Tools', 'Travel Gear']),
+    ],
+  },
+  {
     label: 'Health',
     slug: 'health',
     color: '#E11D48',
@@ -167,21 +182,6 @@ export const verticals: Vertical[] = [
       makeSubNiche('Recovery', ['Stretching', 'Rest', 'Injury Prevention', 'Recovery Tools', 'Mobility']),
       makeSubNiche('Sports Tech', ['Wearables', 'Fitness Apps', 'Tracking Tools', 'Smart Equipment', 'Performance Data']),
       makeSubNiche('Performance', ['Speed', 'Strength', 'Endurance', 'Nutrition for Sport', 'Mental Performance']),
-    ],
-  },
-  {
-    label: 'Travel',
-    slug: 'travel',
-    color: '#0EA5E9',
-    themeName: 'sky',
-    description: 'Trips, destinations, budgets, planning tools and digital nomad life.',
-    subNiches: [
-      makeSubNiche('Travel Planning', ['Itineraries', 'Trip Planning', 'Travel Checklists', 'Travel Documents', 'Booking Tips']),
-      makeSubNiche('Budget Travel', ['Cheap Flights', 'Budget Hotels', 'Travel Deals', 'Saving Money', 'Low-cost Travel']),
-      makeSubNiche('Destination Guides', ['City Guides', 'Country Guides', 'Weekend Trips', 'Hidden Gems', 'Travel Seasons']),
-      makeSubNiche('Local Experiences', ['Food Experiences', 'Local Culture', 'Activities', 'Museums', 'Local Transport']),
-      makeSubNiche('Digital Nomad', ['Remote Work Travel', 'Nomad Cities', 'Workspaces', 'Visas', 'Nomad Tools']),
-      makeSubNiche('Travel Tools', ['Travel Apps', 'Packing Tools', 'Maps', 'Translation Tools', 'Travel Gear']),
     ],
   },
   {

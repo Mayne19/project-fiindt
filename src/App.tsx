@@ -151,6 +151,7 @@ const subNicheIcons = {
 
 const explorerMenuItems = verticals.map((vertical) => ({
   label: vertical.label,
+  slug: vertical.slug,
   href: `/${vertical.slug}`,
   description: vertical.description,
   color: vertical.color,
@@ -305,13 +306,18 @@ function SiteHeader() {
             Explorer
           </button>
           <div className="project-menu">
-            {explorerMenuItems.map((item) => (
-              <Link className="project-menu-item" to={item.href} key={item.href}>
-                <span style={{ backgroundColor: item.color }} />
-                <strong>{item.label}</strong>
-                <small>{item.description}</small>
-              </Link>
-            ))}
+            {explorerMenuItems.map((item) => {
+              const Icon = verticalIcons[item.slug] ?? StarIcon
+              return (
+                <Link className="project-menu-item" to={item.href} key={item.href}>
+                  <div className="project-menu-icon" style={{ color: item.color }}>
+                    <HugeiconsIcon icon={Icon} size={20} strokeWidth={1.6} />
+                    <strong>{item.label}</strong>
+                  </div>
+                  <small>{item.description}</small>
+                </Link>
+              )
+            })}
           </div>
         </div>
         {nav.map(([label, href]) => (

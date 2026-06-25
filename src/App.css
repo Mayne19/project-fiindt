@@ -1965,7 +1965,7 @@ p {
 
 .vertical-media-hero {
   position: relative;
-  min-height: 590px;
+  min-height: 520px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -2110,16 +2110,17 @@ p {
 }
 
 .vertical-featured {
-  margin-top: 64px;
+  margin-top: 96px;
   padding-bottom: 80px;
 }
 
 .latest-vertical {
-  margin-top: 96px;
+  margin-top: 56px;
 }
 
 .vertical-newsletter {
   margin-top: 96px;
+  padding: 0 0 80px;
 }
 
 .vertical-section-heading {
@@ -2378,9 +2379,6 @@ p {
   font-weight: 500;
 }
 
-.vertical-newsletter {
-  padding: 0;
-}
 
 .vertical-sub-hero {
   padding-top: 104px;

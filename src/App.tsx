@@ -1051,8 +1051,12 @@ function VerticalPage() {
 
       <section className="vertical-featured wrap">
         <div className="vertical-section-heading centered">
-          <h2>Featured guide</h2>
-          <p>A selected resource from the {currentVertical.label} archive.</p>
+          <h2>
+            Featured guide
+            <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+              A selected resource from the {currentVertical.label} archive.
+            </span>
+          </h2>
         </div>
         <div className="vertical-featured-grid">
           <Link
@@ -1295,7 +1299,12 @@ function VerticalSubNichePage() {
       <section className="niche-catalog wrap">
         <div className="vertical-section-heading">
 
-          <h2>{currentSubNiche.label} articles by category</h2>
+          <h2>
+            {currentSubNiche.label} articles by category
+            <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+              Browse all guides organized by topic within {currentSubNiche.label.toLowerCase()}.
+            </span>
+          </h2>
         </div>
         <div className="niche-catalog-list">
           {articleCatalog.map(({ category, articles: categoryArticles }) => (
@@ -1317,7 +1326,12 @@ function VerticalSubNichePage() {
       </section>
       <section className="latest-vertical wrap">
         <div className="vertical-section-heading">
-          <h2>Latest in {currentSubNiche.label}</h2>
+          <h2>
+            Latest in {currentSubNiche.label}
+            <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+              Recently published guides and resources in {currentSubNiche.label.toLowerCase()}.
+            </span>
+          </h2>
         </div>
         <div className="article-grid">
           {(articles.length ? articles : getArticlesByVertical(vertical.slug).slice(0, 3)).map((article) => (

@@ -956,11 +956,11 @@ function VerticalPage() {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              background: '#fff',
-              border: '1px solid rgba(67,38,29,.07)',
+              background: 'rgba(255,255,255,0.62)',
+              border: '1px solid rgba(67,38,29,.08)',
               borderRadius: 16,
               padding: '28px 32px',
-              boxShadow: '0 4px 24px rgba(67,38,29,.06)',
+              boxShadow: '0 2px 16px rgba(67,38,29,.05)',
               textDecoration: 'none',
               minHeight: 320,
             }}

@@ -276,28 +276,51 @@ function MethodRail() {
                 <div
                   key={step.num}
                   onClick={() => setActive(index)}
-                  style={{
-                    borderLeft: `2px solid ${isActive ? 'var(--brand-green)' : 'rgba(67,38,29,.10)'}`,
-                    paddingLeft: 24,
-                    paddingTop: isActive ? 20 : 14,
-                    paddingBottom: isActive ? 20 : 14,
-                    cursor: isActive ? 'default' : 'pointer',
-                    transition: 'border-color 0.4s ease',
-                  }}
+                  style={{ display: 'flex', gap: 0, cursor: isActive ? 'default' : 'pointer' }}
                 >
-                  {isActive ? (
-                    <div style={{ animation: 'stepReveal 0.4s ease-out' }}>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--brand-green)', letterSpacing: '-0.01em', display: 'block', marginBottom: 8 }}>Step {step.num}</span>
-                      <h3 style={{ fontSize: 28, fontWeight: 500, color: 'var(--text)', lineHeight: 1.2, margin: '0 0 14px' }}>{step.title}</h3>
-                      <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(67,38,29,.55)', margin: '0 0 10px', letterSpacing: '-0.01em' }}>{step.paras[0]}</p>
-                      <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(67,38,29,.55)', margin: 0, letterSpacing: '-0.01em' }}>{step.paras[1]}</p>
+                  {/* Left indicator — vertical bar always present, horizontal arm morphs */}
+                  <div style={{ width: 26, flexShrink: 0, display: 'flex', justifyContent: 'center', paddingTop: 20, paddingBottom: 20 }}>
+                    <div style={{ width: 4, borderRadius: 2, background: 'var(--brand-green)', alignSelf: 'stretch', position: 'relative' }}>
+                      {/* Horizontal arm — disappears first on activate, appears last on deactivate */}
+                      <div style={{
+                        position: 'absolute',
+                        top: '50%', left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        height: 4, borderRadius: 2,
+                        background: 'var(--brand-green)',
+                        width: isActive ? 0 : 22,
+                        transition: isActive
+                          ? 'width 0.12s ease 0s'
+                          : 'width 0.18s ease 0.36s',
+                      }} />
                     </div>
-                  ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                      <span style={{ fontSize: 20, lineHeight: 1, color: 'rgba(67,38,29,.20)', fontWeight: 300, flexShrink: 0, userSelect: 'none' as const }}>+</span>
-                      <span style={{ fontSize: 16, fontWeight: 600, color: 'rgba(67,38,29,.32)', letterSpacing: '-0.025em', lineHeight: 1.3 }}>{step.title}</span>
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ paddingLeft: 20, flex: 1, paddingTop: 20, paddingBottom: 20 }}>
+                    {isActive && (
+                      <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--brand-green)', letterSpacing: '-0.01em', display: 'block', marginBottom: 8 }}>
+                        Step {step.num}
+                      </span>
+                    )}
+                    <h3 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.03em', lineHeight: 1.2, margin: 0 }}>
+                      {step.title}
+                    </h3>
+
+                    {/* Body — grid trick: 0fr ↔ 1fr for smooth height */}
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateRows: isActive ? '1fr' : '0fr',
+                      transition: 'grid-template-rows 0.42s cubic-bezier(0.4, 0, 0.2, 1)',
+                    }}>
+                      <div style={{ overflow: 'hidden' }}>
+                        <div style={{ paddingTop: 14 }}>
+                          <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(67,38,29,.55)', margin: '0 0 10px', letterSpacing: '-0.01em' }}>{step.paras[0]}</p>
+                          <p style={{ fontSize: 15, lineHeight: 1.65, color: 'rgba(67,38,29,.55)', margin: 0, letterSpacing: '-0.01em' }}>{step.paras[1]}</p>
+                        </div>
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               )
             })}

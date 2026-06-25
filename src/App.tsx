@@ -89,6 +89,7 @@ import {
   type VerticalArticle,
   verticals,
 } from './data/knowledgeArchitecture'
+import { type FAQItem, verticalFaqs } from './data/verticalFaqs'
 import { legalPages as fiindtLegalPages, type LegalPageRecord } from './data/fiindtLegalPages'
 import { mockArticles as fiindtArticles } from './data/fiindtMockArticles'
 import type { Article as FiindtArticle } from './types/content'
@@ -516,7 +517,7 @@ function SiteHeader() {
         isOverDarkHero && 'site-header-on-dark',
       )}
     >
-      <Logo />
+      <Logo variant={isOverDarkHero ? 'cream' : 'brown'} />
       <div className="header-actions">
         <nav className="desktop-nav" aria-label="Main navigation">
           <div
@@ -580,26 +581,26 @@ function SiteHeader() {
   )
 }
 
-function FiindtLogo({ height = 32, color = 'currentColor' }: { height?: number; color?: string }) {
-  const s = height / 40
+function FiindtLogo({
+  variant = 'brown',
+  className,
+}: {
+  variant?: 'brown' | 'cream'
+  className?: string
+}) {
   return (
-    <span style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'flex-start', lineHeight: 1, gap: Math.round(3 * s) }}>
-      <span style={{ display: 'flex', alignItems: 'center', gap: Math.round(4 * s) }}>
-        <span style={{ display: 'inline-block', width: Math.round(30 * s), height: Math.round(5 * s), background: color, borderRadius: 1 }} />
-        <span style={{ display: 'inline-block', width: Math.round(8 * s), height: Math.round(8 * s), background: '#2563EB' }} />
-        <span style={{ display: 'inline-block', width: Math.round(8 * s), height: Math.round(8 * s), background: '#2563EB' }} />
-      </span>
-      <span style={{ fontSize: Math.round(28 * s), fontWeight: 800, letterSpacing: '-0.04em', color, fontFamily: "'Inter', sans-serif" }}>
-        Fiindt
-      </span>
-    </span>
+    <img
+      className={cx('fiindt-logo-image', className)}
+      src={variant === 'cream' ? '/logo-cream.svg' : '/logo-brun.svg'}
+      alt="Fiindt"
+    />
   )
 }
 
-function Logo() {
+function Logo({ variant = 'brown' }: { variant?: 'brown' | 'cream' }) {
   return (
     <Link className="logo" to="/" aria-label="Fiindt home" style={{ textDecoration: 'none' }}>
-      <FiindtLogo height={30} />
+      <FiindtLogo variant={variant} />
     </Link>
   )
 }
@@ -986,7 +987,7 @@ function HomeFAQ() {
   )
 }
 
-function FAQList({ items }: { items: typeof homeFaqs }) {
+function FAQList({ items }: { items: FAQItem[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
@@ -1024,6 +1025,41 @@ function FAQList({ items }: { items: typeof homeFaqs }) {
         )
       })}
     </div>
+  )
+}
+
+function VerticalFAQ({ verticalSlug }: { verticalSlug: string }) {
+  const items = verticalFaqs[verticalSlug] ?? []
+
+  if (!items.length) return null
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  }
+
+  return (
+    <section className="faq vertical-faq wrap">
+      <h2>
+        Frequently asked questions
+        <span>
+          Clear answers to common questions about how Fiindt researches, explains and updates this topic.
+        </span>
+      </h2>
+      <FAQList items={items} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+    </section>
   )
 }
 
@@ -1278,6 +1314,7 @@ function VerticalPage() {
         </div>
       </section>
 
+      <VerticalFAQ verticalSlug={currentVertical.slug} />
       <VerticalNewsletter vertical={currentVertical.label} />
     </div>
   )
@@ -1627,36 +1664,34 @@ function MediaHero({
 }
 
 function FAQPage() {
-  const groups = [
-    ['About Mindrift', 'What is Mindrift?', 'What are the mission and values?'],
-    ['Diversity and ethics', 'What is the policy on harassment?', 'How is inclusion promoted?'],
-    ['Getting started', 'How do I apply?', 'How long does onboarding take?'],
-    ['Qualifications', 'What experience do I need?', 'Do I need AI background?'],
-    ['Payments', 'How are rates calculated?', 'When do payments arrive?'],
-    ['Safety', 'Why do some projects include sensitive content?', 'How does Mindrift support contributors?'],
-  ]
-  const items = groups.flatMap(([group, ...questions]) =>
-    questions.map((question) => ({
-      question,
-      answer: `${group}: Mindrift provides project details, requirements, and platform guidance before contributors begin work.`,
-    })),
-  )
   return (
     <>
       <PageHero
-
+        className="faq-page-hero"
         title="Frequently asked questions"
-        subtitle="Everything a contributor needs before applying, qualifying, and working on projects."
+        subtitle="Clear answers about Fiindt, its research approach and every knowledge vertical."
       />
-      <section className="faq-page wrap">
-        <aside>
-          {groups.map(([group]) => (
-            <a href={`#${group}`} key={group}>
-              {group}
-            </a>
-          ))}
-        </aside>
-        <FAQList items={items} />
+      <section className="faq-directory wrap">
+        <section className="faq faq-directory-section" id="general">
+          <h2>
+            About Fiindt
+            <span>General questions about the platform, its research and its content structure.</span>
+          </h2>
+          <FAQList items={homeFaqs} />
+        </section>
+        {verticals.map((vertical) => (
+          <section
+            className="faq faq-directory-section"
+            id={`${vertical.slug}-faq`}
+            key={vertical.slug}
+          >
+            <h2>
+              {vertical.label}
+              <span>Questions about Fiindt’s {vertical.label.toLowerCase()} research and guidance.</span>
+            </h2>
+            <FAQList items={verticalFaqs[vertical.slug] ?? []} />
+          </section>
+        ))}
       </section>
     </>
   )
@@ -1849,15 +1884,17 @@ function ContactPage() {
 }
 
 function PageHero({
+  className,
   title,
   subtitle,
 }: {
+  className?: string
   title: string
   subtitle: string
 }) {
   return (
     <MayneFadeIn>
-      <section className="page-hero wrap">
+      <section className={cx('page-hero wrap', className)}>
         <div>
 
           <h1>{title}</h1>
@@ -1890,7 +1927,7 @@ function Footer() {
   return (
     <footer className="footer wrap">
       <Link to="/" aria-label="Fiindt home" style={{ textDecoration: 'none', alignSelf: 'start' }}>
-        <FiindtLogo height={28} />
+        <FiindtLogo className="fiindt-logo-footer" />
       </Link>
       <div className="footer-links">
         {columns.map((links, index) => (

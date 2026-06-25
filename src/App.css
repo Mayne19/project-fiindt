@@ -118,6 +118,8 @@ main {
 }
 
 .site-header {
+  --header-edge-gap: 12px;
+  --header-radius: 36px;
   position: fixed;
   top: 20px;
   left: max(24px, calc((100vw - 640px) / 2));
@@ -125,12 +127,13 @@ main {
   width: min(calc(100% - 48px), 640px);
   min-height: 58px;
   margin: 0;
-  padding: 6px 9px 6px 18px;
+  padding: 10px var(--header-edge-gap);
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 24px;
   color: var(--text-dark);
+  border-radius: var(--header-radius);
   background: transparent;
 }
 
@@ -139,7 +142,7 @@ main {
   position: absolute;
   inset: 1px 8% 52%;
   z-index: 1;
-  border-radius: 999px;
+  border-radius: calc(var(--header-radius) - 1px);
   pointer-events: none;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.32), transparent);
   filter: blur(4px);
@@ -152,7 +155,7 @@ main {
   z-index: 0;
   pointer-events: none;
   border: 1px solid rgba(255, 255, 255, 0.48);
-  border-radius: 999px;
+  border-radius: var(--header-radius);
   background:
     linear-gradient(115deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.025)),
     rgba(255, 255, 255, 0.015);
@@ -193,41 +196,17 @@ main {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  color: var(--text-dark);
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 1;
-  transition: color 180ms ease, text-shadow 180ms ease;
+  line-height: 0;
 }
 
-.logo-mark {
-  display: inline-flex;
-  width: 24px;
-  height: 24px;
-  align-items: flex-end;
-  gap: 2px;
-}
-
-.logo-mark span {
+.fiindt-logo-image {
   display: block;
-  width: 6px;
-  background: var(--brand-green);
-  border-radius: 4px 4px 2px 2px;
+  width: auto;
+  height: 48px;
 }
 
-.logo-mark span:nth-child(1) {
-  height: 11px;
-  transform: rotate(-13deg);
-}
-
-.logo-mark span:nth-child(2) {
-  height: 19px;
-}
-
-.logo-mark span:nth-child(3) {
-  height: 14px;
-  transform: rotate(13deg);
+.fiindt-logo-footer {
+  height: 64px;
 }
 
 .desktop-nav,
@@ -245,7 +224,7 @@ main {
 .nav-dropdown {
   display: inline-flex;
   align-items: center;
-  padding-block: 22px;
+  padding-block: 17.5px;
 }
 
 .project-menu {
@@ -352,7 +331,7 @@ main {
   align-items: center;
   gap: 5px;
   color: var(--text);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
   line-height: 1;
   transition: color 160ms ease, opacity 160ms ease;
@@ -413,7 +392,13 @@ main {
   min-height: 40px;
   background: var(--brand-green);
   color: #fff;
+  font-size: 17px;
   font-weight: 500;
+}
+
+.site-header .button-green {
+  height: 48px;
+  border-radius: calc(var(--header-radius) - var(--header-edge-gap));
 }
 
 h1,
@@ -1209,6 +1194,70 @@ p {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
   gap: 80px;
+}
+
+.faq > h2 > span,
+.vertical-faq h2 > span,
+.faq-directory-section h2 > span {
+  display: block;
+  margin-top: 6px;
+  color: rgba(67, 38, 29, 0.32);
+  font-size: 0.75em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.vertical-faq {
+  margin-top: 96px;
+  padding-block: 32px 16px;
+}
+
+.faq-directory {
+  display: grid;
+  gap: 0;
+  padding-top: 24px;
+  padding-bottom: 80px;
+}
+
+.faq-directory-section {
+  padding-block: 48px;
+  border-top: 1px solid rgba(67, 38, 29, 0.1);
+  scroll-margin-top: 110px;
+}
+
+.faq-directory-section:first-child {
+  border-top: 0;
+}
+
+.faq-page-hero {
+  min-height: 500px;
+  padding-block: 112px 80px;
+  align-items: center;
+  background: var(--cream);
+}
+
+.faq-page-hero > div:first-child {
+  width: min(820px, 100%);
+}
+
+.faq-page-hero h1 {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 700;
+  letter-spacing: -0.046em;
+  line-height: 1.05;
+}
+
+.faq-page-hero p:last-child {
+  width: min(620px, 100%);
+  margin-top: 20px;
+  color: rgba(67, 38, 29, 0.55);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.55;
 }
 
 .faq-list {
@@ -3246,31 +3295,8 @@ p {
     gap: 12px;
   }
 
-  .logo {
-    font-size: 8px;
-    gap: 4px;
-  }
-
-  .logo-mark {
-    width: 12px;
-    height: 12px;
-    gap: 1px;
-  }
-
-  .logo-mark span {
-    width: 3px;
-  }
-
-  .logo-mark span:nth-child(1) {
-    height: 5px;
-  }
-
-  .logo-mark span:nth-child(2) {
-    height: 9px;
-  }
-
-  .logo-mark span:nth-child(3) {
-    height: 7px;
+  .fiindt-logo-image {
+    height: 48px;
   }
 
   .button {
@@ -3347,6 +3373,30 @@ p {
   .sub-category-grid,
   .vertical-newsletter {
     grid-template-columns: 1fr;
+  }
+
+  .faq-directory {
+    padding-top: 0;
+    padding-bottom: 56px;
+  }
+
+  .faq-directory-section {
+    gap: 32px;
+    padding-block: 40px;
+  }
+
+  .faq-page-hero {
+    min-height: 430px;
+    padding: 96px 14px 64px;
+  }
+
+  .faq-page-hero h1 {
+    font-size: clamp(42px, 12vw, 58px);
+  }
+
+  .faq-page-hero p:last-child {
+    font-size: 17px;
+    line-height: 1.5;
   }
 
   .project-card {

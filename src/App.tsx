@@ -404,7 +404,7 @@ function LatestArticles() {
   return (
     <section style={{ paddingTop: 80, paddingBottom: 64, paddingLeft: 40, paddingRight: 40, marginTop: 0, background: 'var(--cream-2)', fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 40 }}>
+        <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 40 }}>
           Latest from Fiindt
           <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
             Recent resources from the Fiindt editorial system.
@@ -449,20 +449,24 @@ function LatestArticles() {
 
 function HowItWorks() {
   const steps = [
-    'Ask a question',
-    'We investigate',
-    'Get a clear answer',
+    'Discover',
+    'Investigate',
+    'Verify',
+    'Structure',
+    'Update',
   ]
   return (
-    <section className="journey wrap journey-3step" style={{ marginTop: 0, paddingTop: 80, paddingBottom: 80 }}>
+    <section className="journey wrap journey-5step" style={{ marginTop: 0, paddingTop: 80, paddingBottom: 80 }}>
       <JourneySection
         title="How Fiindt works"
         subtitle="Fiindt structures every topic like a clear knowledge tree, from broad domains to precise resources."
         steps={steps}
         detail={(_, i) => [
-          'Search any topic or browse a vertical domain',
-          'Our team analyzes sources, data and real cases',
-          'A structured, sourced guide — not a vague summary',
+          'Find real questions, knowledge gaps and outdated answers.',
+          'Collect sources, examples, tools, data and user signals.',
+          'Check relevance, accuracy and practical usefulness.',
+          'Organize findings into verticals, sub-niches, categories and articles.',
+          'Refresh important content when tools, habits or facts evolve.',
         ][i]}
       />
     </section>
@@ -477,7 +481,7 @@ function NewsletterCTA() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32,
       }}>
         <div>
-          <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#fbf4eb', lineHeight: 1.1 }}>
+          <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#fbf4eb', lineHeight: 1.1 }}>
             Get answers before everyone else.
             <span style={{ display: 'block', color: 'rgba(251,244,235,.35)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
               New investigations published every week across 12 domains.
@@ -1495,7 +1499,7 @@ function ContactPage() {
       <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px' }}>
           <div style={{ maxWidth: 600, margin: '0 auto 56px', textAlign: 'center' }}>
-            <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+            <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
               How to reach us.
               <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
                 Choose the right path for your message.
@@ -1513,7 +1517,7 @@ function ContactPage() {
       <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 40, alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+            <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
               Clear context gets better replies.
               <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
                 Help us help you faster.

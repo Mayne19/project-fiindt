@@ -800,7 +800,7 @@ p {
 .project-detail h2,
 .about-grid h2 {
   color: var(--text);
-  font-size: clamp(24px, 2.4vw, 32px);
+  font-size: clamp(28px, 2.8vw, 38px);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -925,7 +925,7 @@ p {
 .latest-insights-heading h2 {
   margin-top: 18px;
   color: var(--text);
-  font-size: clamp(27px, 1.62vw, 31px);
+  font-size: clamp(31px, 2vw, 37px);
   font-weight: 500;
   line-height: 0.98;
 }
@@ -1041,7 +1041,7 @@ p {
   width: min(660px, 100%);
   margin-top: 12px;
   color: var(--text);
-  font-size: clamp(27px, 1.62vw, 31px);
+  font-size: clamp(31px, 2vw, 37px);
   font-weight: 500;
   line-height: 0.98;
 }
@@ -1268,7 +1268,7 @@ p {
 .cta h2 {
   flex: 0 1 780px;
   color: var(--cream-2);
-  font-size: clamp(27px, 1.9vw, 36px);
+  font-size: clamp(31px, 2.2vw, 42px);
   font-weight: 500;
   line-height: 1;
   text-align: left;
@@ -1405,7 +1405,7 @@ p {
 
 .see-how h2 {
   color: var(--text);
-  font-size: 29px;
+  font-size: 33px;
   font-weight: 500;
 }
 
@@ -1482,7 +1482,7 @@ p {
   max-width: 570px;
   margin-top: 18px;
   color: var(--text);
-  font-size: clamp(27px, 1.62vw, 31px);
+  font-size: clamp(31px, 2vw, 37px);
   font-weight: 500;
   line-height: 0.98;
 }
@@ -1759,10 +1759,6 @@ p {
   transition: background-color 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
 }
 
-.card-hover:hover {
-  box-shadow: 0 18px 50px rgba(67, 38, 29, 0.10);
-  border-color: rgba(67, 38, 29, 0.20);
-}
 
 .card-heading {
   font-size: 1rem;
@@ -2124,7 +2120,7 @@ p {
 .vertical-newsletter h2 {
   margin-top: 12px;
   color: #26221e;
-  font-size: clamp(24px, 2.4vw, 32px);
+  font-size: clamp(28px, 2.8vw, 38px);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 0.98;
@@ -2439,7 +2435,7 @@ p {
 
 .sub-category-grid h2 {
   color: var(--text);
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 500;
 }
 
@@ -2502,7 +2498,7 @@ p {
 
 .promo-band h2 {
   max-width: 560px;
-  font-size: clamp(27px, 1.9vw, 36px);
+  font-size: clamp(31px, 2.2vw, 42px);
   font-weight: 500;
   line-height: 1;
 }
@@ -2741,7 +2737,7 @@ p {
 .blog-card h2 {
   margin-top: 22px;
   color: var(--text);
-  font-size: 27px;
+  font-size: 31px;
   font-weight: 500;
   line-height: 1.08;
 }
@@ -2800,7 +2796,7 @@ p {
 .response-quality h2,
 .fiindt-legal h2 {
   color: var(--text);
-  font-size: 29px;
+  font-size: 33px;
   font-weight: 500;
   line-height: 1;
 }
@@ -3014,7 +3010,7 @@ p {
 .article-page h2 {
   margin-top: 30px;
   color: var(--text);
-  font-size: 29px;
+  font-size: 33px;
   font-weight: 500;
   line-height: 1.06;
 }
@@ -3278,7 +3274,7 @@ p {
   .legal h2,
   .project-detail h2,
   .about-grid h2 {
-    font-size: 27px;
+    font-size: 31px;
   }
 
   .section-heading p {
@@ -3341,7 +3337,7 @@ p {
   }
 
   .latest-insights-heading h2 {
-    font-size: 27px;
+    font-size: 31px;
   }
 
   .latest-insights-heading p {
@@ -3533,7 +3529,7 @@ p {
   }
 
   .cta h2 {
-    font-size: 25px;
+    font-size: 29px;
   }
 
   .page-hero {
@@ -3571,7 +3567,7 @@ p {
   }
 
   .journey h2 {
-    font-size: 27px;
+    font-size: 31px;
   }
 
   .journey-track {
@@ -3633,7 +3629,7 @@ p {
   }
 
   .why-copy h2 {
-    font-size: 27px;
+    font-size: 31px;
   }
 
   .comparison-grid {

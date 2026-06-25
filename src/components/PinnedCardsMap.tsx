@@ -57,7 +57,7 @@ export default function PinnedCardsMap({
     <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream)' }}>
       <div style={{ maxWidth: maxW, margin: '0 auto', padding: '0 60px' }}>
         <div style={{ maxWidth: columns === 'four' ? 860 : 680, margin: '0 auto 56px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 0 }}>
+          <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 0 }}>
             {title}
             <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
               {description}

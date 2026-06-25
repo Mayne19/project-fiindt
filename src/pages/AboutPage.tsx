@@ -72,7 +72,7 @@ const team = [
 
 const wrap: CSSProperties = { maxWidth: 1100, margin: '0 auto', padding: '0 60px' }
 const sec: CSSProperties = { paddingTop: 64, paddingBottom: 64 }
-const h2Style: CSSProperties = { fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }
+const h2Style: CSSProperties = { fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }
 const ghost: CSSProperties = { display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }
 const para: CSSProperties = { fontSize: 17, lineHeight: 1.55, letterSpacing: '-0.01em', color: 'rgba(67,38,29,.55)', margin: 0 }
 const btnPrimary: CSSProperties = { background: 'var(--brand-green)', color: '#fff', padding: '14px 28px', borderRadius: 10, fontWeight: 600, fontSize: 16, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8, letterSpacing: '-0.01em', fontFamily: "'Inter', sans-serif" }
@@ -319,7 +319,7 @@ export default function AboutPage() {
     <div style={{ fontFamily: "'Inter', sans-serif", background: 'var(--cream)', color: 'var(--text)' }}>
 
       {/* Hero */}
-      <section style={{ ...sec, paddingTop: 100, textAlign: 'center' }}>
+      <section style={{ minHeight: 'calc(100svh - 52px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: 'var(--cream)' }}>
         <div style={wrap}>
            <h1 style={{ fontSize: 'clamp(48px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.046em', color: '#26221e', lineHeight: 1.1, maxWidth: 680, margin: '0 auto 20px' }}>
             Built to find the answers that are missing.
@@ -526,7 +526,7 @@ export default function AboutPage() {
       <section style={{ ...sec, background: 'var(--cream)' }}>
         <div style={{ width: 'min(calc(100% - 120px), 1220px)', margin: '0 auto' }}>
           <div style={{ background: '#26221e', padding: '32px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
-            <h2 style={{ fontSize: 'clamp(20px,2vw,28px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#fbf4eb', lineHeight: 1.15, margin: 0 }}>
+            <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#fbf4eb', lineHeight: 1.15, margin: 0 }}>
               Start exploring structured knowledge.
               <span style={{ display: 'block', color: 'rgba(251,244,235,.40)', marginTop: 6, fontSize: '0.78em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
                 Practical guides across focused topics.

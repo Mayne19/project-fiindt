@@ -54,7 +54,7 @@
 }
 
 .page-title {
-  font-size: 1.875rem;
+  font-size: 2.125rem;
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.1;
@@ -69,7 +69,7 @@
 }
 
 .section-title {
-  font-size: 1.875rem;
+  font-size: 2.125rem;
   font-weight: 600;
   letter-spacing: 0;
   line-height: 1.15;
@@ -133,9 +133,6 @@
   box-shadow: var(--shadow-card-hover);
   transition: background-color 0.4s ease-out, box-shadow 0.4s ease-out;
 }
-.card-hover:hover {
-  background-color: var(--bg-elevated-hover);
-}
 
 .glass-panel {
   background: color-mix(in srgb, var(--bg-surface) 88%, transparent);
@@ -165,14 +162,14 @@
 }
 
 @media (min-width: 640px) {
-  .page-title { font-size: 2.25rem; }
+  .page-title { font-size: 2.5rem; }
   .page-description, .section-description { font-size: 1rem; }
 }
 @media (min-width: 768px) {
-  .section-title { font-size: 2.25rem; }
+  .section-title { font-size: 2.5rem; }
 }
 @media (min-width: 1024px) {
-  .page-title { font-size: 3rem; }
+  .page-title { font-size: 3.25rem; }
   .fiindt-card-title { font-size: 1.25rem; }
 }
 @media (max-width: 639px) {

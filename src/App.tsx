@@ -390,68 +390,96 @@ function PageFrame() {
 function SiteHeader() {
   const { pathname } = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
-  const isOverlay = isHeaderOverlayRoute(pathname)
-  const overlayVertical = verticals.find((vertical) => pathname === `/${vertical.slug}`)
-  const verticalInk = overlayVertical ? 'light' : null
+  const [isOverDarkHero, setIsOverDarkHero] = useState(false)
   const isProjectActive =
     explorerMenuItems.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
-  const nav = [
-    ['About Us', routes.about],
-    ['Contact', '/contact'],
-  ] as const
+  const nav = [['About Us', routes.about]] as const
 
   useEffect(() => {
-    const updateHeader = () => setIsScrolled(window.scrollY > 8)
+    let frame = 0
+    const updateHeader = () => {
+      frame = 0
+      setIsScrolled(window.scrollY > 8)
+
+      const darkHero = document.querySelector(
+        '.vertical-media-hero, .media-hero:not(.media-hero-light)',
+      )
+      const header = document.querySelector<HTMLElement>('.site-header')
+      const headerRect = header?.getBoundingClientRect()
+      const isOverDarkCard = headerRect
+        ? [0.2, 0.5, 0.8].some((position) =>
+            document
+              .elementsFromPoint(
+                headerRect.left + headerRect.width * position,
+                headerRect.top + headerRect.height / 2,
+              )
+              .some((element) => element.closest('.pinned-map-card')),
+          )
+        : false
+
+      setIsOverDarkHero(
+        Boolean(darkHero && darkHero.getBoundingClientRect().bottom > 108) || isOverDarkCard,
+      )
+    }
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateHeader)
+    }
+
     updateHeader()
-    window.addEventListener('scroll', updateHeader, { passive: true })
-    return () => window.removeEventListener('scroll', updateHeader)
+    window.addEventListener('scroll', scheduleUpdate, { passive: true })
+    window.addEventListener('resize', scheduleUpdate)
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', scheduleUpdate)
+      window.removeEventListener('resize', scheduleUpdate)
+    }
   }, [pathname])
 
   return (
     <header
       className={cx(
         'site-header',
-        isOverlay && !isScrolled && 'site-header-overlay',
-        verticalInk === 'light' && !isScrolled && 'site-header-ink-light',
+        isScrolled && 'site-header-scrolled',
+        isOverDarkHero && 'site-header-on-dark',
       )}
     >
       <Logo />
-      <nav className="desktop-nav" aria-label="Main navigation">
-        <div className="nav-dropdown">
-          <button
-            className={cx('nav-link explorer-trigger', isProjectActive && 'active')}
-            type="button"
-            aria-haspopup="true"
-          >
-            <HugeiconsIcon icon={ArrowDown01Icon} size={12} strokeWidth={2} />
-            Explorer
-          </button>
-          <div className="project-menu">
-            {explorerMenuItems.map((item) => {
-              const Icon = verticalIcons[item.slug] ?? StarIcon
-              return (
-                <Link className="project-menu-item" to={item.href} key={item.href}>
-                  <div className="project-menu-icon" style={{ color: item.color }}>
-                    <HugeiconsIcon icon={Icon} size={20} strokeWidth={1.6} />
-                    <strong>{item.label}</strong>
-                  </div>
-                  <small>{item.description}</small>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-        {nav.map(([label, href]) => (
-          <NavLink
-            key={href}
-            className={({ isActive }) => cx('nav-link', isActive && 'active')}
-            to={href}
-          >
-            {label}
-          </NavLink>
-        ))}
-      </nav>
       <div className="header-actions">
+        <nav className="desktop-nav" aria-label="Main navigation">
+          <div className="nav-dropdown">
+            <button
+              className={cx('nav-link explorer-trigger', isProjectActive && 'active')}
+              type="button"
+              aria-haspopup="true"
+            >
+              <HugeiconsIcon icon={ArrowDown01Icon} size={12} strokeWidth={2} />
+              Explorer
+            </button>
+            <div className="project-menu">
+              {explorerMenuItems.map((item) => {
+                const Icon = verticalIcons[item.slug] ?? StarIcon
+                return (
+                  <Link className="project-menu-item" to={item.href} key={item.href}>
+                    <div className="project-menu-icon" style={{ color: item.color }}>
+                      <HugeiconsIcon icon={Icon} size={20} strokeWidth={1.6} />
+                      <strong>{item.label}</strong>
+                    </div>
+                    <small>{item.description}</small>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+          {nav.map(([label, href]) => (
+            <NavLink
+              key={href}
+              className={({ isActive }) => cx('nav-link', isActive && 'active')}
+              to={href}
+            >
+              {label}
+            </NavLink>
+          ))}
+        </nav>
         <NavLink className="button button-green" to="/contact">
           Contact
         </NavLink>

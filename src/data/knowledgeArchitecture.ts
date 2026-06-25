@@ -40,7 +40,7 @@ const slugify = (value: string) =>
 const makeSubNiche = (label: string, categories: string[]): SubNiche => ({
   label,
   slug: slugify(label),
-  description: `${categories.slice(0, 3).join(', ')}${categories.length > 3 ? '...' : '.'}`,
+  description: `${categories.join(', ')}.`,
   categories,
 })
 

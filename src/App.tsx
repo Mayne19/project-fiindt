@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   BrowserRouter,
   Link,
@@ -6,6 +6,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigationType,
   useParams,
 } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
@@ -104,6 +105,7 @@ const routes = {
 }
 
 const primaryExplorePath = '/tech'
+const scrollPositions = new Map<string, number>()
 
 const toSlug = (value: string) =>
   value
@@ -341,9 +343,45 @@ const isHeaderOverlayRoute = (pathname: string) =>
 function App() {
   return (
     <BrowserRouter>
+      <ScrollManager />
       <PageFrame />
     </BrowserRouter>
   )
+}
+
+function ScrollManager() {
+  const location = useLocation()
+  const navigationType = useNavigationType()
+
+  useEffect(() => {
+    const previousRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+    return () => {
+      window.history.scrollRestoration = previousRestoration
+    }
+  }, [])
+
+  useLayoutEffect(() => {
+    const html = document.documentElement
+    const previousScrollBehavior = html.style.scrollBehavior
+    html.style.scrollBehavior = 'auto'
+
+    if (navigationType === 'POP') {
+      window.scrollTo(0, scrollPositions.get(location.key) ?? 0)
+    } else if (location.hash) {
+      document.getElementById(location.hash.slice(1))?.scrollIntoView()
+    } else {
+      window.scrollTo(0, 0)
+    }
+
+    html.style.scrollBehavior = previousScrollBehavior
+
+    return () => {
+      scrollPositions.set(location.key, window.scrollY)
+    }
+  }, [location.hash, location.key, navigationType])
+
+  return null
 }
 
 function PageFrame() {
@@ -352,7 +390,7 @@ function PageFrame() {
 
   return (
     <main className={cx('page-frame', isOverlay && 'page-frame-overlay')}>
-      <SiteHeader />
+      <SiteHeader key={pathname} />
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
@@ -391,6 +429,9 @@ function SiteHeader() {
   const { pathname } = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOverDarkHero, setIsOverDarkHero] = useState(false)
+  const [isExplorerOpen, setIsExplorerOpen] = useState(false)
+  const [isExplorerHoverSuppressed, setIsExplorerHoverSuppressed] = useState(false)
+  const explorerRef = useRef<HTMLDivElement>(null)
   const isProjectActive =
     explorerMenuItems.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
   const nav = [['About Us', routes.about]] as const
@@ -435,6 +476,38 @@ function SiteHeader() {
     }
   }, [pathname])
 
+  useEffect(() => {
+    if (!isExplorerOpen) return
+
+    const closeExplorer = () => {
+      setIsExplorerOpen(false)
+      setIsExplorerHoverSuppressed(true)
+    }
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!explorerRef.current?.contains(event.target as Node)) closeExplorer()
+    }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeExplorer()
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isExplorerOpen])
+
+  const toggleExplorer = () => {
+    setIsExplorerHoverSuppressed(isExplorerOpen)
+    setIsExplorerOpen(!isExplorerOpen)
+  }
+
+  const closeExplorer = () => {
+    setIsExplorerOpen(false)
+    setIsExplorerHoverSuppressed(true)
+  }
+
   return (
     <header
       className={cx(
@@ -446,20 +519,36 @@ function SiteHeader() {
       <Logo />
       <div className="header-actions">
         <nav className="desktop-nav" aria-label="Main navigation">
-          <div className="nav-dropdown">
+          <div
+            className={cx(
+              'nav-dropdown',
+              isExplorerOpen && 'is-open',
+              isExplorerHoverSuppressed && 'is-hover-suppressed',
+            )}
+            ref={explorerRef}
+            onMouseLeave={() => setIsExplorerHoverSuppressed(false)}
+          >
             <button
               className={cx('nav-link explorer-trigger', isProjectActive && 'active')}
               type="button"
               aria-haspopup="true"
+              aria-expanded={isExplorerOpen}
+              aria-controls="explorer-menu"
+              onClick={toggleExplorer}
             >
               <HugeiconsIcon icon={ArrowDown01Icon} size={12} strokeWidth={2} />
               Explorer
             </button>
-            <div className="project-menu">
+            <div className="project-menu" id="explorer-menu">
               {explorerMenuItems.map((item) => {
                 const Icon = verticalIcons[item.slug] ?? StarIcon
                 return (
-                  <Link className="project-menu-item" to={item.href} key={item.href}>
+                  <Link
+                    className="project-menu-item"
+                    to={item.href}
+                    key={item.href}
+                    onClick={closeExplorer}
+                  >
                     <div className="project-menu-icon" style={{ color: item.color }}>
                       <HugeiconsIcon icon={Icon} size={20} strokeWidth={1.6} />
                       <strong>{item.label}</strong>
@@ -683,6 +772,27 @@ function HomePage() {
   )
 }
 
+function SearchBar({
+  ariaLabel,
+  placeholder,
+  className,
+}: {
+  ariaLabel: string
+  placeholder: string
+  className?: string
+}) {
+  return (
+    <form
+      className={cx('site-search', className)}
+      onSubmit={(event) => event.preventDefault()}
+    >
+      <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={2} />
+      <input aria-label={ariaLabel} placeholder={placeholder} />
+      <button type="submit">Search</button>
+    </form>
+  )
+}
+
 function NewHomeHero() {
   const heroVerticals = [
     {n:'Tech',          dot:'#3B5BDB',bg:'#E8EEFF',tx:'#2840B0'},
@@ -803,34 +913,11 @@ function NewHomeHero() {
         domain that matters.
       </p>
 
-      <form style={{
-        display:'flex', alignItems:'center', gap:9,
-        background:'rgba(255,255,255,.72)',
-        border:'0.5px solid rgba(67,38,29,.11)',
-        borderRadius:999, padding:'9px 9px 9px 18px',
-        width:'100%', maxWidth:520, marginBottom:13,
-        boxShadow:'0 2px 14px rgba(67,38,29,.05)'
-      }}>
-        <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={2}
-          style={{color:'rgba(67,38,29,.32)',flexShrink:0}} />
-        <input
-          aria-label="Search a question, topic or domain"
-          placeholder="Search a question, topic or domain..."
-          style={{
-            flex:1, border:0, outline:0, background:'transparent',
-            fontSize:14, color:'var(--text)',
-            fontFamily:"'Inter', sans-serif", letterSpacing:'-.01em'
-          }}
-        />
-        <button type="submit" style={{
-          background:'#47c971', color:'#fff', border:'none',
-          borderRadius:999, padding:'8px 20px', fontSize:13,
-          fontWeight:600, cursor:'pointer', letterSpacing:'-.01em',
-          fontFamily:"'Inter', sans-serif"
-        }}>
-          Search
-        </button>
-      </form>
+      <SearchBar
+        className="site-search-home"
+        ariaLabel="Search a question, topic or domain"
+        placeholder="Search a question, topic or domain..."
+      />
 
       <p style={{
         fontSize:10, color:'rgba(67,38,29,.28)',
@@ -1038,22 +1125,23 @@ function VerticalPage() {
 
             <h1>{currentVertical.label}</h1>
             <p>{currentVertical.description}</p>
-            <form className="vertical-search">
-              <HugeiconsIcon icon={Search01Icon} size={18} strokeWidth={2} />
-              <input
-                aria-label={`Search ${currentVertical.label}`}
-                placeholder={`Search ${currentVertical.label} guides, tools or workflows...`}
-              />
-            </form>
+            <SearchBar
+              className="site-search-vertical"
+              ariaLabel={`Search ${currentVertical.label}`}
+              placeholder={`Search ${currentVertical.label} guides, tools or workflows...`}
+            />
             <div className="vertical-actions">
-              <Link
+              <a
                 className="vertical-button vertical-button-primary"
-                to={`/${currentVertical.slug}/${currentVertical.subNiches[0]?.slug}`}
+                href="#sub-niches"
               >
-                Explore {currentVertical.subNiches[0]?.label}
+                Explore {currentVertical.label} topics
                 <HugeiconsIcon icon={ArrowUpRight01Icon} size={15} strokeWidth={2} />
-              </Link>
-              <a className="vertical-button vertical-button-outline" href="#latest-vertical-articles">
+              </a>
+              <a
+                className="vertical-button vertical-button-outline"
+                href="#latest-vertical-articles"
+              >
                 Latest articles
               </a>
             </div>
@@ -1062,6 +1150,7 @@ function VerticalPage() {
       </section>
 
       <PinnedCardsMap
+        id="sub-niches"
         title={`Open a focused ${currentVertical.label} file`}
         description="Each sub-niche narrows the vertical into a practical area with its own guides, categories and resources."
         items={currentVertical.subNiches.map((subNiche) => {

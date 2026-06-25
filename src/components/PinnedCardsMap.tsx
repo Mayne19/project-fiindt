@@ -12,6 +12,7 @@ export interface PinnedCardItem {
 }
 
 interface PinnedCardsMapProps {
+  id?: string
   eyebrow?: string
   title: string
   description: string
@@ -44,6 +45,7 @@ function Pushpin({ color }: { color: string }) {
 }
 
 export default function PinnedCardsMap({
+  id,
   title,
   description,
   items,
@@ -54,7 +56,7 @@ export default function PinnedCardsMap({
   const maxW = columns === 'four' ? 1100 : 1060
 
   return (
-    <section className="pinned-cards-map" style={{ paddingTop: 80, paddingBottom: 40, background: 'var(--cream)' }}>
+    <section id={id} className="pinned-cards-map" style={{ paddingTop: 80, paddingBottom: 40, background: 'var(--cream)' }}>
       <div style={{ maxWidth: maxW, margin: '0 auto', padding: '0 60px' }}>
         <div style={{ maxWidth: columns === 'four' ? 860 : 680, margin: '0 auto 64px', textAlign: 'center' }}>
           <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 0 }}>

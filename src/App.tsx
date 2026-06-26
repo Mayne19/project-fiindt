@@ -780,7 +780,7 @@ function NewsletterCTA() {
         }}>
           <input
             type="email"
-            placeholder="you@domain.com"
+            placeholder="Your email address"
             style={{
               width: 220, border: 0, outline: 0, background: 'transparent',
               fontSize: 14, color: '#fbf4eb', fontFamily: "'Inter', sans-serif",
@@ -2149,7 +2149,7 @@ function VerticalNewsletter({ vertical, title, subtitle }: { vertical: string; t
         <form style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,.08)', borderRadius: 999, padding: '6px 6px 6px 18px', flexShrink: 0 }}>
           <input
             type="email"
-            placeholder="you@domain.com"
+            placeholder="Your email address"
             style={{ width: 220, border: 0, outline: 0, background: 'transparent', fontSize: 14, color: '#fbf4eb', fontFamily: 'inherit' }}
           />
           <button type="submit" style={{ background: '#47c971', color: '#fff', border: 0, borderRadius: 999, padding: '9px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>

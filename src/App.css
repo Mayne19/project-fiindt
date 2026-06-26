@@ -5638,6 +5638,78 @@ p {
 }
 
 @media (max-width: 600px) {
+  .home-latest-section {
+    padding-top: 42px !important;
+  }
+
+  .home-newsletter-panel,
+  .vertical-newsletter > div,
+  .about-cta-panel {
+    border-radius: 0 !important;
+  }
+
+  .home-newsletter-form,
+  .vertical-newsletter form {
+    min-height: 64px;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    border-radius: 999px !important;
+    padding: 6px 6px 6px 20px !important;
+  }
+
+  .home-newsletter-form input,
+  .vertical-newsletter input {
+    flex: 1 1 auto;
+    width: auto !important;
+    min-height: 44px;
+  }
+
+  .home-newsletter-form button,
+  .vertical-newsletter button {
+    width: auto !important;
+    min-width: 118px;
+    min-height: 52px;
+    padding-inline: 18px !important;
+    flex: 0 0 auto;
+  }
+
+  .journey-5step .journey-track {
+    display: none;
+  }
+
+  .journey-5step .timeline-list {
+    display: grid;
+    margin-top: 24px;
+    gap: 12px;
+  }
+
+  .journey-5step .timeline-list article {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 18px;
+    border: 1px solid rgba(67, 38, 29, 0.08);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.42);
+  }
+
+  .journey-5step .timeline-list strong {
+    font-size: 13px;
+  }
+
+  .journey-5step .timeline-list h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .journey-5step .timeline-list p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
   .mobile-menu-panel {
     top: 70px;
   }

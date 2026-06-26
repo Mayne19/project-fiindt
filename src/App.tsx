@@ -95,6 +95,7 @@ import { legalPages as fiindtLegalPages, type LegalPageRecord } from './data/fii
 import { mockArticles as fiindtArticles } from './data/fiindtMockArticles'
 import type { Article as FiindtArticle } from './types/content'
 import AboutPage from './pages/AboutPage'
+import { useSEO } from './hooks/useSEO'
 import './App.css'
 
 const routes = {
@@ -420,7 +421,7 @@ function PageFrame() {
         <Route path=":vertical/:subNiche/:slug" element={<ArticlePage />} />
         <Route path=":vertical" element={<VerticalPage />} />
         <Route path=":vertical/:subNiche" element={<VerticalSubNichePage />} />
-        <Route path="*" element={<HomePage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </main>
@@ -800,7 +801,31 @@ function NewsletterCTA() {
   )
 }
 
+function NotFoundPage() {
+  useSEO({ title: 'Page not found', noIndex: true })
+  return (
+    <section style={{ minHeight: 'calc(100svh - 52px)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--cream)', textAlign: 'center' }}>
+      <div style={{ maxWidth: 480, padding: '0 32px' }}>
+        <p style={{ fontSize: 16, fontWeight: 600, letterSpacing: '0.08em', color: 'rgba(67,38,29,.38)', textTransform: 'uppercase', marginBottom: 20 }}>404</p>
+        <h1 style={{ fontSize: 'clamp(48px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.046em', color: '#26221e', lineHeight: 0.93, marginBottom: 16 }}>
+          This page doesn't exist.
+        </h1>
+        <p style={{ fontSize: 17, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', marginBottom: 32 }}>
+          The link might be broken, or the page may have moved.
+        </p>
+        <Link to="/" style={{ display: 'inline-block', background: '#47c971', color: '#fff', padding: '12px 28px', borderRadius: 999, fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
+          Back to home
+        </Link>
+      </div>
+    </section>
+  )
+}
+
 function HomePage() {
+  useSEO({
+    title: 'Fiindt',
+    description: 'Original, research-based guides across tech, health, finance, education and more. Structured knowledge for questions the internet doesn\'t answer well.',
+  })
   return (
     <>
       <NewHomeHero />
@@ -1175,8 +1200,14 @@ function VerticalPage() {
   const currentVertical = getVerticalBySlug(params.vertical)
   const [searchQuery, setSearchQuery] = useState('')
 
+  useSEO({
+    title: currentVertical ? currentVertical.label : 'Page not found',
+    description: currentVertical?.description,
+    noIndex: !currentVertical,
+  })
+
   if (!currentVertical) {
-    return <HomePage />
+    return <NotFoundPage />
   }
 
   const articles = getArticlesByVertical(currentVertical.slug)
@@ -1697,6 +1728,12 @@ function ArticleFeedbackWidget() {
 function VerticalArticlePage({ article }: { article: VerticalArticle }) {
   const currentVertical = getVerticalBySlug(article.vertical)
   const accentColor = currentVertical?.color ?? '#2563eb'
+
+  useSEO({
+    title: article.title,
+    description: article.excerpt,
+  })
+
   const related = verticalArticles
     .filter(a => a.vertical === article.vertical && a.slug !== article.slug)
     .slice(0, 2)
@@ -1772,6 +1809,12 @@ function ArticlePage() {
   const article = fiindtArticles.find(
     (item) => toSlug(item.vertical) === vertical && toSlug(item.subNiche) === subNiche && item.slug === slug,
   )
+
+  useSEO({
+    title: article?.title ?? 'Fiindt',
+    description: article?.excerpt,
+    ogImage: article?.coverImageUrl,
+  })
 
   if (!article) {
     const verticalArticle = verticalArticles.find(
@@ -2001,6 +2044,11 @@ function SubNichePageTech({ vertical, currentSubNiche, articles }: {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [page, setPage] = useState(1)
+
+  useSEO({
+    title: `${currentSubNiche.label} — ${(vertical as { label: string }).label}`,
+    description: currentSubNiche.description,
+  })
   const PER_PAGE = 15
   const filtered = articles
     .filter(a => activeCategory === null || a.category === activeCategory)
@@ -2124,7 +2172,7 @@ function VerticalSubNichePage() {
   const vertical = getVerticalBySlug(verticalSlug)
 
   if (!vertical) {
-    return <HomePage />
+    return <NotFoundPage />
   }
 
   const currentSubNiche =
@@ -2300,6 +2348,10 @@ function MediaHero({
 }
 
 function FAQPage() {
+  useSEO({
+    title: 'Frequently asked questions',
+    description: 'Clear answers about Fiindt, its research approach and every knowledge vertical.',
+  })
   return (
     <>
       <PageHero
@@ -2394,6 +2446,7 @@ const legalHubIcon: Record<string, typeof LegalDocument01Icon> = {
 }
 
 function LegalHubPage() {
+  useSEO({ title: 'Legal Center', noIndex: true })
   const findPage = (label: string) => fiindtLegalPages.find((p) => p.title === label)
 
   return (
@@ -2501,6 +2554,8 @@ function FiindtLegalPage({ page }: { page: LegalPageRecord }) {
   const [activeId, setActiveId] = useState(page.sections[0]?.id ?? '')
   const clicking = useRef(false)
 
+  useSEO({ title: page.title, noIndex: true })
+
   useEffect(() => {
     const handleScroll = () => {
       if (clicking.current) return
@@ -2581,6 +2636,10 @@ function FiindtLegalPage({ page }: { page: LegalPageRecord }) {
 import PinnedCardsMap, { type PinnedCardItem } from './components/PinnedCardsMap'
 
 function ContactPage() {
+  useSEO({
+    title: 'Contact',
+    description: 'Questions, corrections, partnerships and editorial feedback for Fiindt.',
+  })
   const contactPaths: PinnedCardItem[] = [
     { title: 'General support', description: 'Questions, feedback, access issues or technical help.', icon: <HugeiconsIcon icon={Search01Icon} size={26} strokeWidth={1.8} />, color: '#3B82F6' },
     { title: 'Partnership', description: 'Collaborations, sponsors or editorial opportunities.', icon: <HugeiconsIcon icon={BriefcaseBusinessIcon} size={26} strokeWidth={1.8} />, color: '#47c971' },

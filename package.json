@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:full": "pnpm build && node scripts/prerender.mjs",
+    "prerender": "node scripts/prerender.mjs",
+    "prerender:install": "playwright install chromium",
     "lint": "eslint .",
     "preview": "vite preview"
   },

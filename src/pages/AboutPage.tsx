@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useSEO } from '../hooks/useSEO'
 import type { CSSProperties } from 'react'
 import PinnedCardsMap, { type PinnedCardItem } from '../components/PinnedCardsMap'
 import { verticals } from '../data/knowledgeArchitecture'
@@ -338,6 +339,10 @@ function MethodRail() {
 
 export default function AboutPage() {
   const [fiindtHovered, setFiindtHovered] = useState(false)
+  useSEO({
+    title: 'About',
+    description: 'Fiindt builds original research for questions the internet doesn\'t answer well. Learn how we structure knowledge and why it matters.',
+  })
   return (
     <div className="about-page" style={{ fontFamily: "'Inter', sans-serif", background: 'var(--cream)', color: 'var(--text)' }}>
 

@@ -683,7 +683,7 @@ function LatestArticles() {
                 style={{ '--card-accent': accentColor, borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column' } as CSSProperties}
               >
                 <p style={{ fontSize: 12, color: 'rgba(67,38,29,.40)', marginBottom: 8, fontWeight: 500 }}>
-                  {article.vertical} › {article.subNiche}
+                  {getVerticalBySlug(toSlug(article.vertical))?.label ?? article.vertical} › {article.subNiche}
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                   <span style={{ display: 'inline-block', borderRadius: 999, padding: '3px 10px', fontSize: 11, fontWeight: 600, background: accentColor, color: '#fff' }}>
@@ -1368,13 +1368,16 @@ function VerticalPage() {
   }
 
   const articles = getArticlesByVertical(currentVertical.slug)
-  const featuredArticle =
-    articles.find((article) => article.featured) ?? articles[0]
-  const latestArticles = articles
+  const articlesByDate = [...articles].sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  )
+  const featuredArticle = articlesByDate[0]
+  const latestArticles = articlesByDate
     .filter((article) => article.id !== featuredArticle?.id)
     .slice(0, 6)
-  const importedArticles = fiindtArticles
+  const importedArticles = [...fiindtArticles]
     .filter((article) => toSlug(article.vertical) === currentVertical.slug)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
     .slice(0, 6)
   const mostReadArticles = articles
     .filter((article) => article.id !== featuredArticle?.id)

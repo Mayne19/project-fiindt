@@ -1358,13 +1358,121 @@ function slugifyHeading(text: string) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 }
 
-function parseArticleBlocks(content: string) {
-  return content.split('\n').map((line) => line.trim()).filter(Boolean).map((line) => {
-    if (line.startsWith('#### ')) { const text = line.slice(5); return { type: 'h4' as const, text, id: slugifyHeading(text) } }
-    if (line.startsWith('### ')) { const text = line.slice(4); return { type: 'h3' as const, text, id: slugifyHeading(text) } }
-    if (line.startsWith('## ')) { const text = line.slice(3); return { type: 'h2' as const, text, id: slugifyHeading(text) } }
-    return { type: 'p' as const, text: line, id: '' }
-  })
+type ParsedBlock =
+  | { type: 'h2' | 'h3' | 'h4' | 'h5'; text: string; id: string }
+  | { type: 'p'; text: string; id: '' }
+  | { type: 'blockquote'; text: string; id: '' }
+  | { type: 'callout'; variant: 'tip' | 'info' | 'warning' | 'danger'; text: string; id: '' }
+  | { type: 'ul' | 'ol'; items: string[]; id: '' }
+  | { type: 'code'; lang: string; text: string; id: '' }
+  | { type: 'table'; headers: string[]; rows: string[][]; id: '' }
+  | { type: 'faq'; items: { q: string; a: string }[]; id: '' }
+  | { type: 'cta'; label: string; href: string; id: '' }
+  | { type: 'image'; src: string; alt: string; caption: string; id: '' }
+  | { type: 'embed'; src: string; id: '' }
+
+function parseArticleBlocks(content: string): ParsedBlock[] {
+  const lines = content.split('\n').map((l) => l.trim())
+  const blocks: ParsedBlock[] = []
+  let i = 0
+
+  while (i < lines.length) {
+    const line = lines[i]
+
+    if (!line) { i++; continue }
+
+    if (line.startsWith('##### ')) { blocks.push({ type: 'h5', text: line.slice(6), id: slugifyHeading(line.slice(6)) }); i++; continue }
+    if (line.startsWith('#### ')) { blocks.push({ type: 'h4', text: line.slice(5), id: slugifyHeading(line.slice(5)) }); i++; continue }
+    if (line.startsWith('### ')) { blocks.push({ type: 'h3', text: line.slice(4), id: slugifyHeading(line.slice(4)) }); i++; continue }
+    if (line.startsWith('## ')) { blocks.push({ type: 'h2', text: line.slice(3), id: slugifyHeading(line.slice(3)) }); i++; continue }
+
+    // Callout: > [!tip] text
+    const calloutMatch = line.match(/^> \[!(tip|info|warning|danger)\] (.+)/)
+    if (calloutMatch) {
+      blocks.push({ type: 'callout', variant: calloutMatch[1] as 'tip' | 'info' | 'warning' | 'danger', text: calloutMatch[2], id: '' })
+      i++; continue
+    }
+
+    // Blockquote: > text
+    if (line.startsWith('> ')) {
+      blocks.push({ type: 'blockquote', text: line.slice(2), id: '' })
+      i++; continue
+    }
+
+    // Unordered list
+    if (line.startsWith('- ')) {
+      const items: string[] = []
+      while (i < lines.length && lines[i].startsWith('- ')) { items.push(lines[i].slice(2)); i++ }
+      blocks.push({ type: 'ul', items, id: '' }); continue
+    }
+
+    // Ordered list
+    if (/^\d+\. /.test(line)) {
+      const items: string[] = []
+      while (i < lines.length && /^\d+\. /.test(lines[i])) { items.push(lines[i].replace(/^\d+\. /, '')); i++ }
+      blocks.push({ type: 'ol', items, id: '' }); continue
+    }
+
+    // Code block
+    if (line.startsWith('```')) {
+      const lang = line.slice(3).trim() || 'text'
+      const codeLines: string[] = []
+      i++
+      while (i < lines.length && !lines[i].startsWith('```')) { codeLines.push(lines[i]); i++ }
+      blocks.push({ type: 'code', lang, text: codeLines.join('\n'), id: '' })
+      i++; continue
+    }
+
+    // Table: | col | col |
+    if (line.startsWith('|')) {
+      const tableLines: string[] = []
+      while (i < lines.length && lines[i].startsWith('|')) { tableLines.push(lines[i]); i++ }
+      const rows = tableLines.filter((r) => !r.match(/^\|[-| ]+\|$/))
+      const parsed = rows.map((r) => r.split('|').slice(1, -1).map((c) => c.trim()))
+      if (parsed.length > 0) {
+        blocks.push({ type: 'table', headers: parsed[0], rows: parsed.slice(1), id: '' })
+      }
+      continue
+    }
+
+    // FAQ: FAQ: question | answer
+    if (line.startsWith('FAQ: ')) {
+      const faqItems: { q: string; a: string }[] = []
+      while (i < lines.length && lines[i].startsWith('FAQ: ')) {
+        const parts = lines[i].slice(5).split(' | ')
+        if (parts.length >= 2) faqItems.push({ q: parts[0], a: parts.slice(1).join(' | ') })
+        i++
+      }
+      if (faqItems.length > 0) blocks.push({ type: 'faq', items: faqItems, id: '' })
+      continue
+    }
+
+    // CTA: [CTA: Label → url]
+    const ctaMatch = line.match(/^\[CTA: (.+?) → (.+?)\]$/)
+    if (ctaMatch) {
+      blocks.push({ type: 'cta', label: ctaMatch[1], href: ctaMatch[2], id: '' })
+      i++; continue
+    }
+
+    // Image: ![alt](src) optional caption
+    const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)(.*)$/)
+    if (imgMatch) {
+      blocks.push({ type: 'image', alt: imgMatch[1], src: imgMatch[2], caption: imgMatch[3].trim(), id: '' })
+      i++; continue
+    }
+
+    // Embed: [embed: url]
+    const embedMatch = line.match(/^\[embed: (.+)\]$/)
+    if (embedMatch) {
+      blocks.push({ type: 'embed', src: embedMatch[1], id: '' })
+      i++; continue
+    }
+
+    blocks.push({ type: 'p', text: line, id: '' })
+    i++
+  }
+
+  return blocks
 }
 
 function ArticleOutlineNav({ headings }: { headings: { id: string; text: string; level: number }[] }) {
@@ -1474,6 +1582,7 @@ function ArticlePage() {
     .filter((b): b is { type: 'h2' | 'h3'; text: string; id: string } => b.type === 'h2' || b.type === 'h3')
     .map((b) => ({ id: b.id, text: b.text, level: b.type === 'h3' ? 3 : 2 }))
 
+
   return (
     <div className="article-page-outer" style={{ '--article-color': accentColor } as CSSProperties}>
       <div className="article-page-grid">
@@ -1482,7 +1591,7 @@ function ArticlePage() {
           <div className="article-sidebar-sticky">
             <ArticleOutlineNav headings={headings} />
             {(() => {
-              const takeaways = blocks.filter(b => b.type === 'h2').slice(0, 3).map(b => b.text)
+              const takeaways = blocks.filter((b): b is { type: 'h2'; text: string; id: string } => b.type === 'h2').slice(0, 3).map(b => b.text)
               if (takeaways.length === 0) return null
               return (
                 <div className="article-takeaways">
@@ -1503,38 +1612,91 @@ function ArticlePage() {
 
           <header className="article-header">
             <h1 className="article-h1">{article.title}</h1>
-            {article.excerpt && <p className="article-excerpt">{article.excerpt}</p>}
             <div className="article-meta">
-              {article.author && <span className="article-meta-author">{article.author.name}</span>}
-              <span className="article-meta-sep">·</span>
-              <time>{formatArticleDate(article.publishedAt)}</time>
-              <span className="article-meta-sep">·</span>
-              <span>{article.readingTime} min read</span>
-              <span className="article-meta-category" style={{ background: accentColor }}>{article.category}</span>
+              <div className="article-meta-left">
+                <span className="article-meta-category" style={{ background: accentColor }}>{article.category}</span>
+                {article.author && <><span className="article-meta-sep">·</span><span className="article-meta-author">{article.author.name}</span></>}
+                <span className="article-meta-sep">·</span>
+                <time>{formatArticleDate(article.publishedAt)}</time>
+                <span className="article-meta-sep">·</span>
+                <span>{article.readingTime} min read</span>
+              </div>
+              <span className="article-editorial-signals">Last updated · Research-based · Sources listed</span>
             </div>
-            <p className="article-editorial-signals">Last updated · Research-based · Sources listed</p>
+            <img
+              src={`https://picsum.photos/seed/${article.id}/1200/630`}
+              alt={article.title}
+              className="article-cover"
+            />
           </header>
 
           <div className="article-body">
+            {article.excerpt && <p className="article-excerpt article-excerpt--intro">{article.excerpt}</p>}
             {blocks.map((block, i) => {
-              if (block.type === 'h2' || block.type === 'h3') {
+              if (block.type === 'h2' || block.type === 'h3' || block.type === 'h4') {
                 const Tag = block.type
                 return (
                   <Tag key={i} id={block.id} className="article-heading-anchor">
                     {block.text}
-                    <a
-                      href={`#${block.id}`}
-                      className="article-anchor-icon"
-                      aria-label={`Link to section: ${block.text}`}
-                      onClick={(e) => { e.preventDefault(); navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}#${block.id}`) }}
-                    >
+                    <a href={`#${block.id}`} className="article-anchor-icon" aria-label={`Link to section: ${block.text}`}
+                      onClick={(e) => { e.preventDefault(); navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}#${block.id}`) }}>
                       <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
                     </a>
                   </Tag>
                 )
               }
-              if (block.type === 'h4') return <h4 key={i} id={block.id}>{block.text}</h4>
-              return <p key={i}>{block.text}</p>
+              if (block.type === 'h5') return <h5 key={i} id={block.id}>{block.text}</h5>
+              if (block.type === 'p') return <p key={i}>{block.text}</p>
+              if (block.type === 'blockquote') return <blockquote key={i} className="article-blockquote">{block.text}</blockquote>
+              if (block.type === 'callout') return (
+                <div key={i} className={`article-callout article-callout--${block.variant}`}>
+                  <span className="article-callout-label">
+                    {block.variant === 'tip' && 'Un petit conseil pour vous'}
+                    {block.variant === 'info' && 'À noter'}
+                    {block.variant === 'warning' && 'Attention'}
+                    {block.variant === 'danger' && 'Important'}
+                  </span>
+                  <p>{block.text}</p>
+                </div>
+              )
+              if (block.type === 'ul') return <ul key={i} className="article-list">{block.items.map((item, j) => <li key={j}>{item}</li>)}</ul>
+              if (block.type === 'ol') return <ol key={i} className="article-list article-list--ol">{block.items.map((item, j) => <li key={j}>{item}</li>)}</ol>
+              if (block.type === 'code') return (
+                <div key={i} className="article-code-block">
+                  <div className="article-code-header">
+                    <span className="article-code-lang">{block.lang && block.lang !== 'text' ? block.lang : 'code'}</span>
+                    <button className="article-code-copy" onClick={() => navigator.clipboard.writeText(block.text)} title="Copier">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </button>
+                  </div>
+                  <pre><code>{block.text}</code></pre>
+                </div>
+              )
+              if (block.type === 'table') return (
+                <div key={i} className="article-table-wrap">
+                  <table className="article-table">
+                    <thead><tr>{block.headers.map((h, j) => <th key={j}>{h}</th>)}</tr></thead>
+                    <tbody>{block.rows.map((row, j) => <tr key={j}>{row.map((cell, k) => <td key={k}>{cell}</td>)}</tr>)}</tbody>
+                  </table>
+                </div>
+              )
+              if (block.type === 'faq') return null
+              if (block.type === 'cta') return null
+              if (block.type === 'image') return (
+                <figure key={i} className="article-img-block">
+                  <img src={block.src} alt={block.alt} />
+                  <figcaption className="article-img-caption">
+                    {block.caption && <span className="article-img-caption-text">{block.caption}</span>}
+                    {block.alt && <span className="article-img-source"><span className="article-img-source-label">Source :</span> {block.alt}</span>}
+                  </figcaption>
+                </figure>
+              )
+              if (block.type === 'embed') return (
+                <div key={i} className="article-embed">
+                  <iframe src={block.src} title="Embedded content" allowFullScreen />
+                </div>
+              )
+              return null
             })}
           </div>
 
@@ -1547,6 +1709,52 @@ function ArticlePage() {
           </div>
         </aside>
 
+      </div>
+      {(() => {
+        const faqBlocks = blocks.filter((b): b is { type: 'faq'; items: { q: string; a: string }[]; id: '' } => b.type === 'faq')
+        if (faqBlocks.length === 0) return null
+        const allItems = faqBlocks.flatMap(b => b.items.map(item => ({ question: item.q, answer: item.a })))
+        return (
+          <section className="faq vertical-faq wrap" style={{ paddingBottom: 64 }}>
+            <h2>
+              Frequently asked questions
+              <span>Clear answers to common questions about this topic.</span>
+            </h2>
+            <FAQList items={allItems} />
+          </section>
+        )
+      })()}
+      {(() => {
+        const related = fiindtArticles.filter(a => toSlug(a.vertical) === verticalSlug && a.slug !== article.slug).slice(0, 2)
+        if (related.length === 0) return null
+        return (
+          <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
+            <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
+              <div style={{ flexShrink: 0, maxWidth: 280 }}>
+                <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+                  Similar articles.
+                  <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+                    More from {currentVertical?.label ?? article.vertical}.
+                  </span>
+                </h2>
+              </div>
+              <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
+                {related.map((a, idx) => (
+                  <div key={a.id} style={{ '--card-bg': idx === 0 ? 'var(--cream)' : '#ffffff' } as CSSProperties}>
+                    <FiindtArticleCard article={a} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      })()}
+      <div style={{ marginBottom: -80 }}>
+        <VerticalNewsletter
+          vertical={currentVertical?.label ?? article.vertical}
+          title={`Stay ahead in ${currentVertical?.label ?? article.vertical}.`}
+          subtitle="New research and guides every week. No filler."
+        />
       </div>
     </div>
   )
@@ -1704,15 +1912,15 @@ function VerticalSubNichePage() {
   return <SubNichePageTech vertical={vertical} currentSubNiche={currentSubNiche} articles={articles} />
 }
 
-function VerticalNewsletter({ vertical }: { vertical: string }) {
+function VerticalNewsletter({ vertical, title, subtitle }: { vertical: string; title?: string; subtitle?: string }) {
   return (
     <section className="vertical-newsletter wrap">
       <div style={{ background: '#26221e', padding: '32px 40px', minHeight: 132, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32 }}>
         <div>
           <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#fbf4eb', lineHeight: 1.1, margin: 0 }}>
-            Follow {vertical} updates
+            {title ?? `Follow ${vertical} updates`}
             <span style={{ display: 'block', color: 'rgba(251,244,235,.35)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
-              Get new {vertical.toLowerCase()} guides, resources and practical decisions from Fiindt.
+              {subtitle ?? `Get new ${vertical.toLowerCase()} guides, resources and practical decisions from Fiindt.`}
             </span>
           </h2>
         </div>

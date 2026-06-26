@@ -70,26 +70,81 @@ export const mockArticles: Article[] = [
 
 Artificial intelligence has become an essential part of modern education. From writing assistance to research automation, AI tools can save hours of work and improve the quality of your output.
 
+> [!tip] Start with one tool and master it before adding others. Switching too fast prevents real productivity gains.
+
+The biggest advantage is not speed — it is the ability to focus your energy on higher-order thinking while AI handles repetitive tasks.
+
+- Research and summarization in seconds
+- Writing feedback without waiting for a professor
+- Automatic transcription of lectures and meetings
+- Personalized explanations of complex concepts
+
 ## Top AI Tools for Students
 
 ### 1. NotebookLM
-Google's NotebookLM is a powerful research assistant that helps you organize notes, summarize documents, and generate insights from your sources. It is designed specifically for students and researchers.
+
+Google's NotebookLM is a powerful research assistant that helps you organize notes, summarize documents, and generate insights from your sources.
+
+> "NotebookLM changed the way I study. I upload my lecture slides and it becomes my personal tutor." — Fiindt reader
+
+#### How to get started with NotebookLM
+
+1. Go to notebooklm.google and sign in with your Google account
+2. Create a new notebook and upload your documents (PDFs, slides, notes)
+3. Ask questions directly about your sources
+4. Generate study guides and summaries automatically
 
 ### 2. ChatGPT
+
 OpenAI's ChatGPT remains one of the most versatile tools for students. Use it for brainstorming, explaining complex concepts, drafting essays, and practicing foreign languages.
 
+> [!warning] Never submit AI-generated text as your own. Use ChatGPT to assist your thinking, not replace it.
+
+#### Example prompt for studying
+
+\`\`\`text
+Explain the concept of [topic] as if I am a first-year student.
+Then give me 3 practice questions to test my understanding.
+\`\`\`
+
 ### 3. Perplexity AI
+
 Perplexity combines a search engine with an AI assistant. It provides cited answers to your questions, making it ideal for research and fact-checking.
 
 ### 4. Grammarly
+
 Grammarly's AI-powered writing assistant helps students improve their writing style, grammar, and tone across all their documents.
 
 ### 5. Otter.ai
+
 Otter automatically transcribes lectures and meetings, allowing students to focus on understanding instead of note-taking.
+
+## Tool Comparison
+
+| Tool | Best for | Free plan | Paid from |
+|------|----------|-----------|-----------|
+| NotebookLM | Research | Yes | Free |
+| ChatGPT | Writing & ideas | Yes | $20/mo |
+| Grammarly | Editing | Yes | $12/mo |
+| Perplexity | Cited research | Yes | $20/mo |
+| Otter.ai | Transcription | Yes | $10/mo |
 
 ## How to Choose the Right Tool
 
-Consider your specific needs. If you struggle with research, try NotebookLM or Perplexity. If you need writing help, Grammarly or ChatGPT are better choices. The best approach is to combine several tools into a personal AI workflow.
+Consider your specific needs. If you struggle with research, try NotebookLM or Perplexity. If you need writing help, Grammarly or ChatGPT are better choices.
+
+![Students using AI tools in a modern study space](https://picsum.photos/seed/art1-body/800/420)
+The right AI workflow can save students 5–10 hours per week.
+
+> [!info] Most of these tools offer a generous free tier. Start free and upgrade only when you hit real limits.
+
+FAQ: Can I use AI tools during exams? | Always check your institution's policy first. Most schools allow AI for research and note preparation but require original thinking in final submissions.
+FAQ: Is ChatGPT reliable for academic citations? | No. ChatGPT can hallucinate sources. Always use Perplexity AI or Google Scholar for verified, cited research.
+FAQ: Which tool works best for non-English speakers? | ChatGPT and DeepL are excellent for language learners. Grammarly supports over 30 languages for grammar checking.
+
+[CTA: Explore all AI Tools → /tech/artificial-intelligence]
+
+[embed: https://www.youtube.com/embed/dQw4w9WgXcQ]
     `.trim(),
     category: "AI Tools",
     categorySlug: "ai-tools",

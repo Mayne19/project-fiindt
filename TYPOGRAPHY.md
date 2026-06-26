@@ -11,8 +11,9 @@ Police : Inter (Google Fonts)
 |--------|-----------|-------------|----------------|-------------|-------------|
 | H1 | `clamp(48px, 6vw, 80px)` | 700 | -0.046em | 1.05 | Page heroes, titres articles |
 | H2 | `clamp(28px, 2.8vw, 38px)` | 600 | -0.03em | 1.1 | Sections dans les pages et articles |
-| H3 | `20px` | 700 | -0.03em | 1.2 | Sous-sections articles, titres cards |
-| H4 | `14px` | 600 | -0.01em | 1.4 | Items secondaires, sub-labels |
+| H3 | `clamp(22px, 2vw, 26px)` | 700 | -0.03em | 1.15 | Sous-sections majeures (pages articles) |
+| H4 | `20px` | 700 | -0.03em | 1.2 | Sous-sections articles, titres cards |
+| H5 | `14px` | 600 | -0.01em | 1.4 | Items secondaires, sub-labels (pages articles) |
 
 ---
 

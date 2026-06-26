@@ -2257,10 +2257,10 @@ p {
 
 .search-hero h1 {
   color: var(--text-dark);
-  font-size: clamp(28px, 4vw, 52px);
+  font-size: clamp(40px, 3.4vw, 50px);
   font-weight: 700;
   letter-spacing: -0.046em;
-  line-height: 1.05;
+  line-height: 1.1;
   margin: 0;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -2383,8 +2383,7 @@ p {
   letter-spacing: -0.01em;
 }
 
-.search-vertical-list span,
-.search-result-path span {
+.search-vertical-list span {
   width: 8px;
   height: 8px;
   flex: 0 0 auto;
@@ -2474,7 +2473,7 @@ p {
 }
 
 .search-result-card:hover h3 {
-  color: var(--brand-green);
+  color: var(--result-color, var(--brand-green));
 }
 
 .search-empty-state {

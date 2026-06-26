@@ -2382,7 +2382,7 @@ p {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  border: 1.5px solid transparent;
+  border: none;
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
   font-family: inherit;

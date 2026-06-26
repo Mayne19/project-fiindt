@@ -956,7 +956,7 @@ function SearchPage() {
                     <button
                       key={v.slug}
                       className={active ? 'search-vertical-pill active' : 'search-vertical-pill'}
-                      style={active ? { background: v.color, borderColor: v.color, color: '#fff' } : { borderColor: v.color }}
+                      style={active ? { background: v.color, color: '#fff' } : undefined}
                       onClick={() => toggleVertical(v.slug)}
                       type="button"
                     >

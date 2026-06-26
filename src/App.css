@@ -2252,7 +2252,7 @@ p {
 }
 
 .search-hero-copy {
-  width: min(860px, 100%);
+  width: 100%;
 }
 
 .search-hero h1 {

@@ -433,10 +433,17 @@ function SiteHeader() {
   const [isOverDarkHero, setIsOverDarkHero] = useState(false)
   const [isExplorerOpen, setIsExplorerOpen] = useState(false)
   const [isExplorerHoverSuppressed, setIsExplorerHoverSuppressed] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const explorerRef = useRef<HTMLDivElement>(null)
   const isProjectActive =
     explorerMenuItems.some((item) => pathname === item.href || pathname.startsWith(`${item.href}/`))
   const nav = [['About Us', routes.about]] as const
+
+  useEffect(() => {
+    setIsExplorerOpen(false)
+    setIsExplorerHoverSuppressed(true)
+    setIsMobileMenuOpen(false)
+  }, [pathname])
 
   useEffect(() => {
     let frame = 0
@@ -510,6 +517,10 @@ function SiteHeader() {
     setIsExplorerHoverSuppressed(true)
   }
 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false)
+  }
+
   return (
     <header
       className={cx(
@@ -575,9 +586,36 @@ function SiteHeader() {
           Contact
         </NavLink>
       </div>
-      <button className="menu-button" type="button" aria-label="Open menu">
+      <button
+        className="menu-button"
+        type="button"
+        aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={isMobileMenuOpen}
+        aria-controls="mobile-menu"
+        onClick={() => setIsMobileMenuOpen((open) => !open)}
+      >
         <HugeiconsIcon icon={Menu01Icon} size={18} strokeWidth={2} />
       </button>
+      <div className={cx('mobile-menu-panel', isMobileMenuOpen && 'is-open')} id="mobile-menu">
+        <div className="mobile-menu-section">
+          <p>Explore</p>
+          <div className="mobile-menu-verticals">
+            {explorerMenuItems.map((item) => (
+              <Link to={item.href} key={item.href} onClick={closeMobileMenu}>
+                <span style={{ background: item.color }} />
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="mobile-menu-section mobile-menu-pages">
+          {[...nav, ['Contact', '/contact'] as const].map(([label, href]) => (
+            <Link to={href} key={href} onClick={closeMobileMenu}>
+              {label}
+            </Link>
+          ))}
+        </div>
+      </div>
     </header>
   )
 }
@@ -742,7 +780,7 @@ function NewsletterCTA() {
         }}>
           <input
             type="email"
-            placeholder="Your email address"
+            placeholder="you@domain.com"
             style={{
               width: 220, border: 0, outline: 0, background: 'transparent',
               fontSize: 14, color: '#fbf4eb', fontFamily: "'Inter', sans-serif",
@@ -2111,7 +2149,7 @@ function VerticalNewsletter({ vertical, title, subtitle }: { vertical: string; t
         <form style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,.08)', borderRadius: 999, padding: '6px 6px 6px 18px', flexShrink: 0 }}>
           <input
             type="email"
-            placeholder="Your email address"
+            placeholder="you@domain.com"
             style={{ width: 220, border: 0, outline: 0, background: 'transparent', fontSize: 14, color: '#fbf4eb', fontFamily: 'inherit' }}
           />
           <button type="submit" style={{ background: '#47c971', color: '#fff', border: 0, borderRadius: 999, padding: '9px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
@@ -2646,7 +2684,7 @@ function Footer() {
       </Link>
       <div className="footer-links">
         {columns.map((links, index) => (
-          <div className="footer-column" key={index}>
+          <div className={cx('footer-column', index < 2 && 'footer-column-verticals')} key={index}>
             {links.map(([label, href]) => (
               <Link to={href} key={label}>{label}</Link>
             ))}

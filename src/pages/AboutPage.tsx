@@ -529,7 +529,7 @@ export default function AboutPage() {
               <span style={ghost}>Building with a focus on clarity and useful knowledge.</span>
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20, maxWidth: 1100, margin: '0 auto' }}>
+          <div className="about-team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20, maxWidth: 1100, margin: '0 auto' }}>
             {team.map((member) => (
               <article key={`${member.name}-${member.surname}`} style={{ overflow: 'hidden', borderRadius: 16, border: '0.5px solid rgba(67,38,29,.10)', background: 'var(--cream-2)', boxShadow: '0 8px 32px rgba(67,38,29,.05)' }}>
                 <div style={{ padding: '16px 16px 12px' }}>
@@ -546,9 +546,9 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section style={{ ...sec, background: 'var(--cream)' }}>
-        <div style={{ width: 'min(calc(100% - 120px), 1220px)', margin: '0 auto' }}>
-          <div style={{ background: '#26221e', padding: '32px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
+      <section className="about-cta-section" style={{ ...sec, background: 'var(--cream)' }}>
+        <div className="about-cta-shell" style={{ width: 'min(calc(100% - 120px), 1220px)', margin: '0 auto' }}>
+          <div className="about-cta-panel" style={{ background: '#26221e', padding: '32px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
             <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#fbf4eb', lineHeight: 1.15, margin: 0 }}>
               Start exploring structured knowledge.
               <span style={{ display: 'block', color: 'rgba(251,244,235,.40)', marginTop: 6, fontSize: '0.78em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>

@@ -878,9 +878,11 @@ function SearchPage() {
     noIndex: true,
   })
 
-  const results = q
+  const liveQuery = inputValue.trim()
+
+  const results = liveQuery
     ? verticalArticles.filter((a) => {
-        const search = q.toLowerCase()
+        const search = liveQuery.toLowerCase()
         return (
           a.title.toLowerCase().includes(search) ||
           a.excerpt.toLowerCase().includes(search) ||
@@ -891,11 +893,11 @@ function SearchPage() {
       })
     : []
 
-  const matchingVerticals = q
+  const matchingVerticals = liveQuery
     ? verticals.filter(
         (v) =>
-          v.label.toLowerCase().includes(q.toLowerCase()) ||
-          v.description.toLowerCase().includes(q.toLowerCase()),
+          v.label.toLowerCase().includes(liveQuery.toLowerCase()) ||
+          v.description.toLowerCase().includes(liveQuery.toLowerCase()),
       )
     : []
 
@@ -928,11 +930,11 @@ function SearchPage() {
 
           <div className="search-summary-card">
             <span>Search scope</span>
-            <strong>{q ? `${results.length} article${results.length !== 1 ? 's' : ''}` : 'All Fiindt'}</strong>
+            <strong>{liveQuery ? `${results.length} article${results.length !== 1 ? 's' : ''}` : 'All Fiindt'}</strong>
             <p>{q ? 'Results are matched across titles, excerpts, categories, sub-niches and verticals.' : 'Start with a topic, question, tool or domain.'}</p>
           </div>
 
-          {q && matchingVerticals.length > 0 && (
+          {liveQuery && matchingVerticals.length > 0 && (
             <div className="search-vertical-card">
               <h2>Matching verticals</h2>
               <div className="search-vertical-list">
@@ -948,7 +950,7 @@ function SearchPage() {
         </aside>
 
         <div className="search-results-main">
-          {!q && (
+          {!liveQuery && (
             <div className="search-empty-state">
               <span className="legal-section-icon" aria-hidden="true">
                 <HugeiconsIcon icon={Search01Icon} size={32} strokeWidth={1.4} />
@@ -958,12 +960,12 @@ function SearchPage() {
             </div>
           )}
 
-          {q && results.length === 0 && matchingVerticals.length === 0 && (
+          {liveQuery && results.length === 0 && matchingVerticals.length === 0 && (
             <div className="search-empty-state">
               <span className="legal-section-icon" aria-hidden="true">
                 <HugeiconsIcon icon={Search01Icon} size={32} strokeWidth={1.4} />
               </span>
-              <h2>No results for &ldquo;{q}&rdquo;.</h2>
+              <h2>No results for &ldquo;{liveQuery}&rdquo;.</h2>
               <p>Try a broader term or browse a vertical directly from the Explorer menu.</p>
             </div>
           )}

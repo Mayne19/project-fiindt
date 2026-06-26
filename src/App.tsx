@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { type CSSProperties, Suspense, lazy, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   BrowserRouter,
   Link,
@@ -10,7 +10,7 @@ import {
   useParams,
 } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
-import { MayneFadeIn, cx } from '@mayne/ui-kit'
+import { MayneFadeIn, MayneSkeleton, MayneFormField, MayneInput, MayneButton, cx } from '@mayne/ui-kit'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
   AiChipIcon,
@@ -94,7 +94,8 @@ import { type FAQItem, verticalFaqs } from './data/verticalFaqs'
 import { legalPages as fiindtLegalPages, type LegalPageRecord } from './data/fiindtLegalPages'
 import { mockArticles as fiindtArticles } from './data/fiindtMockArticles'
 import type { Article as FiindtArticle } from './types/content'
-import AboutPage from './pages/AboutPage'
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const ProjectPageLazy = lazy(() => import('./pages/ProjectPage'))
 import { useSEO } from './hooks/useSEO'
 import './App.css'
 
@@ -107,7 +108,6 @@ const routes = {
   health: '/health',
 }
 
-const primaryExplorePath = '/tech'
 const scrollPositions = new Map<string, number>()
 
 const toSlug = (value: string) =>
@@ -116,34 +116,6 @@ const toSlug = (value: string) =>
     .replace(/&/g, 'and')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '')
-
-const assets = {
-  howHero:
-    'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=2200&q=86',
-  codeHero:
-    'https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&w=2200&q=86',
-  stemHero:
-    'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=2200&q=86',
-  aboutVideo:
-    'https://framerusercontent.com/assets/FqE6J8ykSd2msbXsSwNoCRGBZ4.mp4',
-  aboutOffice:
-    'https://framerusercontent.com/images/8KmTeSaw0hV1A07L0O7dDeq6e8s.jpg?scale-down-to=1024&width=1920&height=1080',
-  howCards: [
-    'https://framerusercontent.com/images/xvl4i0BeCA4Kv7FVftmrHvxKeI.svg?width=272&height=158',
-    'https://framerusercontent.com/images/rC6TZg4fLIphTKXZwQo2mRQQAjE.svg?width=272&height=158',
-    'https://framerusercontent.com/images/Qd2qVPknASMh0sEMa7dQOTE8.svg?width=272&height=158',
-  ],
-  blogImages: [
-    'https://framerusercontent.com/images/c7IR0Kn94HesJN3cwOzhg4E9Q.jpg?scale-down-to=1024&width=1960&height=1100',
-    'https://framerusercontent.com/images/WFy0B2DIthLxSbNEot71Ahp8A.jpg?width=1960&height=1100',
-    'https://framerusercontent.com/images/tg59DUNmUj84l4hmt8pSuK5PdI8.jpg?width=1960&height=1100',
-    'https://framerusercontent.com/images/46kce4sgV2is5KzUfaVylNiG4.jpg?width=1960&height=1100',
-    'https://framerusercontent.com/images/suypZWPfhjHMwSd1KlDpsUchM3g.jpg?width=1960&height=1100',
-    'https://framerusercontent.com/images/uN3rLs5RB4DCx1cOMTeMZ3W20.jpg?width=1960&height=1100',
-    'https://framerusercontent.com/images/cone0lOMhgMMLB74HdFNZqrC02I.jpg?width=1960&height=1100',
-    'https://framerusercontent.com/images/3pgFSAmlNtt6yMGcwoJ2aRZRzI.jpg?width=1960&height=1100',
-  ],
-}
 
 
 const processSteps = [
@@ -396,13 +368,13 @@ function PageFrame() {
       <SiteHeader key={pathname} />
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path="about" element={<AboutPage />} />
+        <Route path="about" element={<Suspense fallback={<PageSkeleton />}><AboutPage /></Suspense>} />
         <Route path="faq" element={<FAQPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="legal" element={<LegalHubPage />} />
         <Route path="privacy" element={<FiindtLegalPage page={fiindtLegalPages.find((page) => page.route === '/privacy-policy')!} />} />
-        <Route path="project/stem" element={<ProjectPage kind="stem" />} />
-        <Route path="project/code" element={<ProjectPage kind="code" />} />
+        <Route path="project/stem" element={<Suspense fallback={<PageSkeleton />}><ProjectPageLazy kind="stem" /></Suspense>} />
+        <Route path="project/code" element={<Suspense fallback={<PageSkeleton />}><ProjectPageLazy kind="code" /></Suspense>} />
         {fiindtLegalPages.map((page) => (
           <Route
             key={page.route}
@@ -2209,144 +2181,6 @@ function VerticalNewsletter({ vertical, title, subtitle }: { vertical: string; t
   )
 }
 
-function ProjectPage({ kind }: { kind: 'stem' | 'code' }) {
-  const isStem = kind === 'stem'
-  const detailCards = isStem
-    ? [
-        ['Biology', 'Create sequence, scoring, and validation challenges.'],
-        ['Engineering', 'Model simulations with thermal, mechanical, or system constraints.'],
-        ['Physics', 'Build multi-step scenarios with boundary and eigenvalue checks.'],
-        ['Mathematics', 'Design reasoning tasks that require rigorous numerical validation.'],
-      ]
-    : [
-        ['Code quality review', 'Evaluate generated code for correctness and maintainability.'],
-        ['Test case writing', 'Design tests that capture edge cases and behavior.'],
-        ['Bug identification', 'Find logical errors automated tests may miss.'],
-        ['Architecture assessment', 'Judge whether generated systems are scalable and clean.'],
-      ]
-
-  return (
-    <>
-      <MediaHero
-        image={isStem ? assets.stemHero : assets.codeHero}
-        title={
-          isStem
-            ? 'Turn scientific expertise into smarter AI'
-            : 'AI coding projects. Review & improve AI-generated code'
-        }
-        subtitle={
-          isStem
-            ? 'Join remote scientific projects and design research-level challenges.'
-            : 'Help build safer, more reliable AI with senior-level code judgment.'
-        }
-        cta="Apply now"
-      />
-      <section className="project-detail wrap">
-        <article>
-          <h2>About the project</h2>
-          <p>
-            {isStem
-              ? 'Professionals in STEM domains create, verify, and refine complex scientific tasks that help AI reason through difficult problems.'
-              : 'Experienced developers review AI-generated solutions, compare implementations, spot bugs, and explain what should improve.'}
-          </p>
-        </article>
-        <div className="detail-stats">
-          {(isStem
-            ? ['Up to $6,000+/month', 'Flexible remote project', 'Research-level AI tasks', 'Performance bonus']
-            : ['Up to $90 per hour', 'Flexible remote project', 'Global community', 'Hands-on AI experience']
-          ).map((item) => (
-            <span key={item}>{item}</span>
-          ))}
-        </div>
-      </section>
-      <section className="split-section wrap">
-        <h2>{isStem ? 'How you might contribute' : 'Types of AI code review tasks'}</h2>
-        <div className="mini-grid detail">
-          {detailCards.map(([title, copy]) => (
-            <article className="mini-card" key={title}>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-      {!isStem ? <LanguageCloud /> : null}
-      <EarningPotential isStem={isStem} />
-    </>
-  )
-}
-
-function LanguageCloud() {
-  return (
-    <section className="language-cloud wrap">
-      <h2>Programming languages in demand</h2>
-      <p>Python is required for most opportunities and often unlocks higher-paid work.</p>
-      <div>
-        {['Python', 'C', 'Java', 'TypeScript', 'C#', 'Rust', 'Go', 'JavaScript', 'C++', 'Kotlin', 'Ruby', 'PHP'].map(
-          (lang) => (
-            <span key={lang}>{lang}</span>
-          ),
-        )}
-      </div>
-    </section>
-  )
-}
-
-function EarningPotential({ isStem }: { isStem: boolean }) {
-  const values = isStem
-    ? ['$3,000/mo', '$6,000/mo', '$12,000/mo']
-    : ['$3,600/mo', '$7,200/mo', '$12,600/mo']
-  return (
-    <section className="earning wrap">
-      <h2>Earning potential</h2>
-      <p>
-        Estimates depend on specialization, time contributed, and accepted
-        tasks.
-      </p>
-      <div>
-        {values.map((value, index) => (
-          <article key={value}>
-            <span>Up to</span>
-            <strong>{value}</strong>
-            <p>{[10, 20, 35][index]} hours/week</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-
-function MediaHero({
-  image,
-  title,
-  subtitle,
-  cta,
-  tone = 'dark',
-}: {
-  image: string
-  title: string
-  subtitle: string
-  cta?: string
-  tone?: 'dark' | 'light'
-}) {
-  return (
-    <section className={cx('media-hero', tone === 'light' && 'media-hero-light')}>
-      <img src={image} alt="" />
-      <div className="wrap">
-
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
-        {cta ? (
-          <Link className="button button-green" to={primaryExplorePath}>
-            {cta}
-          </Link>
-        ) : null}
-      </div>
-    </section>
-  )
-}
-
 function FAQPage() {
   useSEO({
     title: 'Frequently asked questions',
@@ -2635,6 +2469,102 @@ function FiindtLegalPage({ page }: { page: LegalPageRecord }) {
 
 import PinnedCardsMap, { type PinnedCardItem } from './components/PinnedCardsMap'
 
+function ContactForm() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [fields, setFields] = useState({ name: '', email: '', subject: '', message: '' })
+
+  const set = (key: keyof typeof fields) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setFields((prev) => ({ ...prev, [key]: e.target.value }))
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fields),
+      })
+      setStatus(res.ok ? 'sent' : 'error')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'sent') {
+    return (
+      <div style={{ textAlign: 'center', padding: '48px 24px' }}>
+        <p style={{ fontSize: 22, fontWeight: 600, color: '#26221e', letterSpacing: '-0.02em', marginBottom: 8 }}>Message sent.</p>
+        <p style={{ fontSize: 15, color: 'rgba(67,38,29,.55)' }}>We'll get back to you at {fields.email}.</p>
+      </div>
+    )
+  }
+
+  return (
+    <form className="contact-form" onSubmit={handleSubmit}>
+      <div className="contact-form-grid">
+        <MayneFormField label="Name">
+          <MayneInput
+            required
+            placeholder="Your name"
+            value={fields.name}
+            onChange={set('name')}
+          />
+        </MayneFormField>
+        <MayneFormField label="Email">
+          <MayneInput
+            type="email"
+            required
+            placeholder="you@example.com"
+            value={fields.email}
+            onChange={set('email')}
+          />
+        </MayneFormField>
+      </div>
+      <MayneFormField label="Subject">
+        <MayneInput
+          required
+          placeholder="General question, editorial note, partnership…"
+          value={fields.subject}
+          onChange={set('subject')}
+        />
+      </MayneFormField>
+      <MayneFormField label="Message">
+        <textarea
+          required
+          rows={6}
+          placeholder="Share as much context as you can."
+          value={fields.message}
+          onChange={set('message')}
+          style={{
+            width: '100%',
+            resize: 'vertical',
+            padding: '10px 14px',
+            fontSize: 14,
+            fontFamily: 'inherit',
+            color: '#26221e',
+            background: '#fff',
+            border: '1px solid rgba(67,38,29,.15)',
+            borderRadius: 10,
+            outline: 'none',
+            lineHeight: 1.55,
+            letterSpacing: '-0.01em',
+            boxSizing: 'border-box',
+          }}
+        />
+      </MayneFormField>
+      {status === 'error' && (
+        <p style={{ fontSize: 13, color: '#e53e3e', margin: 0 }}>Something went wrong — try emailing us directly at hello@fiindt.com.</p>
+      )}
+      <div className="contact-form-submit">
+        <MayneButton type="submit" variant="primary" disabled={status === 'sending'}>
+          {status === 'sending' ? 'Sending…' : 'Send message'}
+        </MayneButton>
+      </div>
+    </form>
+  )
+}
+
 function ContactPage() {
   useSEO({
     title: 'Contact',
@@ -2663,13 +2593,25 @@ function ContactPage() {
         </div>
       </section>
 
-      <div style={{ paddingBottom: 80, marginTop: -48 }}>
+      <div style={{ paddingBottom: 0 }}>
         <PinnedCardsMap
           title="How to reach us."
           description="Choose the right path for your message."
           items={contactPaths}
         />
       </div>
+
+      <section style={{ background: 'var(--cream)', padding: '80px 24px' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto' }}>
+          <h2 style={{ fontSize: 'clamp(24px,2.4vw,32px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', marginBottom: 8 }}>
+            Send us a message.
+          </h2>
+          <p style={{ fontSize: 15, color: 'rgba(67,38,29,.50)', marginBottom: 36, letterSpacing: '-0.01em' }}>
+            We read everything and reply within 2 business days.
+          </p>
+          <ContactForm />
+        </div>
+      </section>
 
       <section className="contact-context-section" style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
         <div className="contact-context-inner" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
@@ -2691,6 +2633,29 @@ function ContactPage() {
         </div>
       </section>
     </>
+  )
+}
+
+function PageSkeleton() {
+  return (
+    <div style={{ background: 'var(--cream)', minHeight: '100svh', padding: '80px 24px 0' }}>
+      <div style={{ maxWidth: 740, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <MayneSkeleton width="55%" height={18} radius={8} />
+        <MayneSkeleton width="100%" height={56} radius={12} />
+        <MayneSkeleton width="80%" height={56} radius={12} />
+        <MayneSkeleton width="60%" height={20} radius={8} style={{ marginTop: 8 }} />
+        <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
+          <MayneSkeleton width={140} height={44} radius={999} />
+          <MayneSkeleton width={120} height={44} radius={999} />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 48 }}>
+          <MayneSkeleton width="100%" height={14} radius={6} />
+          <MayneSkeleton width="92%" height={14} radius={6} />
+          <MayneSkeleton width="85%" height={14} radius={6} />
+          <MayneSkeleton width="78%" height={14} radius={6} />
+        </div>
+      </div>
+    </div>
   )
 }
 

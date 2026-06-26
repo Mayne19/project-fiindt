@@ -3568,6 +3568,41 @@ p {
   margin-top: 26px;
 }
 
+.contact-form {
+  position: relative;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 0;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(67, 38, 29, 0.08);
+  overflow: hidden;
+}
+
+.contact-form input:focus,
+.contact-form input:focus-visible,
+.contact-form textarea:focus,
+.contact-form textarea:focus-visible {
+  border-color: var(--brand-green) !important;
+  outline: none !important;
+  box-shadow: inset 0 0 0 1px var(--brand-green) !important;
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.contact-form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .contact-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -4964,6 +4999,20 @@ p {
   }
 
   .contact-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .contact-form-submit {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .contact-form-grid {
     grid-template-columns: 1fr;
   }
 

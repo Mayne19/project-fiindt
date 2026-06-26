@@ -162,6 +162,7 @@ const homeFaqs = [
 const subNicheIcons: Record<string, typeof StarIcon> = {
   // Tech
   'ai': BrainIcon,
+  'artificial-intelligence': BrainIcon,
   'development': ComputerTerminal01Icon,
   'software': AiLaptopIcon,
   'automation': Settings01Icon,
@@ -821,6 +822,7 @@ function SearchBar({
   accentColor,
   value,
   onChange,
+  onSubmit,
 }: {
   ariaLabel: string
   placeholder: string
@@ -828,6 +830,7 @@ function SearchBar({
   accentColor?: string
   value?: string
   onChange?: (v: string) => void
+  onSubmit?: (v: string) => void
 }) {
   const navigate = useNavigate()
   const [localValue, setLocalValue] = useState('')
@@ -837,7 +840,9 @@ function SearchBar({
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
     const q = isControlled ? (value ?? '') : localValue
-    if (!isControlled && q.trim()) {
+    if (onSubmit) {
+      onSubmit(q)
+    } else if (!isControlled && q.trim()) {
       navigate(`/search?q=${encodeURIComponent(q.trim())}`)
     }
   }
@@ -861,7 +866,11 @@ function SearchBar({
 
 function SearchPage() {
   const [params] = useSearchParams()
+  const navigate = useNavigate()
   const q = params.get('q')?.trim() ?? ''
+  const [inputValue, setInputValue] = useState(q)
+
+  useEffect(() => { setInputValue(q) }, [q])
 
   useSEO({
     title: q ? `"${q}" — Search` : 'Search',
@@ -892,77 +901,96 @@ function SearchPage() {
 
   return (
     <>
-      <section style={{ background: 'var(--cream)', padding: '64px 24px 48px' }}>
-        <div style={{ maxWidth: 740, margin: '0 auto' }}>
-          <h1 style={{ fontSize: 'clamp(28px,3vw,40px)', fontWeight: 700, letterSpacing: '-0.04em', color: '#26221e', marginBottom: 24 }}>
-            {q ? `Results for "${q}"` : 'Search Fiindt'}
+      <section className="search-hero wrap">
+        <div className="search-hero-copy">
+          <h1>
+            {q ? `Results for “${q}”` : 'Search Fiindt'}
           </h1>
-          <SearchBar
-            ariaLabel="Search Fiindt"
-            placeholder="Search a question, topic or domain..."
-            value={q}
-            onChange={(v) => {
-              const url = v.trim() ? `/search?q=${encodeURIComponent(v.trim())}` : '/search'
-              window.history.replaceState(null, '', url)
-            }}
-          />
+          <p>
+            Search articles, sub-niches and knowledge verticals across Fiindt’s structured research library.
+          </p>
         </div>
       </section>
 
-      <section style={{ background: 'var(--cream)', padding: '0 24px 80px' }}>
-        <div style={{ maxWidth: 740, margin: '0 auto' }}>
-          {!q && (
-            <p style={{ fontSize: 16, color: 'rgba(67,38,29,.45)', marginTop: 24 }}>
-              Enter a search term to find articles, guides and resources.
-            </p>
-          )}
+      <section className="search-results-section wrap">
+        <aside className="search-sidebar">
+          <SearchBar
+            className="search-page-bar"
+            ariaLabel="Search Fiindt"
+            placeholder="Search a question, topic or domain..."
+            value={inputValue}
+            onChange={setInputValue}
+            onSubmit={(v) => {
+              const url = v.trim() ? `/search?q=${encodeURIComponent(v.trim())}` : '/search'
+              navigate(url)
+            }}
+          />
+
+          <div className="search-summary-card">
+            <span>Search scope</span>
+            <strong>{q ? `${results.length} article${results.length !== 1 ? 's' : ''}` : 'All Fiindt'}</strong>
+            <p>{q ? 'Results are matched across titles, excerpts, categories, sub-niches and verticals.' : 'Start with a topic, question, tool or domain.'}</p>
+          </div>
 
           {q && matchingVerticals.length > 0 && (
-            <div style={{ marginBottom: 40 }}>
-              <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase', color: 'rgba(67,38,29,.40)', marginBottom: 12 }}>Verticals</p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            <div className="search-vertical-card">
+              <h2>Matching verticals</h2>
+              <div className="search-vertical-list">
                 {matchingVerticals.map((v) => (
-                  <Link
-                    key={v.slug}
-                    to={`/${v.slug}`}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 999, background: 'rgba(67,38,29,.06)', color: '#26221e', fontSize: 14, fontWeight: 600, textDecoration: 'none', letterSpacing: '-0.01em' }}
-                  >
-                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: v.color, flexShrink: 0 }} />
+                  <Link key={v.slug} to={`/${v.slug}`}>
+                    <span style={{ background: v.color }} />
                     {v.label}
                   </Link>
                 ))}
               </div>
             </div>
           )}
+        </aside>
+
+        <div className="search-results-main">
+          {!q && (
+            <div className="search-empty-state">
+              <h2>Start with what you need to understand.</h2>
+              <p>Try “AI”, “budgeting”, “travel planning”, “health habits” or a specific question.</p>
+            </div>
+          )}
 
           {q && results.length === 0 && matchingVerticals.length === 0 && (
-            <p style={{ fontSize: 16, color: 'rgba(67,38,29,.45)', marginTop: 24 }}>
-              No results for "{q}". Try a broader term or browse a vertical directly.
-            </p>
+            <div className="search-empty-state">
+              <h2>No results for “{q}”.</h2>
+              <p>Try a broader term or browse a vertical directly from the Explorer menu.</p>
+            </div>
           )}
 
           {results.length > 0 && (
-            <div style={{ marginTop: 8 }}>
-              <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase', color: 'rgba(67,38,29,.40)', marginBottom: 16 }}>
-                {results.length} article{results.length !== 1 ? 's' : ''}
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <div className="search-results-panel">
+              <div className="search-results-heading">
+                <h2>{results.length} article{results.length !== 1 ? 's' : ''} found</h2>
+                <p>Sorted from Fiindt’s structured article library.</p>
+              </div>
+              <div className="search-result-list">
                 {results.slice(0, 40).map((article) => {
                   const vertical = getVerticalBySlug(article.vertical)
+                  const SubNicheIcon = subNicheIcons[article.subNicheSlug] ?? StarIcon
                   return (
                     <Link
+                      className="search-result-card"
                       key={article.id}
                       to={`/${article.vertical}/${article.subNicheSlug}/${article.slug}`}
-                      style={{ display: 'block', padding: '18px 0', borderBottom: '0.5px solid rgba(67,38,29,.08)', textDecoration: 'none' }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                        <span style={{ width: 7, height: 7, borderRadius: '50%', background: vertical?.color ?? '#47c971', flexShrink: 0 }} />
-                        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase', color: 'rgba(67,38,29,.40)' }}>
-                          {article.vertical} › {article.subNiche}
-                        </span>
+                      <div className="search-result-icon" style={{ color: vertical?.color ?? '#47c971' }}>
+                        <HugeiconsIcon icon={SubNicheIcon} size={24} strokeWidth={1.7} />
                       </div>
-                      <p style={{ fontSize: 16, fontWeight: 600, color: '#26221e', letterSpacing: '-0.02em', margin: '0 0 4px', lineHeight: 1.3 }}>{article.title}</p>
-                      <p style={{ fontSize: 13, color: 'rgba(67,38,29,.50)', margin: 0, lineHeight: 1.5, letterSpacing: '-0.01em' }}>{article.excerpt}</p>
+                      <div>
+                        <div className="search-result-path">
+                          <span style={{ background: vertical?.color ?? '#47c971' }} />
+                          <small>
+                            {article.vertical} › {article.subNiche}
+                          </small>
+                        </div>
+                        <h3>{article.title}</h3>
+                        <p>{article.excerpt}</p>
+                      </div>
                     </Link>
                   )
                 })}

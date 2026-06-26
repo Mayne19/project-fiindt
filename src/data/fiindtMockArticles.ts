@@ -83,20 +83,20 @@ The biggest advantage is not speed — it is the ability to focus your energy on
 
 ### 1. NotebookLM
 
-Google's NotebookLM is a powerful research assistant that helps you organize notes, summarize documents, and generate insights from your sources.
+[Google's NotebookLM](https://notebooklm.google) is a powerful research assistant that helps you organize notes, summarize documents, and generate insights from your sources.
 
 > "NotebookLM changed the way I study. I upload my lecture slides and it becomes my personal tutor." — Fiindt reader
 
 #### How to get started with NotebookLM
 
-1. Go to notebooklm.google and sign in with your Google account
+1. Go to [notebooklm.google](https://notebooklm.google) and sign in with your Google account
 2. Create a new notebook and upload your documents (PDFs, slides, notes)
 3. Ask questions directly about your sources
 4. Generate study guides and summaries automatically
 
 ### 2. ChatGPT
 
-OpenAI's ChatGPT remains one of the most versatile tools for students. Use it for brainstorming, explaining complex concepts, drafting essays, and practicing foreign languages.
+[OpenAI's ChatGPT](https://chatgpt.com) remains one of the most versatile tools for students. Use it for brainstorming, explaining complex concepts, drafting essays, and practicing foreign languages.
 
 > [!warning] Never submit AI-generated text as your own. Use ChatGPT to assist your thinking, not replace it.
 
@@ -109,15 +109,15 @@ Then give me 3 practice questions to test my understanding.
 
 ### 3. Perplexity AI
 
-Perplexity combines a search engine with an AI assistant. It provides cited answers to your questions, making it ideal for research and fact-checking.
+[Perplexity AI](https://www.perplexity.ai) combines a search engine with an AI assistant. It provides cited answers to your questions, making it ideal for research and fact-checking.
 
 ### 4. Grammarly
 
-Grammarly's AI-powered writing assistant helps students improve their writing style, grammar, and tone across all their documents.
+[Grammarly](https://www.grammarly.com)'s AI-powered writing assistant helps students improve their writing style, grammar, and tone across all their documents.
 
 ### 5. Otter.ai
 
-Otter automatically transcribes lectures and meetings, allowing students to focus on understanding instead of note-taking.
+[Otter.ai](https://otter.ai) automatically transcribes lectures and meetings, allowing students to focus on understanding instead of note-taking.
 
 ## Tool Comparison
 
@@ -173,13 +173,13 @@ Most knowledge workers spend hours on repetitive tasks: sorting emails, scheduli
 ## Where AI Helps Most
 
 ### Email Management
-Tools like SaneBox and Shortwave use AI to prioritize your inbox, draft replies, and unsubscribe from unwanted newsletters.
+Tools like [SaneBox](https://www.sanebox.com) and [Shortwave](https://www.shortwave.com) use AI to prioritize your inbox, draft replies, and unsubscribe from unwanted newsletters.
 
 ### Meeting Notes
-Otter.ai and Fireflies.ai can join your meetings, take notes, and send summaries to all participants automatically.
+[Otter.ai](https://otter.ai) and [Fireflies.ai](https://fireflies.ai) can join your meetings, take notes, and send summaries to all participants automatically.
 
 ### Task Management
-Notion AI and Motion use artificial intelligence to help you plan your day, prioritize tasks, and reschedule when things change.
+[Notion AI](https://www.notion.com/product/ai) and [Motion](https://www.usemotion.com) use artificial intelligence to help you plan your day, prioritize tasks, and reschedule when things change.
 
 ### Content Creation
 Whether you are writing a blog post, a report, or social media content, AI writing assistants can help you generate drafts and refine your tone.

@@ -1356,8 +1356,11 @@ function FiindtArticleCard({ article, cardBg }: { article: FiindtArticle; cardBg
 }
 
 function renderInline(text: string): React.ReactNode {
-  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g)
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g)
   return parts.map((part, i) => {
+    if (/^\*\*[^*]+\*\*$/.test(part)) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>
+    }
     const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
     if (m) {
       const isExternal = m[2].startsWith('http')
@@ -1812,8 +1815,8 @@ function ArticlePage() {
                   <p>{block.text}</p>
                 </div>
               )
-              if (block.type === 'ul') return <ul key={i} className="article-list">{block.items.map((item, j) => <li key={j}>{item}</li>)}</ul>
-              if (block.type === 'ol') return <ol key={i} className="article-list article-list--ol">{block.items.map((item, j) => <li key={j}>{item}</li>)}</ol>
+              if (block.type === 'ul') return <ul key={i} className="article-list">{block.items.map((item, j) => <li key={j}>{renderInline(item)}</li>)}</ul>
+              if (block.type === 'ol') return <ol key={i} className="article-list article-list--ol">{block.items.map((item, j) => <li key={j}>{renderInline(item)}</li>)}</ol>
               if (block.type === 'code') return (
                 <div key={i} className="article-code-block">
                   <div className="article-code-header">

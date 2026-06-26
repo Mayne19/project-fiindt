@@ -3843,6 +3843,7 @@ p {
 }
 .article-inline-link:hover {
   color: color-mix(in srgb, var(--article-color) 60%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--article-color) 60%, transparent);
 }
 
 /* ── Article meta extras ──────────────────── */

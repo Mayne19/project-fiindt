@@ -893,12 +893,9 @@ function SearchPage() {
       })
     : []
 
+  const resultVerticalSlugs = new Set(results.map((a) => a.vertical))
   const matchingVerticals = liveQuery
-    ? verticals.filter(
-        (v) =>
-          v.label.toLowerCase().includes(liveQuery.toLowerCase()) ||
-          v.description.toLowerCase().includes(liveQuery.toLowerCase()),
-      )
+    ? verticals.filter((v) => resultVerticalSlugs.has(v.slug))
     : []
 
   return (
@@ -906,7 +903,7 @@ function SearchPage() {
       <section className="search-hero wrap">
         <div className="search-hero-copy">
           <h1>
-            {q ? `Results for "${q}"` : 'Search Fiindt'}
+            {liveQuery ? `Results for "${liveQuery}"` : 'Search Fiindt'}
           </h1>
           <p>
             Search articles, sub-niches and knowledge verticals across Fiindt’s structured research library.

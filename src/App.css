@@ -3836,15 +3836,13 @@ p {
 .article-inline-link {
   color: inherit;
   text-decoration: underline;
-  text-decoration-color: rgba(67,38,29,.32);
+  text-decoration-color: var(--article-color);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: color 0.15s, text-decoration-color 0.15s, text-decoration-thickness 0.15s;
+  transition: color 0.15s;
 }
 .article-inline-link:hover {
-  color: var(--article-color);
-  text-decoration-color: var(--article-color);
-  text-decoration-thickness: 2px;
+  color: color-mix(in srgb, var(--article-color) 60%, transparent);
 }
 
 /* ── Article meta extras ──────────────────── */

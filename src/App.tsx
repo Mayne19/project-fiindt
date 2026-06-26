@@ -879,6 +879,9 @@ function SearchPage() {
   })
 
   const liveQuery = inputValue.trim()
+  const [selectedVerticals, setSelectedVerticals] = useState<Set<string>>(new Set())
+
+  useEffect(() => { setSelectedVerticals(new Set()) }, [liveQuery])
 
   const results = liveQuery
     ? verticalArticles.filter((a) => {
@@ -897,6 +900,18 @@ function SearchPage() {
   const matchingVerticals = liveQuery
     ? verticals.filter((v) => resultVerticalSlugs.has(v.slug))
     : []
+
+  const filteredResults = selectedVerticals.size > 0
+    ? results.filter((a) => selectedVerticals.has(a.vertical))
+    : results
+
+  function toggleVertical(slug: string) {
+    setSelectedVerticals((prev) => {
+      const next = new Set(prev)
+      next.has(slug) ? next.delete(slug) : next.add(slug)
+      return next
+    })
+  }
 
   return (
     <>
@@ -927,20 +942,29 @@ function SearchPage() {
 
           <div className="search-summary-card">
             <span>Search scope</span>
-            <strong>{liveQuery ? `${results.length} article${results.length !== 1 ? 's' : ''}` : 'All Fiindt'}</strong>
+            <strong>{liveQuery ? `${filteredResults.length} article${filteredResults.length !== 1 ? 's' : ''}` : 'All Fiindt'}</strong>
             <p>{q ? 'Results are matched across titles, excerpts, categories, sub-niches and verticals.' : 'Start with a topic, question, tool or domain.'}</p>
           </div>
 
           {liveQuery && matchingVerticals.length > 0 && (
             <div className="search-vertical-card">
-              <h2>Matching verticals</h2>
+              <h2>Filter by vertical</h2>
               <div className="search-vertical-list">
-                {matchingVerticals.map((v) => (
-                  <Link key={v.slug} to={`/${v.slug}`}>
-                    <span style={{ background: v.color }} />
-                    {v.label}
-                  </Link>
-                ))}
+                {matchingVerticals.map((v) => {
+                  const active = selectedVerticals.has(v.slug)
+                  return (
+                    <button
+                      key={v.slug}
+                      className={active ? 'search-vertical-pill active' : 'search-vertical-pill'}
+                      style={active ? { background: v.color, borderColor: v.color, color: '#fff' } : { borderColor: v.color }}
+                      onClick={() => toggleVertical(v.slug)}
+                      type="button"
+                    >
+                      <span style={{ background: active ? '#fff' : v.color }} />
+                      {v.label}
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )}
@@ -974,7 +998,7 @@ function SearchPage() {
                 <p>Sorted from Fiindt’s structured article library.</p>
               </div>
               <div className="search-result-list">
-                {results.slice(0, 40).map((article) => {
+                {filteredResults.slice(0, 40).map((article) => {
                   const vertical = getVerticalBySlug(article.vertical)
                   const SubNicheIcon = subNicheIcons[article.subNicheSlug] ?? StarIcon
                   return (

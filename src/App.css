@@ -2369,7 +2369,8 @@ p {
   gap: 10px;
 }
 
-.search-vertical-list a {
+.search-vertical-list a,
+.search-vertical-pill {
   min-height: 40px;
   display: inline-flex;
   align-items: center;
@@ -2381,6 +2382,14 @@ p {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.01em;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  font-family: inherit;
+}
+
+.search-vertical-pill:hover {
+  background: rgba(67, 38, 29, 0.10);
 }
 
 .search-vertical-list span {

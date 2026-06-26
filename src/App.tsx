@@ -1014,7 +1014,7 @@ function SearchPage() {
                       <div className="search-result-path">
                         <small>{article.vertical} › {article.subNiche}</small>
                       </div>
-                      <h3>{article.title}</h3>
+                      <h3 className="card-heading card-title">{article.title}</h3>
                       <p>{article.excerpt}</p>
                     </Link>
                   )

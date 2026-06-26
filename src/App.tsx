@@ -1012,7 +1012,7 @@ function SearchPage() {
                         <HugeiconsIcon icon={SubNicheIcon} size={32} strokeWidth={1.4} />
                       </div>
                       <div className="search-result-path">
-                        <small>{article.vertical} › {article.subNiche}</small>
+                        <small>{vertical?.label ?? article.vertical} › {article.subNiche}</small>
                       </div>
                       <h3 className="search-result-title card-title">{article.title}</h3>
                       <p>{article.excerpt}</p>

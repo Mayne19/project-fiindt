@@ -949,14 +949,20 @@ function SearchPage() {
 
         <div className="search-results-main">
           {!q && (
-            <div className="search-empty-state">
+            <div className=”search-empty-state”>
+              <span className=”legal-section-icon” aria-hidden=”true”>
+                <HugeiconsIcon icon={Search01Icon} size={32} strokeWidth={1.4} />
+              </span>
               <h2>Start with what you need to understand.</h2>
               <p>Try “AI”, “budgeting”, “travel planning”, “health habits” or a specific question.</p>
             </div>
           )}
 
           {q && results.length === 0 && matchingVerticals.length === 0 && (
-            <div className="search-empty-state">
+            <div className=”search-empty-state”>
+              <span className=”legal-section-icon” aria-hidden=”true”>
+                <HugeiconsIcon icon={Search01Icon} size={32} strokeWidth={1.4} />
+              </span>
               <h2>No results for “{q}”.</h2>
               <p>Try a broader term or browse a vertical directly from the Explorer menu.</p>
             </div>

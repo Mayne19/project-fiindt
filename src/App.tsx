@@ -985,18 +985,14 @@ function SearchPage() {
                       to={`/${article.vertical}/${article.subNicheSlug}/${article.slug}`}
                     >
                       <div className="search-result-icon" style={{ color: vertical?.color ?? '#47c971' }}>
-                        <HugeiconsIcon icon={SubNicheIcon} size={24} strokeWidth={1.7} />
+                        <HugeiconsIcon icon={SubNicheIcon} size={32} strokeWidth={1.4} />
                       </div>
-                      <div>
-                        <div className="search-result-path">
-                          <span style={{ background: vertical?.color ?? '#47c971' }} />
-                          <small>
-                            {article.vertical} › {article.subNiche}
-                          </small>
-                        </div>
-                        <h3>{article.title}</h3>
-                        <p>{article.excerpt}</p>
+                      <div className="search-result-path">
+                        <span style={{ background: vertical?.color ?? '#47c971' }} />
+                        <small>{article.vertical} › {article.subNiche}</small>
                       </div>
+                      <h3>{article.title}</h3>
+                      <p>{article.excerpt}</p>
                     </Link>
                   )
                 })}

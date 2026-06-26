@@ -2421,9 +2421,9 @@ p {
 }
 
 .search-result-card {
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   padding: 24px 28px;
   border: 0;
   border-radius: 0;
@@ -2431,12 +2431,14 @@ p {
 }
 
 .search-result-icon {
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background: color-mix(in srgb, currentColor 10%, transparent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  background: none;
+  border-radius: 0;
 }
 
 .search-result-path {

@@ -3834,12 +3834,12 @@ p {
 }
 
 .article-inline-link {
-  color: rgba(67,38,29,.65);
+  color: inherit;
   text-decoration: underline;
-  text-decoration-color: rgba(67,38,29,.25);
+  text-decoration-color: rgba(67,38,29,.32);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: color 0.15s, text-decoration-color 0.15s;
+  transition: color 0.15s, text-decoration-color 0.15s, text-decoration-thickness 0.15s;
 }
 .article-inline-link:hover {
   color: var(--article-color);
@@ -4035,6 +4035,11 @@ p {
   color: rgba(67,38,29,.72);
   font-weight: 500;
   border-bottom: 0.5px solid rgba(67,38,29,.06);
+}
+
+.article-table th:not(:last-child),
+.article-table td:not(:last-child) {
+  border-right: 0.5px solid rgba(67,38,29,.08);
 }
 
 .article-table tr:last-child td { border-bottom: none; }

@@ -2473,6 +2473,15 @@ p {
   line-height: 1.45;
 }
 
+.search-result-title {
+  font-size: clamp(22px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text);
+  margin: 0;
+}
+
 .search-result-card:hover .card-title {
   color: var(--result-color, var(--brand-green));
 }

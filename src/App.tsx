@@ -648,7 +648,7 @@ function LatestArticles() {
     .slice(0, 6)
 
   return (
-    <section style={{ paddingTop: 80, paddingBottom: 64, paddingLeft: 40, paddingRight: 40, marginTop: 0, background: 'var(--cream)', fontFamily: "'Inter', sans-serif" }}>
+    <section className="home-latest-section" style={{ paddingTop: 80, paddingBottom: 64, paddingLeft: 40, paddingRight: 40, marginTop: 0, background: 'var(--cream)', fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 40 }}>
           Latest from Fiindt
@@ -656,7 +656,7 @@ function LatestArticles() {
             Recent resources from the Fiindt editorial system.
           </span>
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 20 }}>
+        <div className="home-latest-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: 20 }}>
           {articles.map((article) => {
             const vertical = getVerticalBySlug(toSlug(article.vertical))
             const accentColor = vertical?.color ?? 'var(--brand-green)'
@@ -664,7 +664,7 @@ function LatestArticles() {
               <Link
                 key={article.id}
                 to={getFiindtArticlePath(article)}
-                className="card-hover"
+                className="home-latest-card card-hover"
                 style={{ '--card-accent': accentColor, borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column' } as CSSProperties}
               >
                 <p style={{ fontSize: 12, color: 'rgba(67,38,29,.40)', marginBottom: 8, fontWeight: 500 }}>
@@ -722,8 +722,8 @@ function HowItWorks() {
 
 function NewsletterCTA() {
   return (
-    <section className="wrap" style={{ marginTop: 0, paddingTop: 64, paddingBottom: 64, fontFamily: "'Inter', sans-serif" }}>
-      <div style={{
+    <section className="home-newsletter wrap" style={{ marginTop: 0, paddingTop: 64, paddingBottom: 64, fontFamily: "'Inter', sans-serif" }}>
+      <div className="home-newsletter-panel" style={{
         background: '#26221e', padding: '32px 40px', minHeight: 132,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 32,
       }}>
@@ -735,7 +735,7 @@ function NewsletterCTA() {
             </span>
           </h2>
         </div>
-        <form style={{
+        <form className="home-newsletter-form" style={{
           display: 'flex', alignItems: 'center', gap: 8,
           background: 'rgba(255,255,255,.08)', borderRadius: 999,
           padding: '6px 6px 6px 18px', flexShrink: 0,
@@ -2055,8 +2055,8 @@ function SubNichePageTech({ vertical, currentSubNiche, articles }: {
       </section>
 
       {/* Autres sous-niches */}
-      <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
+      <section className="contact-context-section" style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
+        <div className="contact-context-inner" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <div style={{ flexShrink: 0, maxWidth: 360 }}>
             <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
               Also in {vertical.label}.
@@ -2065,7 +2065,7 @@ function SubNichePageTech({ vertical, currentSubNiche, articles }: {
               </span>
             </h2>
           </div>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <div className="contact-context-chips" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {otherSubNiches.map((s: { slug: string; label: string }) => (
               <Link key={s.slug} to={`/${vertical.slug}/${s.slug}`} className="subniche-related-chip">
                 {s.label}
@@ -2574,8 +2574,8 @@ function ContactPage() {
         />
       </div>
 
-      <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
+      <section className="contact-context-section" style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
+        <div className="contact-context-inner" style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <div style={{ flexShrink: 0 }}>
             <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
               Clear context gets better<br />replies.
@@ -2584,7 +2584,7 @@ function ContactPage() {
               </span>
             </h2>
           </div>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <div className="contact-context-chips" style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {['Add the article URL', 'Be specific', 'Share useful context', 'Include sources'].map((rule) => (
               <span key={rule} style={{ fontSize: 14, fontWeight: 600, padding: '9px 18px', borderRadius: 999, background: 'rgba(67,38,29,.07)', color: 'rgba(67,38,29,.50)', letterSpacing: '-0.01em' }}>
                 {rule}

@@ -253,9 +253,9 @@ function MethodRail() {
   ]
 
   return (
-    <section ref={sectionRef} style={{ minHeight: '450vh', background: 'var(--cream)', position: 'relative' }}>
+    <section className="about-method-rail" ref={sectionRef} style={{ minHeight: '450vh', background: 'var(--cream)', position: 'relative' }}>
       <style>{`@keyframes stepReveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }`}</style>
-      <div style={{
+      <div className="about-method-sticky" style={{
         position: 'sticky',
         top: 74,
         height: 'calc(100vh - 74px)',
@@ -266,7 +266,7 @@ function MethodRail() {
         paddingBottom: 48,
         boxSizing: 'border-box',
       }}>
-        <div style={{ width: 'min(calc(100% - 120px), 1220px)', margin: '0 auto', display: 'grid', gridTemplateColumns: '3fr 2fr', gap: 64, alignItems: 'start' }}>
+        <div className="about-method-grid" style={{ width: 'min(calc(100% - 120px), 1220px)', margin: '0 auto', display: 'grid', gridTemplateColumns: '3fr 2fr', gap: 64, alignItems: 'start' }}>
 
           {/* Left — accordion */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -327,7 +327,7 @@ function MethodRail() {
           </div>
 
           {/* Right — visual */}
-          <div key={active} style={{ animation: 'stepReveal 0.5s ease-out both' }}>
+          <div className="about-method-visual" key={active} style={{ animation: 'stepReveal 0.5s ease-out both' }}>
             {steps[active].visual}
           </div>
         </div>
@@ -339,7 +339,7 @@ function MethodRail() {
 export default function AboutPage() {
   const [fiindtHovered, setFiindtHovered] = useState(false)
   return (
-    <div style={{ fontFamily: "'Inter', sans-serif", background: 'var(--cream)', color: 'var(--text)' }}>
+    <div className="about-page" style={{ fontFamily: "'Inter', sans-serif", background: 'var(--cream)', color: 'var(--text)' }}>
 
       {/* Hero */}
       <section style={{ minHeight: 'calc(100svh - 52px)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: 'var(--cream)' }}>
@@ -361,9 +361,9 @@ export default function AboutPage() {
       </section>
 
       {/* Why we exist */}
-        <section style={{ ...sec, background: 'var(--cream-2)' }}>
-          <div style={{ ...wrap, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 40 }}>
-            <div style={{ maxWidth: 480, flexShrink: 0 }}>
+        <section className="about-why-section" style={{ ...sec, background: 'var(--cream-2)' }}>
+          <div className="about-why-inner" style={{ ...wrap, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 40 }}>
+            <div className="about-why-copy" style={{ maxWidth: 480, flexShrink: 0 }}>
               <h2 style={h2Style}>
                 The internet has information.
                 <span style={ghost}>Not always answers.</span>
@@ -471,7 +471,7 @@ export default function AboutPage() {
               <span style={ghost}>Where Fiindt is now.</span>
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, alignItems: 'end' }}>
+          <div className="about-status-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, alignItems: 'end' }}>
 
             {/* Left — 4-layer architecture card */}
             <article style={{ background: 'var(--cream)', border: '0.5px solid rgba(67,38,29,.10)', borderRadius: 12, padding: 22 }}>

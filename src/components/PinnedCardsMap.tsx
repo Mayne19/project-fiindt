@@ -57,7 +57,7 @@ export default function PinnedCardsMap({
 
   return (
     <section id={id} className="pinned-cards-map" style={{ paddingTop: 80, paddingBottom: 40, background: 'var(--cream)' }}>
-      <div style={{ maxWidth: maxW, margin: '0 auto', padding: '0 60px' }}>
+      <div className="pinned-cards-map-shell" style={{ maxWidth: maxW, margin: '0 auto', padding: '0 60px' }}>
         <div style={{ maxWidth: columns === 'four' ? 860 : 680, margin: '0 auto 64px', textAlign: 'center' }}>
           <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 0 }}>
             {title}
@@ -67,7 +67,7 @@ export default function PinnedCardsMap({
           </h2>
         </div>
 
-        <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: gridColumns, gap: '64px 32px', paddingTop: 28 }}>
+        <div className="pinned-cards-map-grid" style={{ position: 'relative', display: 'grid', gridTemplateColumns: gridColumns, gap: '64px 32px', paddingTop: 28 }}>
           <svg
             style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: '100%', opacity: 0.20, zIndex: 0, pointerEvents: 'none' }}
             viewBox="0 0 1000 220"

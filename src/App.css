@@ -2301,9 +2301,7 @@ p {
 
 .search-empty-state,
 .search-results-panel {
-  border-radius: 18px;
   background: #ffffff;
-  box-shadow: 0 18px 56px rgba(67, 38, 29, 0.05);
 }
 
 .search-summary-card,
@@ -2346,7 +2344,6 @@ p {
 }
 
 .search-vertical-card h2,
-.search-empty-state h2,
 .search-results-heading h2 {
   color: var(--text-dark);
   font-size: clamp(24px, 2.4vw, 32px);
@@ -2354,6 +2351,15 @@ p {
   letter-spacing: -0.03em;
   line-height: 1.1;
   margin: 0;
+}
+
+.search-empty-state h2 {
+  color: #26221e;
+  font-size: clamp(28px, 2.8vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 20px;
 }
 
 .search-vertical-list {
@@ -2400,8 +2406,7 @@ p {
   padding: 0 0 22px;
 }
 
-.search-results-heading p,
-.search-empty-state p {
+.search-results-heading p {
   color: rgba(67, 38, 29, 0.55);
   font-size: 15px;
   font-weight: 500;
@@ -2471,12 +2476,17 @@ p {
 }
 
 .search-empty-state {
-  padding: 34px;
-  border: 0.5px solid rgba(67, 38, 29, 0.10);
+  padding: 24px 28px;
+  border-radius: 0;
+  scroll-margin-top: 130px;
 }
 
 .search-empty-state p {
   margin-top: 12px;
+  color: rgba(67, 38, 29, 0.76);
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
 }
 
 .vertical-newsletter input {

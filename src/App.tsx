@@ -1327,13 +1327,13 @@ function VerticalPage() {
   )
 }
 
-function FiindtArticleCard({ article }: { article: FiindtArticle }) {
+function FiindtArticleCard({ article, cardBg }: { article: FiindtArticle; cardBg?: string }) {
   const vertical = getVerticalBySlug(toSlug(article.vertical))
 
   return (
     <Link
       className="vertical-article-card card-hover"
-      style={{ '--article-color': vertical?.color ?? '#2563eb', '--card-accent': vertical?.color ?? '#2563eb' } as CSSProperties}
+      style={{ '--article-color': vertical?.color ?? '#2563eb', '--card-accent': vertical?.color ?? '#2563eb', '--card-bg': cardBg, height: '100%', boxSizing: 'border-box' } as CSSProperties}
       to={getFiindtArticlePath(article)}
     >
       <p className="vertical-article-path">
@@ -1352,6 +1352,18 @@ function FiindtArticleCard({ article }: { article: FiindtArticle }) {
       </div>
     </Link>
   )
+}
+
+function renderInline(text: string): React.ReactNode {
+  const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g)
+  return parts.map((part, i) => {
+    const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+    if (m) {
+      const isExternal = m[2].startsWith('http')
+      return <a key={i} href={m[2]} className="article-inline-link" {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{m[1]}</a>
+    }
+    return part
+  })
 }
 
 function slugifyHeading(text: string) {
@@ -1508,6 +1520,54 @@ function ArticleOutlineNav({ headings }: { headings: { id: string; text: string;
   )
 }
 
+function resolveEmbedUrl(src: string): { url: string; type: 'video' | 'tweet' | 'podcast' | 'reddit' | 'generic' } {
+  // YouTube
+  const ytMatch = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
+  if (ytMatch) return { url: `https://www.youtube.com/embed/${ytMatch[1]}?rel=0`, type: 'video' }
+
+  // X / Twitter
+  const xMatch = src.match(/(?:twitter\.com|x\.com)\/\w+\/status\/\d+/)
+  if (xMatch) return { url: `https://twitframe.com/show?url=${encodeURIComponent(src)}`, type: 'tweet' }
+
+  // Reddit
+  const redditMatch = src.match(/reddit\.com\/(r\/[^?#]+)/)
+  if (redditMatch) return { url: `https://www.redditmedia.com/${redditMatch[1]}?ref_source=embed&ref=share&embed=true`, type: 'reddit' }
+
+  // Spotify (podcast or track)
+  const spotifyMatch = src.match(/open\.spotify\.com\/(episode|show|track|playlist)\/([a-zA-Z0-9]+)/)
+  if (spotifyMatch) return { url: `https://open.spotify.com/embed/${spotifyMatch[1]}/${spotifyMatch[2]}`, type: 'podcast' }
+
+  // Apple Podcasts
+  if (src.includes('podcasts.apple.com')) return { url: src.replace('podcasts.apple.com', 'embed.podcasts.apple.com'), type: 'podcast' }
+
+  return { url: src, type: 'generic' }
+}
+
+function EmbedBlock({ src }: { src: string }) {
+  const { url, type } = resolveEmbedUrl(src)
+  const isWide = type === 'video' || type === 'generic'
+  const isTall = type === 'tweet' || type === 'reddit'
+  const isPodcast = type === 'podcast'
+
+  return (
+    <div className={`article-embed article-embed--${type}`}>
+      <iframe
+        src={url}
+        title="Embedded content"
+        allowFullScreen
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+        style={{
+          width: '100%',
+          height: isPodcast ? 152 : isTall ? 500 : undefined,
+          aspectRatio: isWide && !isTall ? '16/9' : undefined,
+          border: 'none',
+          borderRadius: 8,
+        }}
+      />
+    </div>
+  )
+}
+
 function ArticleShareSidebar({ title }: { title: string }) {
   const [copied, setCopied] = useState(false)
   const url = typeof window !== 'undefined' ? window.location.href : ''
@@ -1532,10 +1592,10 @@ function ArticleShareSidebar({ title }: { title: string }) {
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
       </a>
       <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`} target="_blank" rel="noopener noreferrer" className="article-share-btn" aria-label="Share on LinkedIn">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.12 7.73H1.28v14.01h3.84V7.73ZM3.2 1.25C1.97 1.25.98 2.24.98 3.46s.99 2.22 2.22 2.22 2.22-.99 2.22-2.22S4.43 1.25 3.2 1.25Zm19.82 12.45c0-4.3-2.29-6.3-5.35-6.3-2.47 0-3.57 1.36-4.18 2.31h-.06V7.73H9.75v14.01h3.84v-6.93c0-1.83.35-3.6 2.61-3.6 2.23 0 2.26 2.08 2.26 3.72v6.81h3.84v-8.04Z" /></svg>
       </a>
       <a href={`https://www.facebook.com/sharer/sharer.php?u=${enc(url)}`} target="_blank" rel="noopener noreferrer" className="article-share-btn" aria-label="Share on Facebook">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.12 8.1h2.34V4.3c-.4-.05-1.79-.17-3.41-.17-3.38 0-5.69 2.06-5.69 5.85v3.29H4.54v4.25h3.82V24h4.62v-6.48h3.62l.57-4.25h-4.19v-2.87c0-1.23.33-2.3 2.14-2.3Z" /></svg>
       </a>
     </div>
   )
@@ -1578,6 +1638,9 @@ function ArticlePage() {
   const verticalSlug = toSlug(article.vertical)
   const subNicheSlug = toSlug(article.subNiche)
   const blocks = parseArticleBlocks(article.content)
+  const faqBlocks = blocks.filter((b): b is { type: 'faq'; items: { q: string; a: string }[]; id: '' } => b.type === 'faq')
+  const articleFaqItems = faqBlocks.flatMap(b => b.items.map(item => ({ question: item.q, answer: item.a })))
+  const hasArticleFaq = articleFaqItems.length > 0
   const headings = blocks
     .filter((b): b is { type: 'h2' | 'h3'; text: string; id: string } => b.type === 'h2' || b.type === 'h3')
     .map((b) => ({ id: b.id, text: b.text, level: b.type === 'h3' ? 3 : 2 }))
@@ -1645,8 +1708,16 @@ function ArticlePage() {
                   </Tag>
                 )
               }
-              if (block.type === 'h5') return <h5 key={i} id={block.id}>{block.text}</h5>
-              if (block.type === 'p') return <p key={i}>{block.text}</p>
+              if (block.type === 'h5') return (
+                <h5 key={i} id={block.id} className="article-heading-anchor">
+                  {block.text}
+                  <a href={`#${block.id}`} className="article-anchor-icon" aria-label={`Link to section: ${block.text}`}
+                    onClick={(e) => { e.preventDefault(); navigator.clipboard.writeText(`${window.location.origin}${window.location.pathname}#${block.id}`) }}>
+                    <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
+                  </a>
+                </h5>
+              )
+              if (block.type === 'p') return <p key={i}>{renderInline(block.text)}</p>
               if (block.type === 'blockquote') return <blockquote key={i} className="article-blockquote">{block.text}</blockquote>
               if (block.type === 'callout') return (
                 <div key={i} className={`article-callout article-callout--${block.variant}`}>
@@ -1691,11 +1762,7 @@ function ArticlePage() {
                   </figcaption>
                 </figure>
               )
-              if (block.type === 'embed') return (
-                <div key={i} className="article-embed">
-                  <iframe src={block.src} title="Embedded content" allowFullScreen />
-                </div>
-              )
+              if (block.type === 'embed') return <EmbedBlock key={i} src={block.src} />
               return null
             })}
           </div>
@@ -1710,25 +1777,20 @@ function ArticlePage() {
         </aside>
 
       </div>
-      {(() => {
-        const faqBlocks = blocks.filter((b): b is { type: 'faq'; items: { q: string; a: string }[]; id: '' } => b.type === 'faq')
-        if (faqBlocks.length === 0) return null
-        const allItems = faqBlocks.flatMap(b => b.items.map(item => ({ question: item.q, answer: item.a })))
-        return (
-          <section className="faq vertical-faq wrap" style={{ paddingBottom: 64 }}>
-            <h2>
-              Frequently asked questions
-              <span>Clear answers to common questions about this topic.</span>
-            </h2>
-            <FAQList items={allItems} />
-          </section>
-        )
-      })()}
+      {hasArticleFaq && (
+        <section className="faq vertical-faq wrap" style={{ paddingBottom: 64 }}>
+          <h2>
+            Frequently asked questions
+            <span>Clear answers to common questions about this topic.</span>
+          </h2>
+          <FAQList items={articleFaqItems} />
+        </section>
+      )}
       {(() => {
         const related = fiindtArticles.filter(a => toSlug(a.vertical) === verticalSlug && a.slug !== article.slug).slice(0, 2)
         if (related.length === 0) return null
         return (
-          <section style={{ paddingTop: 64, paddingBottom: 64, background: 'var(--cream-2)' }}>
+          <section className={cx('article-related-section', !hasArticleFaq && 'article-related-section--no-faq')} style={{ paddingTop: 96, paddingBottom: 96, background: 'var(--cream-2)' }}>
             <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
               <div style={{ flexShrink: 0, maxWidth: 280 }}>
                 <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
@@ -1739,10 +1801,8 @@ function ArticlePage() {
                 </h2>
               </div>
               <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
-                {related.map((a, idx) => (
-                  <div key={a.id} style={{ '--card-bg': idx === 0 ? 'var(--cream)' : '#ffffff' } as CSSProperties}>
-                    <FiindtArticleCard article={a} />
-                  </div>
+                {related.map((a) => (
+                  <FiindtArticleCard key={a.id} article={a} cardBg="#ffffff" />
                 ))}
               </div>
             </div>
@@ -1892,6 +1952,7 @@ function SubNichePageTech({ vertical, currentSubNiche, articles }: {
         </div>
       </section>
 
+      <VerticalFAQ verticalSlug={vertical.slug} />
       <VerticalNewsletter vertical={currentSubNiche.label} />
     </div>
   )

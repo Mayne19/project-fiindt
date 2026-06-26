@@ -3568,6 +3568,10 @@ p {
   margin-right: -8px;
 }
 
+.article-related-section--no-faq {
+  margin-top: 112px;
+}
+
 /* TOC outline */
 .article-outline-label {
   display: none;
@@ -3827,6 +3831,20 @@ p {
   line-height: 1.18;
   letter-spacing: -0.02em;
   margin: 0 0 16px;
+}
+
+.article-inline-link {
+  color: rgba(67,38,29,.65);
+  text-decoration: underline;
+  text-decoration-color: rgba(67,38,29,.25);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+.article-inline-link:hover {
+  color: var(--article-color);
+  text-decoration-color: var(--article-color);
+  text-decoration-thickness: 2px;
 }
 
 /* ── Article meta extras ──────────────────── */
@@ -4817,6 +4835,10 @@ p {
 
   .article-blockquote {
     padding-left: 108px;
+  }
+
+  .article-related-section--no-faq {
+    margin-top: 72px;
   }
 
   .why-exist {

@@ -781,11 +781,15 @@ function SearchBar({
   placeholder,
   className,
   accentColor,
+  value,
+  onChange,
 }: {
   ariaLabel: string
   placeholder: string
   className?: string
   accentColor?: string
+  value?: string
+  onChange?: (v: string) => void
 }) {
   return (
     <form
@@ -793,7 +797,12 @@ function SearchBar({
       onSubmit={(event) => event.preventDefault()}
     >
       <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={2} />
-      <input aria-label={ariaLabel} placeholder={placeholder} />
+      <input
+        aria-label={ariaLabel}
+        placeholder={placeholder}
+        value={value ?? ''}
+        onChange={e => onChange?.(e.target.value)}
+      />
       <button type="submit" style={accentColor ? { background: accentColor } : undefined}>Search</button>
     </form>
   )
@@ -1126,6 +1135,7 @@ function getFiindtArticlePath(article: FiindtArticle) {
 function VerticalPage() {
   const params = useParams()
   const currentVertical = getVerticalBySlug(params.vertical)
+  const [searchQuery, setSearchQuery] = useState('')
 
   if (!currentVertical) {
     return <HomePage />
@@ -1144,6 +1154,17 @@ function VerticalPage() {
     .filter((article) => article.id !== featuredArticle?.id)
     .sort((a, b) => b.viewCount - a.viewCount)
     .slice(0, 3)
+
+  const allArticles = (importedArticles.length ? importedArticles : latestArticles)
+  const filteredArticles = searchQuery.trim()
+    ? allArticles.filter(a => {
+        const q = searchQuery.toLowerCase()
+        return a.title.toLowerCase().includes(q) ||
+          a.excerpt.toLowerCase().includes(q) ||
+          a.category.toLowerCase().includes(q) ||
+          a.subNiche.toLowerCase().includes(q)
+      })
+    : allArticles
 
   return (
     <div
@@ -1171,6 +1192,8 @@ function VerticalPage() {
               ariaLabel={`Search ${currentVertical.label}`}
               placeholder={`Search ${currentVertical.label} guides, tools or workflows...`}
               accentColor={currentVertical.color}
+              value={searchQuery}
+              onChange={setSearchQuery}
             />
             <div className="vertical-actions">
               <a
@@ -1306,20 +1329,24 @@ function VerticalPage() {
 
       <section id="latest-vertical-articles" className="latest-vertical wrap">
         <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, marginBottom: 40, maxWidth: 1100, marginInline: 'auto' }}>
-          Latest {currentVertical.label} articles
+          {searchQuery.trim() ? `Results for "${searchQuery}"` : `Latest ${currentVertical.label} articles`}
           <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
-            Recent resources from the {currentVertical.label} editorial archive.
+            {searchQuery.trim() ? `${filteredArticles.length} article${filteredArticles.length !== 1 ? 's' : ''} found` : `Recent resources from the ${currentVertical.label} editorial archive.`}
           </span>
         </h2>
-        <div className="article-grid">
-          {(importedArticles.length ? importedArticles : latestArticles).map((article) =>
-            'author' in article ? (
-              <FiindtArticleCard article={article} key={article.id} />
-            ) : (
-              <VerticalArticleCard article={article} key={article.id} />
-            ),
-          )}
-        </div>
+        {filteredArticles.length > 0 ? (
+          <div className="article-grid">
+            {filteredArticles.map((article) =>
+              'author' in article ? (
+                <FiindtArticleCard article={article} key={article.id} />
+              ) : (
+                <VerticalArticleCard article={article} key={article.id} />
+              ),
+            )}
+          </div>
+        ) : (
+          <p style={{ padding: '48px 0', color: 'rgba(67,38,29,.40)', fontSize: 16 }}>No articles found for this search.</p>
+        )}
       </section>
 
       <VerticalFAQ verticalSlug={currentVertical.slug} />
@@ -1675,17 +1702,15 @@ function VerticalArticlePage({ article }: { article: VerticalArticle }) {
       </div>
 
       {related.length > 0 && (
-        <section style={{ paddingTop: 96, paddingBottom: 64, background: 'var(--cream-2)' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
-            <div style={{ flexShrink: 0, maxWidth: 280 }}>
-              <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+        <section className="article-related-section">
+          <div className="article-related-inner">
+            <div className="article-related-left">
+              <h2>
                 Similar articles.
-                <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
-                  More from {currentVertical?.label ?? article.vertical}.
-                </span>
+                <span>More from {currentVertical?.label ?? article.vertical}.</span>
               </h2>
             </div>
-            <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
+            <div className="article-related-grid">
               {related.map(a => (
                 <Link key={a.id} className="vertical-article-card card-hover" style={{ '--article-color': accentColor, '--card-bg': '#ffffff', height: '100%', boxSizing: 'border-box' } as CSSProperties} to={`/${a.vertical}/${a.subNicheSlug}/${a.slug}`}>
                   <p className="vertical-article-path">{currentVertical?.label ?? a.vertical} › {a.subNiche}</p>
@@ -1875,17 +1900,15 @@ function ArticlePage() {
         const related = fiindtArticles.filter(a => toSlug(a.vertical) === verticalSlug && a.slug !== article.slug).slice(0, 2)
         if (related.length === 0) return null
         return (
-          <section className={cx('article-related-section', !hasArticleFaq && 'article-related-section--no-faq')} style={{ paddingTop: 96, paddingBottom: 96, background: 'var(--cream-2)' }}>
-            <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
-              <div style={{ flexShrink: 0, maxWidth: 280 }}>
-                <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+          <section className={cx('article-related-section', !hasArticleFaq && 'article-related-section--no-faq')}>
+            <div className="article-related-inner">
+              <div className="article-related-left">
+                <h2>
                   Similar articles.
-                  <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
-                    More from {currentVertical?.label ?? article.vertical}.
-                  </span>
+                  <span>More from {currentVertical?.label ?? article.vertical}.</span>
                 </h2>
               </div>
-              <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
+              <div className="article-related-grid">
                 {related.map((a) => (
                   <FiindtArticleCard key={a.id} article={a} cardBg="#ffffff" />
                 ))}
@@ -1938,9 +1961,16 @@ function SubNichePageTech({ vertical, currentSubNiche, articles }: {
   articles: ReturnType<typeof getArticlesByNiche>
 }) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
   const [page, setPage] = useState(1)
   const PER_PAGE = 15
-  const filtered = activeCategory ? articles.filter(a => a.category === activeCategory) : articles
+  const filtered = articles
+    .filter(a => activeCategory === null || a.category === activeCategory)
+    .filter(a => {
+      if (!searchQuery.trim()) return true
+      const q = searchQuery.toLowerCase()
+      return a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.category.toLowerCase().includes(q)
+    })
   const totalPages = Math.ceil(filtered.length / PER_PAGE)
   const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE)
   const otherSubNiches = vertical.subNiches.filter((s: { slug: string }) => s.slug !== currentSubNiche.slug)
@@ -1973,6 +2003,14 @@ function SubNichePageTech({ vertical, currentSubNiche, articles }: {
             <strong>Updated</strong> weekly
           </span>
         </div>
+        <SearchBar
+          className="subniche-search"
+          ariaLabel={`Search ${currentSubNiche.label}`}
+          placeholder={`Search in ${currentSubNiche.label}...`}
+          accentColor={vertical.color}
+          value={searchQuery}
+          onChange={v => { setSearchQuery(v); setPage(1) }}
+        />
       </header>
 
       {/* Filtre par catégorie */}

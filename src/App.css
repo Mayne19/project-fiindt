@@ -3572,6 +3572,59 @@ p {
   margin-top: 112px;
 }
 
+.article-related-section {
+  padding-top: 96px;
+  padding-bottom: 96px;
+  background: var(--cream-2);
+}
+
+.article-related-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: flex;
+  gap: 64px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.article-related-left {
+  flex-shrink: 0;
+  max-width: 280px;
+}
+
+.article-related-left h2 {
+  font-size: clamp(28px,2.8vw,38px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: #26221e;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.article-related-left h2 span {
+  display: block;
+  color: rgba(67,38,29,.32);
+  margin-top: 6px;
+  font-size: 0.75em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.article-related-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Sub-niche search */
+.subniche-search {
+  margin-top: 28px;
+  max-width: 520px;
+}
+
 /* TOC outline */
 .article-outline-label {
   display: none;
@@ -4906,5 +4959,187 @@ p {
 
   .footer small {
     justify-self: start;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — Article page, sub-niche, related
+   ════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .article-page-grid {
+    grid-template-columns: 160px minmax(0, 1fr) 0;
+    padding: 0 32px;
+    gap: 32px;
+  }
+
+  .article-sidebar-right {
+    display: none;
+  }
+
+  .article-related-inner {
+    padding: 0 40px;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 860px) {
+  /* Article page grid → colonne unique */
+  .article-page-grid {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+    gap: 0;
+  }
+
+  .article-sidebar-left,
+  .article-sidebar-right {
+    display: none;
+  }
+
+  /* Article header */
+  .article-h1 {
+    font-size: clamp(26px, 7vw, 40px);
+  }
+
+  .article-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .article-editorial-signals {
+    white-space: normal;
+  }
+
+  /* Article body */
+  .article-body {
+    font-size: 17px;
+  }
+
+  .article-body h2 {
+    font-size: clamp(22px, 5vw, 28px);
+  }
+
+  .article-body h3 {
+    font-size: clamp(18px, 4vw, 22px);
+  }
+
+  /* Tables scrollable */
+  .article-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .article-table {
+    min-width: 480px;
+  }
+
+  /* Code blocks */
+  .article-code-block code {
+    font-size: 14px;
+  }
+
+  /* Blockquote */
+  .article-blockquote {
+    padding: 18px 20px;
+  }
+
+  /* Back link */
+  .article-back-link {
+    font-size: 13px;
+  }
+
+  /* Callout */
+  .article-callout {
+    padding: 14px 16px;
+  }
+
+  /* Related section */
+  .article-related-section {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  .article-related-inner {
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 32px;
+  }
+
+  .article-related-left {
+    max-width: 100%;
+  }
+
+  .article-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Sub-niche page */
+  .subniche-header {
+    padding-top: 48px;
+    padding-bottom: 36px;
+  }
+
+  .subniche-title {
+    font-size: clamp(26px, 6.5vw, 36px);
+  }
+
+  .subniche-search {
+    max-width: 100%;
+  }
+
+  .subniche-stats {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Article page top spacing */
+  .article-page-outer {
+    padding-top: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Article page */
+  .article-page-grid {
+    padding: 0 16px;
+  }
+
+  .article-h1 {
+    font-size: clamp(24px, 8vw, 34px);
+  }
+
+  .article-cover {
+    border-radius: 8px;
+  }
+
+  .article-meta-category {
+    font-size: 11px;
+  }
+
+  /* Related articles → single card on mobile */
+  .article-related-inner {
+    padding: 0 16px;
+  }
+
+  /* Sub-niche page */
+  .subniche-breadcrumb {
+    font-size: 12px;
+  }
+
+  .subniche-pill {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
+  .subniche-page-btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  /* FAQ article */
+  .vertical-faq .faq-question {
+    font-size: 15px;
   }
 }

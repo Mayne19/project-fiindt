@@ -6,8 +6,10 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigate,
   useNavigationType,
   useParams,
+  useSearchParams,
 } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { MayneFadeIn, MayneSkeleton, MayneFormField, MayneInput, MayneButton, cx } from '@mayne/ui-kit'
@@ -369,6 +371,7 @@ function PageFrame() {
       <Routes>
         <Route index element={<HomePage />} />
         <Route path="about" element={<Suspense fallback={<PageSkeleton />}><AboutPage /></Suspense>} />
+        <Route path="search" element={<SearchPage />} />
         <Route path="faq" element={<FAQPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="legal" element={<LegalHubPage />} />
@@ -826,20 +829,149 @@ function SearchBar({
   value?: string
   onChange?: (v: string) => void
 }) {
+  const navigate = useNavigate()
+  const [localValue, setLocalValue] = useState('')
+
+  const isControlled = onChange !== undefined
+
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault()
+    const q = isControlled ? (value ?? '') : localValue
+    if (!isControlled && q.trim()) {
+      navigate(`/search?q=${encodeURIComponent(q.trim())}`)
+    }
+  }
+
   return (
     <form
       className={cx('site-search', className)}
-      onSubmit={(event) => event.preventDefault()}
+      onSubmit={handleSubmit}
     >
       <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={2} />
       <input
         aria-label={ariaLabel}
         placeholder={placeholder}
-        value={value ?? ''}
-        onChange={e => onChange?.(e.target.value)}
+        value={isControlled ? (value ?? '') : localValue}
+        onChange={e => isControlled ? onChange(e.target.value) : setLocalValue(e.target.value)}
       />
       <button type="submit" style={accentColor ? { background: accentColor } : undefined}>Search</button>
     </form>
+  )
+}
+
+function SearchPage() {
+  const [params] = useSearchParams()
+  const q = params.get('q')?.trim() ?? ''
+
+  useSEO({
+    title: q ? `"${q}" — Search` : 'Search',
+    description: 'Search articles, guides and resources across all Fiindt knowledge verticals.',
+    noIndex: true,
+  })
+
+  const results = q
+    ? verticalArticles.filter((a) => {
+        const search = q.toLowerCase()
+        return (
+          a.title.toLowerCase().includes(search) ||
+          a.excerpt.toLowerCase().includes(search) ||
+          a.category.toLowerCase().includes(search) ||
+          a.subNiche.toLowerCase().includes(search) ||
+          a.vertical.toLowerCase().includes(search)
+        )
+      })
+    : []
+
+  const matchingVerticals = q
+    ? verticals.filter(
+        (v) =>
+          v.label.toLowerCase().includes(q.toLowerCase()) ||
+          v.description.toLowerCase().includes(q.toLowerCase()),
+      )
+    : []
+
+  return (
+    <>
+      <section style={{ background: 'var(--cream)', padding: '64px 24px 48px' }}>
+        <div style={{ maxWidth: 740, margin: '0 auto' }}>
+          <h1 style={{ fontSize: 'clamp(28px,3vw,40px)', fontWeight: 700, letterSpacing: '-0.04em', color: '#26221e', marginBottom: 24 }}>
+            {q ? `Results for "${q}"` : 'Search Fiindt'}
+          </h1>
+          <SearchBar
+            ariaLabel="Search Fiindt"
+            placeholder="Search a question, topic or domain..."
+            value={q}
+            onChange={(v) => {
+              const url = v.trim() ? `/search?q=${encodeURIComponent(v.trim())}` : '/search'
+              window.history.replaceState(null, '', url)
+            }}
+          />
+        </div>
+      </section>
+
+      <section style={{ background: 'var(--cream)', padding: '0 24px 80px' }}>
+        <div style={{ maxWidth: 740, margin: '0 auto' }}>
+          {!q && (
+            <p style={{ fontSize: 16, color: 'rgba(67,38,29,.45)', marginTop: 24 }}>
+              Enter a search term to find articles, guides and resources.
+            </p>
+          )}
+
+          {q && matchingVerticals.length > 0 && (
+            <div style={{ marginBottom: 40 }}>
+              <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase', color: 'rgba(67,38,29,.40)', marginBottom: 12 }}>Verticals</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {matchingVerticals.map((v) => (
+                  <Link
+                    key={v.slug}
+                    to={`/${v.slug}`}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderRadius: 999, background: 'rgba(67,38,29,.06)', color: '#26221e', fontSize: 14, fontWeight: 600, textDecoration: 'none', letterSpacing: '-0.01em' }}
+                  >
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: v.color, flexShrink: 0 }} />
+                    {v.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {q && results.length === 0 && matchingVerticals.length === 0 && (
+            <p style={{ fontSize: 16, color: 'rgba(67,38,29,.45)', marginTop: 24 }}>
+              No results for "{q}". Try a broader term or browse a vertical directly.
+            </p>
+          )}
+
+          {results.length > 0 && (
+            <div style={{ marginTop: 8 }}>
+              <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase', color: 'rgba(67,38,29,.40)', marginBottom: 16 }}>
+                {results.length} article{results.length !== 1 ? 's' : ''}
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {results.slice(0, 40).map((article) => {
+                  const vertical = getVerticalBySlug(article.vertical)
+                  return (
+                    <Link
+                      key={article.id}
+                      to={`/${article.vertical}/${article.subNicheSlug}/${article.slug}`}
+                      style={{ display: 'block', padding: '18px 0', borderBottom: '0.5px solid rgba(67,38,29,.08)', textDecoration: 'none' }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                        <span style={{ width: 7, height: 7, borderRadius: '50%', background: vertical?.color ?? '#47c971', flexShrink: 0 }} />
+                        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase', color: 'rgba(67,38,29,.40)' }}>
+                          {article.vertical} › {article.subNiche}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: 16, fontWeight: 600, color: '#26221e', letterSpacing: '-0.02em', margin: '0 0 4px', lineHeight: 1.3 }}>{article.title}</p>
+                      <p style={{ fontSize: 13, color: 'rgba(67,38,29,.50)', margin: 0, lineHeight: 1.5, letterSpacing: '-0.01em' }}>{article.excerpt}</p>
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
   )
 }
 

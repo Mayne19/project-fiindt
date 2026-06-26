@@ -15,8 +15,8 @@ Texte secondaire : rgba(67,38,29, 0.50) — pour sous-titres/paragraphes
 Boutons CTA : background #47c971 (var(--brand-green)), color #fff
 Accent jaune : #ffc524 (var(--yellow))
 
-H1 : font-weight 700, clamp(40px,3.4vw,50px), letter-spacing -0.046em
-H2 : font-weight 600, clamp(24px,2.4vw,32px), letter-spacing -0.03em
+H1 : font-weight 700, clamp(48px,6vw,80px), letter-spacing -0.046em, line-height 1.05
+H2 : font-weight 600, clamp(28px,2.8vw,38px), letter-spacing -0.03em, line-height 1.1
 Paragraphes : 17px minimum, line-height 1.55, letter-spacing -0.01em
 Cards : border 0.5px solid rgba(67,38,29,.10), border-radius 12px
 

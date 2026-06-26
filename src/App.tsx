@@ -87,6 +87,7 @@ import {
   getSubNicheBySlug,
   getVerticalBySlug,
   type VerticalArticle,
+  verticalArticles,
   verticals,
 } from './data/knowledgeArchitecture'
 import { type FAQItem, verticalFaqs } from './data/verticalFaqs'
@@ -1312,7 +1313,7 @@ function VerticalPage() {
         </h2>
         <div className="article-grid">
           {(importedArticles.length ? importedArticles : latestArticles).map((article) =>
-            'slug' in article ? (
+            'author' in article ? (
               <FiindtArticleCard article={article} key={article.id} />
             ) : (
               <VerticalArticleCard article={article} key={article.id} />
@@ -1625,13 +1626,94 @@ function ArticleFeedbackWidget() {
   )
 }
 
+function VerticalArticlePage({ article }: { article: VerticalArticle }) {
+  const currentVertical = getVerticalBySlug(article.vertical)
+  const accentColor = currentVertical?.color ?? '#2563eb'
+  const related = verticalArticles
+    .filter(a => a.vertical === article.vertical && a.slug !== article.slug)
+    .slice(0, 2)
+
+  return (
+    <div className="article-page-outer" style={{ '--article-color': accentColor } as CSSProperties}>
+      <div className="article-page-grid">
+        <aside className="article-sidebar-left">
+          <div className="article-sidebar-sticky" />
+        </aside>
+
+        <article className="article-main">
+          <Link to={`/${article.vertical}/${article.subNicheSlug}`} className="article-back-link">
+            ← {currentVertical?.label ?? article.vertical} › {article.subNiche}
+          </Link>
+          <header>
+            <h1 className="article-h1">{article.title}</h1>
+            <div className="article-meta">
+              <div className="article-meta-left">
+                <span className="article-meta-category" style={{ background: accentColor }}>{article.category}</span>
+                <span className="article-meta-sep">·</span>
+                <time>{article.publishedAt}</time>
+                <span className="article-meta-sep">·</span>
+                <span>{article.readingTime} min read</span>
+              </div>
+              <span className="article-editorial-signals">Last updated · Research-based · Sources listed</span>
+            </div>
+            <img src={`https://picsum.photos/seed/${article.id}/1200/630`} alt={article.title} className="article-cover" />
+          </header>
+          <div className="article-body">
+            <p className="article-excerpt article-excerpt--intro">{article.excerpt}</p>
+          </div>
+          <ArticleFeedbackWidget />
+        </article>
+
+        <aside className="article-sidebar-right">
+          <div className="article-share-sticky">
+            <ArticleShareSidebar title={article.title} />
+          </div>
+        </aside>
+      </div>
+
+      {related.length > 0 && (
+        <section style={{ paddingTop: 96, paddingBottom: 64, background: 'var(--cream-2)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 60px', display: 'flex', gap: 64, alignItems: 'flex-start', justifyContent: 'space-between' }}>
+            <div style={{ flexShrink: 0, maxWidth: 280 }}>
+              <h2 style={{ fontSize: 'clamp(28px,2.8vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', color: '#26221e', lineHeight: 1.1, margin: 0 }}>
+                Similar articles.
+                <span style={{ display: 'block', color: 'rgba(67,38,29,.32)', marginTop: 6, fontSize: '0.75em', fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.4 }}>
+                  More from {currentVertical?.label ?? article.vertical}.
+                </span>
+              </h2>
+            </div>
+            <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
+              {related.map(a => (
+                <Link key={a.id} className="vertical-article-card card-hover" style={{ '--article-color': accentColor, '--card-bg': '#ffffff', height: '100%', boxSizing: 'border-box' } as CSSProperties} to={`/${a.vertical}/${a.subNicheSlug}/${a.slug}`}>
+                  <p className="vertical-article-path">{currentVertical?.label ?? a.vertical} › {a.subNiche}</p>
+                  <div className="vertical-article-meta"><span>{a.category}</span><small>{a.readingTime} min read</small></div>
+                  <h3 className="card-heading card-title">{a.title}</h3>
+                  <p className="line-clamp-2" style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'rgba(67,38,29,.55)', flex: 1 }}>{a.excerpt}</p>
+                  <div className="article-card-byline"><span>Fiindt</span><span>·</span><time>{a.publishedAt}</time></div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+      <VerticalNewsletter vertical={currentVertical?.label ?? article.vertical} title={`Stay ahead in ${currentVertical?.label ?? article.vertical}.`} subtitle="New research and guides every week. No filler." />
+    </div>
+  )
+}
+
 function ArticlePage() {
   const { vertical, subNiche, slug } = useParams()
   const article = fiindtArticles.find(
     (item) => toSlug(item.vertical) === vertical && toSlug(item.subNiche) === subNiche && item.slug === slug,
   )
 
-  if (!article) return <VerticalSubNichePage />
+  if (!article) {
+    const verticalArticle = verticalArticles.find(
+      (item) => item.vertical === vertical && item.subNicheSlug === subNiche && item.slug === slug,
+    )
+    if (verticalArticle) return <VerticalArticlePage article={verticalArticle} />
+    return <VerticalSubNichePage />
+  }
 
   const currentVertical = getVerticalBySlug(toSlug(article.vertical))
   const accentColor = currentVertical?.color ?? '#2563eb'
@@ -1827,7 +1909,7 @@ function VerticalArticleCard({ article }: { article: VerticalArticle }) {
     <Link
       className="vertical-article-card card-hover"
       style={{ '--article-color': vertical?.color ?? '#2563eb', '--card-accent': vertical?.color ?? '#2563eb' } as CSSProperties}
-      to={`/${article.vertical}/${article.subNicheSlug}`}
+      to={`/${article.vertical}/${article.subNicheSlug}/${article.slug}`}
     >
       <p className="vertical-article-path">
         {vertical?.label ?? article.vertical} › {article.subNiche}

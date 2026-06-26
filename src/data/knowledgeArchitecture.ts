@@ -18,6 +18,7 @@ export type Vertical = {
 
 export type VerticalArticle = {
   id: string
+  slug: string
   vertical: string
   subNiche: string
   subNicheSlug: string
@@ -248,8 +249,10 @@ export const verticalArticles: VerticalArticle[] = verticals.flatMap((vertical, 
   vertical.subNiches.flatMap((subNiche, subIndex) =>
     subNiche.categories.map((category, categoryIndex) => {
       const id = `${vertical.slug}-${subNiche.slug}-${slugify(category)}`
+      const slug = slugify(`${category}-${subNiche.label}`)
       return {
         id,
+        slug,
         vertical: vertical.slug,
         subNiche: subNiche.label,
         subNicheSlug: subNiche.slug,

@@ -168,6 +168,8 @@ FAQ: Which tool works best for non-English speakers? | ChatGPT and DeepL are exc
 
 Most knowledge workers spend hours on repetitive tasks: sorting emails, scheduling meetings, writing summaries, and formatting documents. AI can handle these tasks in seconds.
 
+> [!tip] Start small. Pick one workflow to automate first before adding more AI tools. Overloading yourself leads to tool fatigue.
+
 ## Where AI Helps Most
 
 ### Email Management
@@ -182,9 +184,28 @@ Notion AI and Motion use artificial intelligence to help you plan your day, prio
 ### Content Creation
 Whether you are writing a blog post, a report, or social media content, AI writing assistants can help you generate drafts and refine your tone.
 
+## Tool Comparison
+
+| Task | Tool | Free plan | Paid from |
+|---|---|---|---|
+| Email | SaneBox | No | $7/mo |
+| Meeting notes | Otter.ai | Yes | $17/mo |
+| Task planning | Motion | No | $19/mo |
+| Writing | ChatGPT | Yes | $20/mo |
+| Note-taking | Notion AI | Yes | $10/mo |
+
 ## Building Your AI Workflow
 
-Start with one area. If email is your biggest time sink, fix that first. Once you are comfortable, add AI to your note-taking, then to your scheduling. The goal is not to automate everything, but to free up time for deep work.
+Start with one area. If email is your biggest time sink, fix that first. Once you are comfortable, add AI to your note-taking, then to your scheduling.
+
+- Identify your biggest time sink
+- Choose one tool that solves it
+- Use it for two weeks before adding another
+- Measure time saved before scaling
+
+> "The goal is not to automate everything, but to free up time for deep work that only you can do."
+
+![AI productivity dashboard](https://picsum.photos/seed/art2/1200/630) Students using AI tools in a modern study space
     `.trim(),
     category: "AI Productivity",
     categorySlug: "ai-productivity",
@@ -208,30 +229,38 @@ Start with one area. If email is your biggest time sink, fix that first. Once yo
 
 The quality of ChatGPT's output depends almost entirely on the quality of your prompt. A vague prompt gives a vague answer. A structured prompt gives a structured, useful response.
 
+> [!info] ChatGPT remembers context within a conversation. You can build on previous answers instead of repeating the same instructions every time.
+
 ## Effective Prompt Templates
 
-### Explain Like I Am 5
-"Explain [concept] like I am 5 years old. Use simple analogies and avoid jargon."
+Use these copy-paste templates. Replace the bracketed parts with your actual topic.
 
-### Create a Study Guide
-"Create a study guide for [topic]. Include key concepts, definitions, examples, and practice questions."
+- **Explain**: "Explain [concept] like I am 5. Use simple analogies and avoid jargon."
+- **Study guide**: "Create a study guide for [topic] with key concepts, definitions and practice questions."
+- **Compare**: "Compare [A] and [B]. Create a table with differences, similarities, and best use cases."
+- **Questions**: "Generate 10 practice questions about [topic] with an answer key."
+- **Summarize**: "Summarize the following text in 3 paragraphs. Focus on main arguments and key evidence."
 
-### Compare and Contrast
-"Compare [concept A] and [concept B]. Create a table with their differences, similarities, and best use cases."
+## Prompt Quality: Before vs After
 
-### Generate Practice Questions
-"Generate 10 practice questions about [topic]. Include an answer key with explanations."
-
-### Summarize a Text
-"Summarize the following text in 3 paragraphs. Focus on the main arguments and key evidence."
+| Weak prompt | Strong prompt |
+|---|---|
+| "Explain photosynthesis" | "Explain photosynthesis to a 14-year-old using a factory analogy" |
+| "Help me study" | "Create a 1-week revision plan for a biology exam on cell biology" |
+| "Write a summary" | "Summarize this in 3 bullet points, focusing on practical takeaways" |
 
 ## Advanced Techniques
 
-Use role prompting: "You are an expert physics tutor. Explain quantum entanglement to a high school student."
+### Role Prompting
+\`\`\`text
+You are an expert physics tutor. Explain quantum entanglement
+to a high school student using a real-world analogy.
+\`\`\`
 
-Use chain prompting: Break complex tasks into smaller steps and build on previous answers.
+### Chain Prompting
+Break complex tasks into steps. Ask ChatGPT to complete step 1, then build on that answer for step 2. Each response improves the next.
 
-Use format specification: "Answer in bullet points" or "Create a table with 3 columns."
+> "The best prompt is not the cleverest. It is the one that gives ChatGPT enough context to actually help you." — Fiindt reader
     `.trim(),
     category: "AI Tutorials",
     categorySlug: "ai-tutorials",
@@ -255,23 +284,37 @@ Use format specification: "Answer in bullet points" or "Create a table with 3 co
 
 Traditional note-taking is passive. AI-powered note-taking is active: it summarizes, links ideas, and helps you find information when you need it.
 
+> [!tip] Write your notes first, then use AI. If you let AI write everything, you will not retain the information. Use it to connect and retrieve, not to replace thinking.
+
 ## Best AI Note-Taking Tools
 
+| Tool | Best for | Free plan | Paid from |
+|---|---|---|---|
+| Notion AI | Teams & projects | Yes | $10/mo |
+| Reflect | Connected thinking | No | $10/mo |
+| Mem | Automatic organization | No | $14.99/mo |
+| Obsidian + AI | Power users | Yes | $4/mo |
+| Roam Research | Knowledge graphs | No | $15/mo |
+
 ### Notion AI
-Notion AI integrates directly into your workspace. It can summarize pages, generate action items, and suggest related content.
+Notion AI integrates directly into your workspace. It can summarize pages, generate action items, and suggest related content from anywhere in your workspace.
 
 ### Reflect
-Reflect is a note-taking app with built-in AI that connects related ideas automatically. It also offers a daily AI summary of your notes.
+Reflect is a note-taking app with built-in AI that connects related ideas automatically. It also offers a daily AI summary of your notes so nothing important gets lost.
 
 ### Mem
-Mem uses AI to organize your notes without folders. It automatically surfaces relevant notes when you are writing something new.
-
-### Roam Research with AI
-Roam's block-based system combined with AI plugins creates a powerful knowledge graph that grows smarter over time.
+Mem uses AI to organize your notes without folders. It automatically surfaces relevant notes when you are writing something new — no tagging required.
 
 ## Tips for AI Note-Taking
 
-Use AI to summarize, not to think for you. The best approach is to write your own notes first, then use AI to connect, organize, and retrieve them later.
+- Capture raw notes yourself first — retention depends on active writing
+- Use AI to generate summaries after meetings, not during
+- Review AI-suggested connections weekly to build your knowledge graph
+- Export regularly to avoid lock-in
+
+> "The best note-taking system is the one you actually use. AI makes the barrier lower, not zero." — Fiindt reader
+
+![Note-taking with AI](https://picsum.photos/seed/art4/1200/630) A modern digital note-taking workspace
     `.trim(),
     category: "AI Tools",
     categorySlug: "ai-tools",
@@ -293,31 +336,44 @@ Use AI to summarize, not to think for you. The best approach is to write your ow
     content: `
 ## Free Does Not Mean Limited
 
-Many AI tools offer generous free tiers that are powerful enough for students, freelancers, and small teams. Here are the best ones.
+Many AI tools offer generous free tiers that are powerful enough for students, freelancers, and small teams. Here are the best ones available in 2026.
+
+> [!info] Free tiers change frequently. Always verify current limits on the tool's official pricing page before making decisions.
 
 ## Top Free AI Tools
 
+| Tool | Best for | Free limit | Paid from |
+|---|---|---|---|
+| ChatGPT | Writing & ideas | Limited messages | $20/mo |
+| Claude | Reasoning & analysis | Limited messages | $20/mo |
+| Google Gemini | Research + Workspace | Unlimited | Free |
+| Perplexity AI | Cited research | Unlimited searches | $20/mo |
+| Canva AI | Design | Limited generations | $12/mo |
+| GitHub Copilot | Coding | Free for students | $10/mo |
+
 ### ChatGPT (Free Tier)
-OpenAI's free tier gives you access to GPT-4o with message limits. It is sufficient for most everyday tasks.
+OpenAI's free tier gives you access to GPT-4o with message limits. It is sufficient for most everyday writing, summarization, and brainstorming tasks.
 
 ### Claude (Free Tier)
-Anthropic's Claude offers a free plan with excellent reasoning capabilities and a generous message limit.
+Anthropic's Claude offers a free plan with excellent reasoning capabilities and long context. Particularly strong for analysis and structured writing.
 
 ### Google Gemini
-Google's Gemini is completely free and integrates with Google Workspace. It is particularly good for research and summarization.
+Google's Gemini is completely free and integrates directly with Google Docs, Sheets, and Gmail. It is particularly good for research and document summarization.
 
 ### Perplexity AI (Free)
-Perplexity's free tier provides unlimited searches with citations, making it ideal for research.
+Perplexity's free tier provides unlimited searches with citations, making it ideal for research. Unlike ChatGPT, it shows you where the information comes from.
 
-### Canva AI
-Canva's free AI features include image generation, background removal, and design suggestions.
+## Building a Free AI Stack
 
-### GitHub Copilot (Free for Students)
-Students get unlimited access to GitHub Copilot, one of the best AI coding assistants.
+You do not need to pick just one. Build a stack:
 
-## Making the Most of Free Tiers
+- **Writing**: ChatGPT or Claude
+- **Research**: Perplexity AI
+- **Design**: Canva AI
+- **Code**: GitHub Copilot (students) or Cursor free tier
+- **Productivity**: Notion AI free tier
 
-Use multiple free tools strategically. Each tool has different strengths. Combine ChatGPT for writing, Perplexity for research, and Canva for design. You get a full AI suite without spending anything.
+> "The best free AI stack covers writing, research, and design. Together they replace tools that used to cost hundreds per month." — Fiindt reader
     `.trim(),
     category: "AI Tools",
     categorySlug: "ai-tools",
@@ -341,26 +397,49 @@ Use multiple free tools strategically. Each tool has different strengths. Combin
 
 The AI landscape is overwhelming. New tools launch daily, and every one claims to be the best. Without a comparison framework, you risk wasting time and money.
 
+> [!warning] Do not evaluate AI tools based on marketing pages alone. Always run your actual use case through a free trial before committing.
+
 ## Your Comparison Framework
 
-### 1. Define Your Use Case
-Before comparing tools, define what you need. Are you looking for writing assistance, code generation, image creation, or data analysis? The best tool for one task may be useless for another.
+Use this 5-step process every time you evaluate a new AI tool.
 
-### 2. Evaluate Accuracy
-Test each tool with the same prompts. Compare the quality, relevance, and accuracy of the outputs. Free tiers make this easy.
+1. **Define your use case** — writing, coding, research, design, or automation? Be specific about the exact task.
+2. **Test with your real prompts** — use the same inputs across every tool you compare, not toy examples.
+3. **Check the pricing structure** — per-seat, per-usage, flat? Calculate your real monthly cost at your actual usage level.
+4. **Assess integrations** — does it connect to tools you already use? A powerful tool that breaks your flow loses its advantage.
+5. **Read independent reviews** — look for complaints about reliability, support, and hidden limits, not feature lists.
 
-### 3. Check Pricing
-Many tools have free tiers. Start there. Only upgrade when you need more features or higher usage limits.
+## Comparison Matrix
 
-### 4. Assess Integration
-Does the tool integrate with your existing workflow? A powerful tool that requires switching contexts may be less productive than a simpler one that fits your current setup.
-
-### 5. Read Independent Reviews
-Look for detailed reviews from actual users. Pay attention to complaints about reliability, customer support, and hidden limitations.
+| Criterion | Weight | What to check |
+|---|---|---|
+| Output quality | High | Run your actual task, not demos |
+| Pricing | Medium | True monthly cost at real usage |
+| Integrations | Medium | Your current tool stack |
+| Data handling | High | Privacy policy, training on your data? |
+| Reliability | High | Uptime history, rate limits |
+| Support | Low | Response time, documentation quality |
 
 ## Red Flags to Watch For
 
-Avoid tools that make unrealistic promises, require long-term contracts, or lock your data in a proprietary format. The best AI tools are transparent about their capabilities and limitations.
+- Unrealistic performance claims with no verifiable benchmarks
+- Long-term contracts before you can test the tool properly
+- Proprietary data formats that lock your content in
+- Pricing that only shows annual costs in small print
+
+> "The best AI tool is the one that fits your actual workflow, not the one with the longest feature list." — Fiindt reader
+
+## Before You Commit
+
+\`\`\`text
+Checklist before paying for any AI tool:
+
+✓ Completed a full free trial with real tasks
+✓ Verified pricing at your actual usage level
+✓ Checked data privacy and training policies
+✓ Confirmed integrations with your current stack
+✓ Read 3+ independent reviews from real users
+\`\`\`
     `.trim(),
     category: "AI Comparisons",
     categorySlug: "ai-comparisons",

@@ -6045,53 +6045,76 @@ p {
   }
 
   .journey-5step .journey-track {
-    width: min(100%, 320px);
+    width: min(100%, 330px);
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    margin-top: 30px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 72px;
+    row-gap: 36px;
+    margin-top: 34px;
     margin-inline: auto;
   }
 
+  .journey-5step .section-heading {
+    text-align: center;
+  }
+
+  .journey-5step .section-heading h2 span {
+    margin-top: 12px !important;
+  }
+
   .journey-5step .journey-track article {
-    min-height: 44px;
+    position: relative;
+    min-height: 96px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    text-align: left;
+    text-align: center;
     padding: 0;
   }
 
   .journey-5step .journey-track article::after {
+    display: none;
+  }
+
+  .journey-5step .journey-track article:nth-child(odd)::after {
     content: '';
-    position: static;
-    order: 2;
-    flex: 0 0 96px;
-    width: 96px;
+    position: absolute;
+    top: calc((35px - 4px) / 2);
+    left: calc(50% + 60px);
+    display: block;
+    width: 81px;
     height: 4px;
-    margin: 0 12px;
     border-radius: 999px;
     background: rgba(67, 38, 29, 0.15);
   }
 
+  .journey-5step .journey-track article:last-child::after {
+    display: none;
+  }
+
+  .journey-5step .journey-track article:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 72px) / 2);
+  }
+
   .journey-5step .journey-track span {
-    order: 1;
-    flex: 0 0 74px;
+    flex: 0 0 auto;
     margin-left: 0;
-    width: 74px;
-    height: 44px;
-    font-size: 28px;
+    width: 64px;
+    height: 35px;
+    font-size: 23px;
   }
 
   .journey-5step .journey-track p {
-    order: 3;
-    width: 110px;
-    max-width: 110px;
-    margin-top: 0;
+    width: 100%;
+    max-width: 120px;
+    margin-top: 16px;
     font-size: 18px;
-    line-height: 1.2;
-    white-space: nowrap;
-    text-align: left;
+    font-weight: 700;
+    line-height: 1.45;
+    white-space: normal;
+    text-align: center;
   }
 
   .journey-5step .timeline-list {

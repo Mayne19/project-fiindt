@@ -6015,40 +6015,87 @@ p {
     flex: 0 0 auto;
   }
 
+  .home-newsletter-form {
+    min-height: 0;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  .home-newsletter-form input {
+    width: 100% !important;
+    min-height: 58px;
+    padding-inline: 20px;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    border: 1px solid rgba(251, 244, 235, 0.14) !important;
+    border-radius: 18px;
+    background: rgba(251, 244, 235, 0.08) !important;
+  }
+
+  .home-newsletter-form button {
+    width: 100% !important;
+    min-width: 0;
+    min-height: 56px;
+    flex: 0 0 auto;
+  }
+
   .journey-5step .journey-track {
-    display: none;
+    width: min(100%, 320px);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 30px;
+    margin-inline: auto;
+  }
+
+  .journey-5step .journey-track article {
+    min-height: 44px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 0;
+  }
+
+  .journey-5step .journey-track article::after {
+    content: '';
+    position: static;
+    order: 2;
+    flex: 0 0 96px;
+    width: 96px;
+    height: 4px;
+    margin: 0 12px;
+    border-radius: 999px;
+    background: rgba(67, 38, 29, 0.15);
+  }
+
+  .journey-5step .journey-track span {
+    order: 1;
+    flex: 0 0 74px;
+    margin-left: 0;
+    width: 74px;
+    height: 44px;
+    font-size: 28px;
+  }
+
+  .journey-5step .journey-track p {
+    order: 3;
+    width: 110px;
+    max-width: 110px;
+    margin-top: 0;
+    font-size: 18px;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-align: left;
   }
 
   .journey-5step .timeline-list {
-    display: grid;
-    margin-top: 24px;
-    gap: 12px;
-  }
-
-  .journey-5step .timeline-list article {
-    min-height: 0;
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 18px;
-    border: 1px solid rgba(67, 38, 29, 0.08);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.42);
-  }
-
-  .journey-5step .timeline-list strong {
-    font-size: 13px;
-  }
-
-  .journey-5step .timeline-list h3 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-  }
-
-  .journey-5step .timeline-list p {
-    font-size: 16px;
-    line-height: 1.5;
+    display: none;
   }
 
   .mobile-menu-panel {

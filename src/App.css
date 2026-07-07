@@ -6015,7 +6015,8 @@ p {
     flex: 0 0 auto;
   }
 
-  .home-newsletter-form {
+  .home-newsletter-form,
+  .vertical-newsletter form {
     min-height: 0;
     flex-direction: column !important;
     align-items: stretch !important;
@@ -6026,7 +6027,8 @@ p {
     padding: 0 !important;
   }
 
-  .home-newsletter-form input {
+  .home-newsletter-form input,
+  .vertical-newsletter input {
     width: 100% !important;
     min-height: 58px;
     padding-inline: 20px;
@@ -6037,7 +6039,8 @@ p {
     background: rgba(251, 244, 235, 0.08) !important;
   }
 
-  .home-newsletter-form button {
+  .home-newsletter-form button,
+  .vertical-newsletter button {
     width: 100% !important;
     min-width: 0;
     min-height: 56px;

@@ -2514,6 +2514,26 @@ p {
   color: rgba(251, 244, 235, 0.40);
 }
 
+.home-newsletter-form,
+.vertical-newsletter form {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.home-newsletter-form:focus-within,
+.vertical-newsletter form:focus-within {
+  border-color: rgba(71, 201, 113, 0.62) !important;
+  box-shadow: 0 0 0 3px rgba(71, 201, 113, 0.20);
+}
+
+.home-newsletter-form input:focus,
+.home-newsletter-form input:focus-visible,
+.vertical-newsletter input:focus,
+.vertical-newsletter input:focus-visible {
+  outline: none !important;
+}
+
 .vertical-actions {
   margin-top: 32px;
   display: flex;
@@ -6044,6 +6064,19 @@ p {
     border: 1px solid rgba(251, 244, 235, 0.14) !important;
     border-radius: 18px;
     background: rgba(251, 244, 235, 0.08) !important;
+  }
+
+  .home-newsletter-form:focus-within,
+  .vertical-newsletter form:focus-within {
+    box-shadow: none;
+  }
+
+  .home-newsletter-form input:focus,
+  .home-newsletter-form input:focus-visible,
+  .vertical-newsletter input:focus,
+  .vertical-newsletter input:focus-visible {
+    border-color: rgba(71, 201, 113, 0.62) !important;
+    box-shadow: 0 0 0 3px rgba(71, 201, 113, 0.20);
   }
 
   .home-newsletter-form button,

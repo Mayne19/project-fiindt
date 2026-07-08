@@ -662,6 +662,18 @@ p {
   box-shadow: 0 14px 38px rgba(67, 38, 29, 0.06);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.new-hero-search:focus-within {
+  border-color: rgba(67, 38, 29, 0.22);
+  background: rgba(253, 249, 245, 0.86);
+  box-shadow:
+    0 14px 38px rgba(67, 38, 29, 0.06),
+    inset 0 0 0 1px rgba(67, 38, 29, 0.20);
 }
 
 .new-hero-search svg {
@@ -2201,6 +2213,18 @@ p {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
   box-shadow: 0 2px 14px rgba(67, 38, 29, 0.05);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+.site-search:focus-within {
+  border-color: rgba(67, 38, 29, 0.22);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow:
+    0 2px 14px rgba(67, 38, 29, 0.05),
+    inset 0 0 0 1px rgba(67, 38, 29, 0.20);
 }
 
 .site-search-home {
@@ -2523,8 +2547,8 @@ p {
 
 .home-newsletter-form:focus-within,
 .vertical-newsletter form:focus-within {
-  border-color: rgba(71, 201, 113, 0.62) !important;
-  box-shadow: 0 0 0 3px rgba(71, 201, 113, 0.20);
+  border-color: rgba(251, 244, 235, 0.36) !important;
+  box-shadow: inset 0 0 0 1px rgba(251, 244, 235, 0.24);
 }
 
 .home-newsletter-form input:focus,
@@ -4475,6 +4499,13 @@ p {
   background: rgba(67,38,29,.03);
 }
 
+.article-table th,
+.article-table td {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
 .article-table td {
   padding: 14px 20px;
   color: rgba(67,38,29,.72);
@@ -6075,8 +6106,8 @@ p {
   .home-newsletter-form input:focus-visible,
   .vertical-newsletter input:focus,
   .vertical-newsletter input:focus-visible {
-    border-color: rgba(71, 201, 113, 0.62) !important;
-    box-shadow: 0 0 0 3px rgba(71, 201, 113, 0.20);
+    border-color: rgba(251, 244, 235, 0.36) !important;
+    box-shadow: inset 0 0 0 1px rgba(251, 244, 235, 0.24);
   }
 
   .home-newsletter-form button,
@@ -6419,6 +6450,9 @@ p {
   border: 1px solid rgba(67, 38, 29, 0.12);
   padding: 10px 14px;
   text-align: left;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 }
 
 .cms-content th {

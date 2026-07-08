@@ -5989,6 +5989,13 @@ p {
     border-radius: 0 !important;
   }
 
+  .home-newsletter,
+  .vertical-newsletter {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: 0 !important;
+  }
+
   .home-newsletter-form,
   .vertical-newsletter form {
     min-height: 64px;
@@ -6041,9 +6048,11 @@ p {
 
   .home-newsletter-form button,
   .vertical-newsletter button {
-    width: 100% !important;
+    width: auto !important;
+    align-self: flex-start;
     min-width: 0;
-    min-height: 56px;
+    min-height: 42px;
+    padding: 10px 24px !important;
     flex: 0 0 auto;
   }
 
